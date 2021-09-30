@@ -5,34 +5,67 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://magang:magang123$%^@db.plansys.co:5432/magang4?schema=public"
+  url      = "postgresql://magang:magang123$%^@db.plansys.co:5432/magang5?schema=public"
 }
 
-model albums {
-  AlbumId  Int     @id @default(autoincrement())
-  Title    String
-  ArtistId Int
-  artists  artists @relation(fields: [ArtistId], references: [ArtistId])
-  songs    songs[]
+model admin {
+  id        Int         @id @default(autoincrement())
+  username  String?     @db.VarChar(50)
+  password  String?     @db.VarChar(150)
+  nama      String?     @db.VarChar(150)
+  no_hp     String?     @db.VarChar(50)
+  email     String      @db.VarChar(200)
+  role      Boolean?
+  transaksi transaksi[]
+
+  @@unique([username, email], name: "admin_username_email_key")
 }
 
-model artists {
-  ArtistId   Int        @id @default(autoincrement())
-  Name       String
-  CoutriesId Int?
-  countries  countries? @relation(fields: [CoutriesId], references: [id])
-  albums     albums[]
+model customer {
+  id              Int         @id @default(autoincrement())
+  email           String      @unique @db.VarChar(100)
+  password        String      @db.VarChar(150)
+  no_hp           String?     @db.VarChar(50)
+  alamat          String?     @db.VarChar(255)
+  surat_ket_pt    String      @db.VarChar(255)
+  status          Boolean?
+  nama_perusahaan String      @db.VarChar(255)
+  transaksi       transaksi[]
 }
 
-model countries {
-  id      Int       @id @default(autoincrement())
-  name    String    @db.VarChar(45)
-  artists artists[]
+model barang {
+  id               Int                @id @default(autoincrement())
+  jenis_barang     String?            @db.VarChar(150)
+  nama_barang      String             @db.VarChar(250)
+  merk_barang      String?            @db.VarChar(200)
+  detail_barang    String?
+  stok_barang      Int
+  detail_transaksi detail_transaksi[]
 }
 
-model songs {
-  id       Int    @id @default(autoincrement())
-  song     String @db.VarChar(45)
-  albumsId Int
-  albums   albums @relation(fields: [albumsId], references: [AlbumId])
+model detail_transaksi {
+  id           Int       @id @default(autoincrement())
+  id_transaksi Int
+  id_barang    Int
+  quantity     Int
+  total_harga  Int
+  barang       barang    @relation(fields: [id_barang], references: [id])
+  transaksi    transaksi @relation(fields: [id_transaksi], references: [id])
+}
+
+model transaksi {
+  id                 Int                @id @default(autoincrement())
+  id_customer        Int
+  id_admin           Int?
+  tanggal_pemesanan  DateTime           @db.Timestamptz(6)
+  bukti_pembayaran   String?            @db.VarChar(255)
+  tanggal_approve    DateTime?          @db.Timestamptz(6)
+  tanggal_pembayaran DateTime?          @db.Timestamptz(6)
+  status_transaksi   Int?
+  quantity           Int
+  tanggal_selesai    DateTime?          @db.Timestamptz(6)
+  total_harga        Int
+  admin              admin?             @relation(fields: [id_admin], references: [id])
+  customer           customer           @relation(fields: [id_customer], references: [id])
+  detail_transaksi   detail_transaksi[]
 }
