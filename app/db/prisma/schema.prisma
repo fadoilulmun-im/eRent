@@ -22,15 +22,16 @@ model admin {
 }
 
 model customer {
-  id              Int         @id @default(autoincrement())
-  email           String      @unique @db.VarChar(100)
-  password        String      @db.VarChar(150)
-  no_hp           String?     @db.VarChar(50)
-  alamat          String?     @db.VarChar(255)
-  surat_ket_pt    String      @db.VarChar(255)
-  status          Boolean?
-  nama_perusahaan String      @db.VarChar(255)
-  transaksi       transaksi[]
+  id               Int               @id @default(autoincrement())
+  email            String            @unique @db.VarChar(100)
+  password         String            @db.VarChar(150)
+  no_hp            String?           @db.VarChar(50)
+  alamat           String?           @db.VarChar(255)
+  surat_ket_pt     String            @db.VarChar(255)
+  status           Boolean?
+  nama_perusahaan  String?           @db.VarChar(255)
+  token_reset_pass token_reset_pass?
+  transaksi        transaksi[]
 }
 
 model barang {
@@ -68,4 +69,10 @@ model transaksi {
   admin              admin?             @relation(fields: [id_admin], references: [id])
   customer           customer           @relation(fields: [id_customer], references: [id])
   detail_transaksi   detail_transaksi[]
+}
+
+model token_reset_pass {
+  id_user  Int      @id
+  token    String?  @db.VarChar(150)
+  customer customer @relation(fields: [id_user], references: [id])
 }
