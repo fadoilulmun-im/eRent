@@ -87,9 +87,10 @@ export const WText = ({ name, internalChange, ctx }: IBaseFieldProps) => {
           }
 
           if (value && ['decimal'].indexOf(state.type) >= 0) {
-            console.log('masuk')
-            let cols = formatSeparatorDec(value, 2)
+            // let cols = value.replace(/[^\d,-]/g, '')
+            let cols = value.replace(',', '.').replace(/[^\d\.]/g, "").replace(/\./, "x").replace(/\./g, "").replace(/x/, ".")
             set(form.db.data, name, cols)
+            // console.log(cols, 'masuk', typeof res, cols === value)
           }
           internalChange(value)
         }}
