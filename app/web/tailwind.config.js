@@ -9,8 +9,8 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
-      colors,
-      backgroundColor: colors,
+      colors:{amber:{500:"#F5921B"}},
+      backgroundColor:colors,
       textColor: colors,
     },
   },

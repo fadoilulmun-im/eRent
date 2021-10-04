@@ -4,7 +4,7 @@
     <div class="flex flex-1 self-stretch items-start justify-start px-6 pt-20 pb-32 bg-white">
       <div class="flex flex-1 flex-col space-y-6 items-start justify-start">
         <img
-          src="/fimgs/2_581.x1.svg"
+          src="/fimgs/117_1542.x1.svg"
           class="flex self-stretch flex-col items-center justify-start"
         />
         <div class="flex self-stretch items-center justify-center">
@@ -15,47 +15,32 @@
             <div class="text-base font-medium leading-relaxed text-coolGray-500">
               Username or Email
             </div>
-            <div class="flex self-stretch items-start justify-start">
-              <input
-                type=" email"
-                class="flex space-x-64 items-start justify-start px-3 py-2.5 bg-gray-100 border rounded border-gray-100 w-full"
-              />
-            </div>
+            <textinput />
           </div>
           <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
             <div class="text-base font-medium leading-relaxed text-coolGray-500">
               Password
             </div>
-            <div class="flex self-stretch items-start justify-start">
-              <div class="flex space-x-64 items-start justify-start px-3 py-2.5 bg-gray-100 border rounded border-gray-100">
-                <div class="flex items-start justify-start">
-                  <div class="text-base leading-relaxed text-coolGray-400">
-                    ************
-                  </div>
-                </div>
-              </div>
-            </div>
+            <textinput
+              class={`flex self-stretch items-center justify-start p-3 bg-gray-100 border rounded border-gray-100`}
+            />
           </div>
         </div>
-        <div class="flex space-x-6 items-center justify-between w-full">
+        <div class="flex self-stretch space-x-6 items-center justify-between">
           <div class="flex space-x-2 items-center justify-start">
-            <checkbox />
+            <input type="checkbox" />
             <div class="text-base leading-relaxed text-coolGray-900">
               Remember me
             </div>
           </div>
-          <div class="">
+          <div class="flex items-start justify-start">
             <div class="text-base leading-relaxed text-right text-coolGray-900">
               Forgot Password?
             </div>
           </div>
         </div>
         <div class="flex self-stretch flex-col items-start justify-start">
-          <div class="flex self-stretch items-center justify-center px-4 py-2 bg-amber-500 rounded">
-            <div class="text-base font-medium leading-relaxed text-center text-white">
-              Sign In
-            </div>
-          </div>
+          <coolbutton />
         </div>
         <div class="flex self-stretch items-center justify-center">
           <div class="text-base leading-relaxed text-center">
