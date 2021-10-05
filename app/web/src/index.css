@@ -12,3 +12,21 @@ body,
   display: flex;
   flex-direction: column;
 }
+
+@layer base {
+  @font-face {
+    font-family: Poppins;
+    font-weight: 400;
+    src: url(../fonts/Poppins-Regular.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: Poppins;
+    font-weight: 500;
+    src: url(../fonts/Poppins-SemiBold.ttf) format("truetype");
+  }
+  @font-face {
+      font-family: Poppins;
+      font-weight: 700;
+      src: url(../fonts/Poppins-Bold.ttf) format("truetype");
+    }
+}

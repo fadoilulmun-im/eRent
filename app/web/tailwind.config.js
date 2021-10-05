@@ -9,7 +9,10 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
-      colors:{amber:{500:"#F5921B"}},
+      fontFamily: {
+        'sans':['Poppins']
+      },
+      colors,
       backgroundColor:colors,
       textColor: colors,
     },

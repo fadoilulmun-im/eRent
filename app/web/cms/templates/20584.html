@@ -1,31 +1,81 @@
 <>
-  <effect meta={{}} run={async () => {}} />
+  <effect
+    meta={{
+      email: "",
+      password: "",
+      hiddenPassword: "",
+      login: (e) => {
+        console.log(e.target.value);
+      },
+    }}
+    run={async () => {
+      meta.action = {
+        emailChange: (e) => {
+          runInAction(() => {
+            meta.email = e.target.value;
+            console.log(meta.email); //check email di sini
+          });
+        },
+        passwordChange: (e) => {
+          runInAction(() => {
+            meta.password = e.target.value;
+            console.log(meta.password); //check password di sini
+          });
+        },
+        login: (e) => {
+          api("/api/customer/login", {
+            email: meta.email,
+            password: meta.password,
+          }).then((e) => {
+            console.log(e);
+          });
+        },
+      };
+    }}
+  />
   <>
     <div class="flex flex-1 self-stretch items-start justify-start px-6 pt-20 pb-32 bg-white">
       <div class="flex flex-1 flex-col space-y-6 items-start justify-start">
         <img
-          src="/fimgs/117_1542.x1.svg"
+          src="/fimgs/147_59.x1.svg"
           class="flex self-stretch flex-col items-center justify-start"
         />
         <div class="flex self-stretch items-center justify-center">
           <div class="text-3xl font-bold text-center">Hello again.</div>
         </div>
+
         <div class="flex self-stretch flex-col space-y-5 items-start justify-start">
           <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
             <div class="text-base font-medium leading-relaxed text-coolGray-500">
               Username or Email
             </div>
-            <textinput />
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                value={meta.email}
+                onChange={(e) => meta.action.emailChange(e)}
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
           </div>
           <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
             <div class="text-base font-medium leading-relaxed text-coolGray-500">
               Password
             </div>
-            <textinput
-              class={`flex self-stretch items-center justify-start p-3 bg-gray-100 border rounded border-gray-100`}
-            />
+            <div class="flex self-stretch items-start justify-start">
+              <div class=" flex items-center justify-start py-2 px-4  bg-gray-100 border rounded border-gray-100 w-full">
+                <input
+                  type="password"
+                  value={meta.password}
+                  onChange={(e) => meta.action.passwordChange(e)}
+                  class={"f"}
+                />
+              </div>
+            </div>
           </div>
         </div>
+
         <div class="flex self-stretch space-x-6 items-center justify-between">
           <div class="flex space-x-2 items-center justify-start">
             <input type="checkbox" />
@@ -39,12 +89,21 @@
             </div>
           </div>
         </div>
+
         <div class="flex self-stretch flex-col items-start justify-start">
-          <coolbutton />
+          <button
+            onClick={() => {
+              meta.action.login();
+            }}
+            class="flex self-stretch items-center justify-center px-4 py-2 bg-blue-600 rounded text-base font-medium leading-relaxed text-center text-white"
+          >
+            Log In
+          </button>
         </div>
+
         <div class="flex self-stretch items-center justify-center">
           <div class="text-base leading-relaxed text-center">
-            Not have account yet? Sign Up
+            Not have account yet? <a class=" text-blue-500">Sign Up</a>
           </div>
         </div>
       </div>
