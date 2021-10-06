@@ -2,7 +2,7 @@ const colors = require('tailwindcss/colors')
 delete colors.lightBlue
 
 module.exports = {
-  purge: {
+  purge: {  
     enabled: true,
     content: ['./**/*.tsx', './**/*.html'],
   },
