@@ -3,7 +3,6 @@
     meta={{
       email: "",
       password: "",
-      hiddenPassword: "",
       login: (e) => {
         console.log(e.target.value);
       },
@@ -28,6 +27,7 @@
             password: meta.password,
           }).then((e) => {
             console.log(e);
+            //mengara ke home page
           });
         },
       };
