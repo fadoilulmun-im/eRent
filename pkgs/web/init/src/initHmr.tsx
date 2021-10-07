@@ -1,6 +1,7 @@
 import { reloadAllComponents } from './core/platform'
 import type { BaseWindow } from './window'
 
+
 declare const window: BaseWindow
 export const initHmr = () => {
   for (let i of Object.keys(localStorage)) {

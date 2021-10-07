@@ -26,4 +26,10 @@ export default {
     { c: "", s: "", h: "" },
   ],
   btn: () => [import("./components/test"), { c: "", s: "", h: "" }],
+  "box-item": () => [import("./components/box-item"), { c: "", s: "", h: "" }],
+  navbar: () => [import("./components/navbar"), { c: "", s: "", h: "" }],
+  "box-item2": () => [
+    import("./components/box-item2"),
+    { c: "", s: "", h: "" },
+  ],
 };
