@@ -1,5 +1,26 @@
 <>
-  <effect meta={{}} run={async () => {}} />
+  <effect
+    meta={{
+      fileName: "No file choosen",
+    }}
+    run={async () => {
+      meta.action = {
+        importFile: (e) => {
+          runInAction(() => {
+            let input = document.createElement("input");
+            input.type = "file";
+            input.onchange = (_) => {
+              let file = Array.from(input.files)[0];
+              console.log(file);
+              meta.fileName = file.name;
+            };
+            input.click();
+            console.log("Coba"); //check email di sini
+          });
+        },
+      };
+    }}
+  />
   <>
     <div class="flex flex-1 self-stretch items-start justify-start px-6 py-10 bg-white">
       <div class="flex flex-1 flex-col space-y-6 items-start justify-start">
@@ -17,7 +38,12 @@
               Email
             </div>
             <div class="flex self-stretch items-start justify-start">
-              undefined
+              <input
+                placeholder="sales@andromedia.co.id"
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
             </div>
           </div>
           <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
@@ -25,7 +51,12 @@
               Name
             </div>
             <div class="flex self-stretch items-start justify-start">
-              undefined
+              <input
+                placeholder="John Doe"
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
             </div>
           </div>
           <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
@@ -33,7 +64,12 @@
               Company Name
             </div>
             <div class="flex self-stretch items-start justify-start">
-              undefined
+              <input
+                placeholder="Andromedia"
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
             </div>
           </div>
           <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
@@ -42,12 +78,18 @@
             </div>
             <div class="flex space-x-2 items-center justify-start">
               <div class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
-                <div class="text-base leading-relaxed text-center text-white">
+                <button
+                  type="file"
+                  onClick={() => {
+                    meta.action.importFile();
+                  }}
+                  class="text-base leading-relaxed text-center text-white"
+                >
                   Choose File
-                </div>
+                </button>
               </div>
               <div class="text-base leading-relaxed text-center text-coolGray-500">
-                No file choosen.
+                {meta.fileName}
               </div>
             </div>
           </div>
@@ -56,7 +98,9 @@
               Password
             </div>
             <div class="flex self-stretch items-start justify-start">
-              undefined
+              <div class="flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full">
+                <input type="password" placeholder="*******" />
+              </div>
             </div>
           </div>
           <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
@@ -64,20 +108,23 @@
               Re-type Password
             </div>
             <div class="flex self-stretch items-start justify-start">
-              undefined
+              <div class="flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full">
+                <input type="password" placeholder="*******" />
+              </div>
             </div>
           </div>
         </div>
         <div class="flex self-stretch flex-col items-start justify-start">
-          <div class="flex self-stretch items-center justify-center px-4 py-2 bg-blue-700 rounded">
-            <div class="text-base font-medium leading-relaxed text-center text-white">
-              Sign Up
-            </div>
-          </div>
+          <button class="flex self-stretch items-center justify-center px-4 py-2 bg-blue-600 rounded text-base font-medium leading-relaxed text-center text-white">
+            Sign Up
+          </button>
         </div>
-        <div class="flex self-stretch items-center justify-center">
-          <div class="text-base leading-relaxed text-center">
-            Already have account? Sign In
+        <div class={`flex self-stretch items-center justify-center`}>
+          <div class="[class]">
+            Already have account?{" "}
+            <a href="/m/login-mobile" class="text-blue-500">
+              Sign In
+            </a>
           </div>
         </div>
       </div>
