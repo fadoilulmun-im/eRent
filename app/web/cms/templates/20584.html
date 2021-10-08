@@ -3,7 +3,6 @@
     meta={{
       email: "",
       password: "",
-      hiddenPassword: "",
       login: (e) => {
         console.log(e.target.value);
       },
@@ -28,6 +27,7 @@
             password: meta.password,
           }).then((e) => {
             console.log(e);
+            //mengara ke home page
           });
         },
       };
@@ -69,7 +69,6 @@
                   type="password"
                   value={meta.password}
                   onChange={(e) => meta.action.passwordChange(e)}
-                  class={"f"}
                 />
               </div>
             </div>
