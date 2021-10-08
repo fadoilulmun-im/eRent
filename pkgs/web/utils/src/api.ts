@@ -21,7 +21,7 @@ export const api = async (
     if("__meta" in body){
       delete body["__meta"];
     }
-    console.log(body);
+    //console.log(body);
     options.body = JSON.stringify(body);
     
   }
