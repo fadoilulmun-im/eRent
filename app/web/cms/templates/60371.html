@@ -1,0 +1,35 @@
+<>
+  <effect meta={{}} run={() => {}} />
+  <admin
+    content={{
+      customer: {
+        table: "customer",
+        list: {
+          table: {
+            columns: [
+              ["nama_perusahaan", { title: "Perusahaan" }],
+              ["email", {}],
+              ["no_hp", { title: "No Hp" }],
+              ["alamat", {}],
+              ["surat_ket_pt", { title: "Surat Keterangan" }],
+              ["status", {}],
+            ],
+          },
+        },
+        form: {
+          alter: { no_hp: { title: "No Hp" } },
+          layout: [
+            [
+              "nama_perusahaan",
+              "email",
+              "no_hp",
+              "alamat",
+              "surat_ket_pt",
+              "status",
+            ],
+          ],
+        },
+      },
+    }}
+  />
+</>
