@@ -8,13 +8,6 @@ import type { IBaseFieldProps } from '../../../../../ext/types/__form'
 import set from 'lodash.set'
 import get from 'lodash.get'
 
-export const formatSeparatorDec = (value: any, decimal?: number) => {
-  if (decimal || decimal === 0) value = Number(value).toFixed(decimal)
-  return parseFloat((value || 0).toString().replace(/,/g, ''))
-    .toLocaleString('en')
-    .replace(/,/gi, ',')
-}
-
 declare const window: BaseWindow
 
 export const WText = ({ name, internalChange, ctx }: IBaseFieldProps) => {
