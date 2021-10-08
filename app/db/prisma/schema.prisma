@@ -1,6 +1,5 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["orderByRelation"]
 }
 
 datasource db {
@@ -16,6 +15,7 @@ model admin {
   no_hp     String?     @db.VarChar(50)
   email     String      @db.VarChar(200)
   role      Boolean?
+  alamat    String?     @db.VarChar(255)
   transaksi transaksi[]
 
   @@unique([username, email], name: "admin_username_email_key")
@@ -30,6 +30,7 @@ model customer {
   surat_ket_pt     String            @db.VarChar(255)
   status           Boolean?
   nama_perusahaan  String?           @db.VarChar(255)
+  nama_customer    String?           @db.VarChar(200)
   token_reset_pass token_reset_pass?
   transaksi        transaksi[]
 }
@@ -41,6 +42,8 @@ model barang {
   merk_barang      String?            @db.VarChar(200)
   detail_barang    String?
   stok_barang      Int
+  harga_barang     Int?
+  gambar_barang    String?            @db.VarChar(255)
   detail_transaksi detail_transaksi[]
 }
 
