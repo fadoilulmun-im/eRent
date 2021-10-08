@@ -2,11 +2,6 @@
   <effect
     meta={{
       email: "",
-      password: "",
-      hiddenPassword: "",
-      login: (e) => {
-        console.log(e.target.value);
-      },
     }}
     run={async () => {
       meta.action = {
@@ -16,16 +11,9 @@
             console.log(meta.email); //check email di sini
           });
         },
-        passwordChange: (e) => {
-          runInAction(() => {
-            meta.password = e.target.value;
-            console.log(meta.password); //check password di sini
-          });
-        },
         login: (e) => {
-          api("/api/customer/login", {
+          api("/api/customer/forgot-password", {
             email: meta.email,
-            password: meta.password,
           }).then((e) => {
             console.log(e);
           });
