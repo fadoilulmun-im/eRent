@@ -732,6 +732,7 @@ export const createFormContext = (
             })
 
             state.db.loading = false
+            render()
 
             const parent = state.tree.parent as ICRUDContext
 
@@ -808,6 +809,7 @@ export const createFormContext = (
           if (!data) {
             data = state.db.data.__meta.raw
           }
+          let def = state.db.definition?.columns
           for (let [k, value] of Object.entries(data)) {
             if (
               !state.db.definition.rels[k] &&
@@ -815,7 +817,13 @@ export const createFormContext = (
             ) {
               delete data[k]
             }
-
+            if(def && def[k] && typeof data[k] !== def[k].type){
+              if(def[k].type === 'number'){
+                let cols = parseFloat(data[k])
+                set(state.db.data, k, cols)
+                data[k] = cols
+              }
+            }
             if (value === null) {
               delete data[k]
             }
@@ -895,11 +903,7 @@ export const createFormContext = (
               if (crud.tree.children && crud.tree.children.list) {
                 const list = crud.tree.children.list as IBaseListContext
                 if (list.db.list) {
-                  for (let [idx, row] of Object.entries(list.db.list) as any) {
-                    if (row[pk] === savedData[pk]) {
-                      weakUpdate(list.db.list[idx], state.db.data)
-                    }
-                  }
+                  await list.db.query()
                 }
               }
               crud.crud.setMode('list')
