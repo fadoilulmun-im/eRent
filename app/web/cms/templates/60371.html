@@ -1,5 +1,10 @@
 <>
-  <effect meta={{}} run={() => {}} />
+  <effect
+    meta={{}}
+    run={() => {
+      console.log(window.user.role);
+    }}
+  />
   <admin
     content={{
       customer: {
@@ -17,7 +22,15 @@
           },
         },
         form: {
-          alter: { no_hp: { title: "No Hp" } },
+          alter: {
+            no_hp: { title: "No Hp" },
+            change_password: { title: "Ganti Password" },
+          },
+          onSave: ({ data, saving, save }) => {
+            console.log(data.change_password);
+
+            saving(false);
+          },
           layout: [
             [
               "nama_perusahaan",
@@ -26,6 +39,7 @@
               "alamat",
               "surat_ket_pt",
               "status",
+              "change_password",
             ],
           ],
         },
