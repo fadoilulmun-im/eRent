@@ -12,6 +12,7 @@
         list: {
           table: {
             columns: [
+              ["nama_customer", {}],
               ["nama_perusahaan", { title: "Perusahaan" }],
               ["email", {}],
               ["no_hp", { title: "No Hp" }],
@@ -26,20 +27,23 @@
             no_hp: { title: "No Hp" },
             change_password: { title: "Ganti Password" },
           },
-          onSave: ({ data, saving, save }) => {
-            console.log(data.change_password);
-
-            saving(false);
+          onSave: async ({ data, saving, save }) => {
+            // saving(true);
+            // console.log(data);
+            data.password = await data.change_password;
+            console.log(data);
+            save();
           },
           layout: [
             [
-              "nama_perusahaan",
-              "email",
-              "no_hp",
-              "alamat",
-              "surat_ket_pt",
-              "status",
-              "change_password",
+              ["nama_customer"],
+              ["nama_perusahaan"],
+              ["email"],
+              ["no_hp"],
+              ["alamat"],
+              ["surat_ket_pt"],
+              ["status"],
+              ["change_password"],
             ],
           ],
         },
