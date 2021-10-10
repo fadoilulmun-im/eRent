@@ -4,25 +4,24 @@
     content={{
       barang: {
         table: "barang",
-        // list: {
-        //   table: {
-        //     columns: [
-        //       ["nama", {}],
-        //       ["username", {}],
-        //       ["email", {}],
-        //       ["no_hp", { title: "No Hp" }],
-        //       ["role", {}],
-        //     ],
-        //   },
-        // },
         form: {
-          alter: {},
+          alter: {
+            gambar_barang: {
+              type: "file",
+              required: true,
+              fieldProps: {
+                acceptFile: "asas",
+              },
+            },
+          },
           layout: [
             ["nama_barang"],
             ["jenis_barang"],
             ["merk_barang"],
             ["detail_barang"],
             ["stok_barang"],
+            ["harga_barang"],
+            ["gambar_barang"],
           ],
         },
       },

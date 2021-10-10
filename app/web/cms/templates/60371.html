@@ -25,26 +25,31 @@
         form: {
           alter: {
             no_hp: { title: "No Hp" },
-            change_password: { title: "Ganti Password" },
+            change_password: { title: "Password" },
+            surat_ket_pt: {
+              title: "Surat Keterangan PT",
+              type: "file",
+              fieldProps: {
+                acceptFile: "asas",
+              },
+            },
           },
           onSave: async ({ data, saving, save }) => {
             // saving(true);
             // console.log(data);
-            data.password = await data.change_password;
-            console.log(data);
-            save();
+            // data.password = await data.change_password;
+            // console.log(data);
+            // save();
           },
           layout: [
-            [
-              ["nama_customer"],
-              ["nama_perusahaan"],
-              ["email"],
-              ["no_hp"],
-              ["alamat"],
-              ["surat_ket_pt"],
-              ["status"],
-              ["change_password"],
-            ],
+            ["nama_customer"],
+            ["nama_perusahaan"],
+            ["email"],
+            ["no_hp"],
+            ["alamat"],
+            ["change_password"],
+            ["status"],
+            ["surat_ket_pt"],
           ],
         },
       },
