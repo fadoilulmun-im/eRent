@@ -2,6 +2,11 @@
   <effect
     meta={{
       fileName: "No file choosen",
+      rePassword: "",
+      email: "",
+      name: "",
+      company_name: "",
+      Password: "",
     }}
     run={async () => {
       meta.action = {
@@ -18,13 +23,23 @@
             console.log("Coba"); //check email di sini
           });
         },
+        inpChange: (e) => {
+          runInAction(() => {
+            meta[e.target.name] = e.target.value;
+            console.log(e.target.name); //check email di sini
+          });
+        },
+        register: () => {
+          console.log(meta.name, meta.email);
+        },
       };
     }}
   />
   <>
-    <div class="flex flex-1 self-stretch items-start justify-start px-6 py-10 bg-white">
-      <div class="flex flex-1 flex-col space-y-6 items-start justify-start">
-        <div />
+    <div class="flex flex-col items-start justify-start w-full h-screen bg-white">
+      <top-naviagation mode={2} />
+      {/* body */}
+      <div class="flex self-stretch flex-col  flex-grow space-y-7 items-start justify-start overflow-auto px-6 pb-10">
         <img
           src="/fimgs/153_1387.x1.svg"
           class="flex self-stretch flex-col items-center justify-start"
@@ -39,6 +54,9 @@
             </div>
             <div class="flex self-stretch items-start justify-start">
               <input
+                value={meta.email}
+                name="email"
+                onChange={(e) => meta.action.inpChange(e)}
                 placeholder="sales@andromedia.co.id"
                 class={
                   "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
@@ -52,6 +70,9 @@
             </div>
             <div class="flex self-stretch items-start justify-start">
               <input
+                value={meta.name}
+                name="name"
+                onChange={(e) => meta.action.inpChange(e)}
                 placeholder="John Doe"
                 class={
                   "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
@@ -65,6 +86,8 @@
             </div>
             <div class="flex self-stretch items-start justify-start">
               <input
+                value={meta.company_name}
+                onChange={(e) => meta.action.inpChange(e)}
                 placeholder="Andromedia"
                 class={
                   "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
@@ -99,7 +122,13 @@
             </div>
             <div class="flex self-stretch items-start justify-start">
               <div class="flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full">
-                <input type="password" placeholder="*******" />
+                <input
+                  value={meta.password}
+                  name="password"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  type="password"
+                  placeholder="*******"
+                />
               </div>
             </div>
           </div>
@@ -109,13 +138,24 @@
             </div>
             <div class="flex self-stretch items-start justify-start">
               <div class="flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full">
-                <input type="password" placeholder="*******" />
+                <input
+                  value={meta.repassword}
+                  name="repassword"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  type="password"
+                  placeholder="*******"
+                />
               </div>
             </div>
           </div>
         </div>
         <div class="flex self-stretch flex-col items-start justify-start">
-          <button class="flex self-stretch items-center justify-center px-4 py-2 bg-blue-600 rounded text-base font-medium leading-relaxed text-center text-white">
+          <button
+            onClick={() => {
+              meta.action.register();
+            }}
+            class="flex self-stretch items-center justify-center px-4 py-2 bg-blue-600 rounded text-base font-medium leading-relaxed text-center text-white"
+          >
             Sign Up
           </button>
         </div>

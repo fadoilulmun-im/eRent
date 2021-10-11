@@ -1,15 +1,10 @@
 <>
   <effect meta={{}} run={async () => {}} />
   <>
-    <div class="flex flex-col items-start justify-start h-full bg-white">
+    <div class="flex flex-col items-start justify-start h-screen w-full bg-white">
       {/*notif and chart button*/}
-      <div
-        class="flex self-stretch space-x-4 items-start justify-end px-6 pb-2 pt-5"
-        style={"padding-top: 3rem; padding-bottom: 1rem"}
-      >
-        <img src="/fimgs/157_549.x1.svg" />
-        <img src="/fimgs/157_606.x1.svg" />
-      </div>
+      <top-naviagation mode={1} />
+
       {/*body*/}
       <div
         class="flex self-stretch flex-col  flex-grow space-y-7 items-start justify-start overflow-auto"
@@ -63,6 +58,10 @@
               title={"hellow world"}
               img={"https://picsum.photos/400"}
             />
+            <box-item2
+              title={"hellow world"}
+              img={"https://picsum.photos/400"}
+            />
           </div>
         </div>
 
@@ -70,6 +69,7 @@
           you’ve reached the end.
         </div>
       </div>
+
       <navbar />
     </div>
   </>

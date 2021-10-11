@@ -3,32 +3,36 @@
     meta={{
       email: "",
       password: "",
-      hiddenPassword: "",
+      repassword: "",
       login: (e) => {
         console.log(e.target.value);
       },
     }}
     run={async () => {
+      console.log(params);
       meta.action = {
-        emailChange: (e) => {
-          runInAction(() => {
-            meta.email = e.target.value;
-            console.log(meta.email); //check email di sini
-          });
-        },
         passwordChange: (e) => {
           runInAction(() => {
             meta.password = e.target.value;
             console.log(meta.password); //check password di sini
           });
         },
-        login: (e) => {
-          api("/api/customer/login", {
-            email: meta.email,
-            password: meta.password,
-          }).then((e) => {
-            console.log(e);
+        repasswordChange: (e) => {
+          runInAction(() => {
+            meta.repassword = e.target.value;
+            console.log(meta.repassword); //check password di sini
           });
+        },
+        change: () => {
+          if (meta.password === meta.repassword) {
+            api(`/api/customer/password-reset/${params.id}/${params.token}`, {
+              password: meta.password,
+            }).then((e) => {
+              console.log(e);
+            });
+          } else {
+            console.log("tydaksama");
+          }
         },
       };
     }}
@@ -51,8 +55,8 @@
             </div>
             <div class="flex self-stretch items-start justify-start">
               <input
-                value={meta.email}
-                onChange={(e) => meta.action.emailChange(e)}
+                value={meta.password}
+                onChange={(e) => meta.action.passwordChange(e)}
                 class={
                   "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
                 }
@@ -65,8 +69,8 @@
             </div>
             <div class="flex self-stretch items-start justify-start">
               <input
-                value={meta.email}
-                onChange={(e) => meta.action.emailChange(e)}
+                value={meta.repassword}
+                onChange={(e) => meta.action.repasswordChange(e)}
                 class={
                   "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
                 }
@@ -78,7 +82,7 @@
         <div class="flex self-stretch flex-col items-start justify-start">
           <button
             onClick={() => {
-              meta.action.login();
+              meta.action.change();
             }}
             class="flex self-stretch items-center justify-center px-4 py-2 bg-blue-600 rounded text-base font-medium leading-relaxed text-center text-white"
           >
