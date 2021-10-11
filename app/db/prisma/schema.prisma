@@ -1,5 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -27,7 +27,7 @@ model customer {
   password         String            @db.VarChar(150)
   no_hp            String?           @db.VarChar(50)
   alamat           String?           @db.VarChar(255)
-  surat_ket_pt     String            @db.VarChar(255)
+  surat_ket_pt     String?           @db.VarChar(255)
   status           Boolean?
   nama_perusahaan  String?           @db.VarChar(255)
   nama_customer    String?           @db.VarChar(200)
