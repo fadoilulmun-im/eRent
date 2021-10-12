@@ -40,4 +40,5 @@ export default {
     import("./components/top-naviagation"),
     { c: "", s: "", h: "" },
   ],
+  notif: () => [import("./components/notif"), { c: "", s: "", h: "" }],
 };

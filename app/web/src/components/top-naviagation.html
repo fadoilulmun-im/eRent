@@ -6,7 +6,12 @@
     }
     style={"padding-top: 3rem; padding-bottom: 1rem"}
   >
-    <button onClick={()=>{ history.back()}} class={props.mode === 1 ? "hidden" : ""}>
+    <button
+      onClick={() => {
+        history.back();
+      }}
+      class={props.mode === 1 ? "hidden" : ""}
+    >
       <img src="/fimgs/192_116.x1.svg" />
     </button>
     <div class={"flex space-x-2 " + (props.mode === 2 ? "hidden" : "")}>

@@ -9,6 +9,9 @@
       alamat: "",
       company_name: "",
       Password: "",
+      file: null,
+      notif_state: false,
+      notif_msg: "error",
     }}
     run={async () => {
       meta.action = {
@@ -19,7 +22,7 @@
             input.onchange = (_) => {
               let file = Array.from(input.files)[0];
               console.log(file);
-              meta.fileName = file.name;
+              (meta.file = file), (meta.fileName = file.name);
             };
             input.click();
             console.log("Coba"); //check email di sini
@@ -31,20 +34,53 @@
             console.log(e.target.name); //check email di sini
           });
         },
-        register: () => {
-          const data = {
-            email: meta.email,
-            password: meta.password,
-            no_hp: meta.no_hp,
-            alamat: meta.alamat,
-            nama_perusahaan: meta.company_name,
-          };
-          console.log(meta.name, meta.email);
+        register: async () => {
+          if (meta.password === meta.repassword && meta.file !== null) {
+            const data = {
+              email: meta.email,
+              password: meta.password,
+              no_hp: meta.no_hp,
+              alamat: meta.alamat,
+              nama_perusahaan: meta.company_name,
+              nama_customer: meta.nama,
+            };
+
+            api("/api/customer/register", data).then(async (e) => {
+              //console.log(e);
+              if (e?.status === "SUCCESS") {
+                if (meta.file) {
+                  let a = await fileUpload(
+                    meta.file,
+                    `/api/customer/${e.data.id}/upload`
+                  );
+                  if (a) {
+                    console.log(a);
+                    location.href = "/m/home-mobile";
+                  }
+                }
+              }
+            });
+          } else {
+            (meta.notif_msg = "data kosong"), meta.action.notifclick();
+          }
+        },
+        notifclick: () => {
+          runInAction(() => {
+            console.log("aaa");
+            meta.notif_state = !meta.notif_state;
+          });
         },
       };
     }}
   />
   <>
+    <notif
+      state={meta.notif_state}
+      click={() => {
+        meta.action.notifclick();
+      }}
+      msg={meta.notif_msg}
+    />
     <div class="flex flex-col items-start justify-start w-full h-screen bg-white">
       <top-naviagation mode={2} />
       {/* body */}
@@ -115,7 +151,7 @@
             <div class="flex self-stretch items-start justify-start">
               <input
                 value={meta.alamat}
-                name="no_hp"
+                name="alamat"
                 onChange={(e) => meta.action.inpChange(e)}
                 placeholder="zimbapwe"
                 class={
@@ -132,6 +168,7 @@
             <div class="flex self-stretch items-start justify-start">
               <input
                 value={meta.company_name}
+                name="company_name"
                 onChange={(e) => meta.action.inpChange(e)}
                 placeholder="Andromedia"
                 class={

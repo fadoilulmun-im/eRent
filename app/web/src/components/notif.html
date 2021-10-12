@@ -1,0 +1,21 @@
+<>
+  <div
+    class="fixed bg-blue-600 rounded text-white flex justify-between items-center transform-all"
+    style={
+      (props.state ? "top:3rem;" : "top:-10rem;") +
+      " left:1rem;right:1rem;padding:1rem;"
+    }
+  >
+    <span>{props.msg}</span>
+    <span>
+      <button
+        onClick={() => {
+          props.click();
+        }}
+        class="inline border border-white p-2 rounded"
+      >
+        close
+      </button>
+    </span>
+  </div>
+</>

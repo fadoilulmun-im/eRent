@@ -30,3 +30,22 @@ export const dateFormat = (
     return ''
   }
 }
+
+export const fileUpload = async (
+  file: File,
+  path: string = '',
+) => {
+  if (!file) {
+    return null
+  }
+  const formData = new FormData()
+  formData.append('file', file, file.name)
+  const res = await fetch(path, {
+    method: 'POST',
+    body: formData,
+  })
+  const r = await res.json()
+  if (r?.status === 'ok') {
+    return r;
+  }
+}
