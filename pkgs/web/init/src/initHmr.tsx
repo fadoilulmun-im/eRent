@@ -1,6 +1,7 @@
 import { reloadAllComponents } from './core/platform'
 import type { BaseWindow } from './window'
 
+
 declare const window: BaseWindow
 export const initHmr = () => {
   for (let i of Object.keys(localStorage)) {
@@ -32,7 +33,10 @@ export const initHmr = () => {
         break
       case 'hmr-reload-all':
         if (location.pathname !== '/dev') {
-          // location.reload()
+
+          //location.reload()
+          
+          console.log(msg);
         }
         break
       case 'component-reload':
