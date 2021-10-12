@@ -9,7 +9,7 @@ datasource db {
 
 model admin {
   id        Int         @id @default(autoincrement())
-  username  String?     @db.VarChar(50)
+  username  String      @db.VarChar(50)
   password  String?     @db.VarChar(150)
   nama      String?     @db.VarChar(150)
   no_hp     String?     @db.VarChar(50)

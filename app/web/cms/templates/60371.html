@@ -35,11 +35,13 @@
             },
           },
           onSave: async ({ data, saving, save }) => {
-            // saving(true);
-            // console.log(data);
-            // data.password = await data.change_password;
-            // console.log(data);
-            // save();
+            if (data.change_password) {
+              const password = await api("/api/hash-pass", {
+                password: data.change_password,
+              });
+              data.password = await password.password;
+            }
+            save(data);
           },
           layout: [
             ["nama_customer"],
