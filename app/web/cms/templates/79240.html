@@ -16,9 +16,20 @@
             ],
           },
         },
+
         form: {
           alter: {
             no_hp: { title: "No Hp" },
+            change_password: { title: "Password" },
+          },
+          onSave: async ({ data, saving, save }) => {
+            if (data.change_password) {
+              const password = await api("/api/hash-pass", {
+                password: data.change_password,
+              });
+              data.password = await password.password;
+            }
+            save(data);
           },
           layout: [
             ["nama"],
@@ -27,6 +38,7 @@
             ["no_hp"],
             ["alamat"],
             ["role"],
+            ["change_password"],
           ],
         },
       },
