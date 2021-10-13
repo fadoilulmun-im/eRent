@@ -19,12 +19,10 @@ export default {
   admin: () => [import("web.crud/src/CRUD"), { c: "", s: "", h: "" }],
   qform: () => [import("web.crud/src/form/BaseForm"), { c: "", s: "", h: "" }],
   qlist: () => [import("web.crud/src/list/QBaseList"), { c: "", s: "", h: "" }],
-
   "button-default": () => [
     import("./components/button-default"),
     { c: "", s: "", h: "" },
   ],
-  
   checkbox: () => [import("./components/checkbox"), { c: "", s: "", h: "" }],
   textinput: () => [import("./components/textinput"), { c: "", s: "", h: "" }],
   coolbutton: () => [
@@ -38,4 +36,9 @@ export default {
     import("./components/box-item2"),
     { c: "", s: "", h: "" },
   ],
+  "top-naviagation": () => [
+    import("./components/top-naviagation"),
+    { c: "", s: "", h: "" },
+  ],
+  notif: () => [import("./components/notif"), { c: "", s: "", h: "" }],
 };

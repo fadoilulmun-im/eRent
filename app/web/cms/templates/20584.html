@@ -53,6 +53,7 @@
               <input
                 value={meta.email}
                 onChange={(e) => meta.action.emailChange(e)}
+                placeholder="ucok@gmail.com"
                 class={
                   "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
                 }
@@ -68,6 +69,7 @@
                 <input
                   type="password"
                   value={meta.password}
+                  placeholder="*******"
                   onChange={(e) => meta.action.passwordChange(e)}
                 />
               </div>
@@ -83,9 +85,12 @@
             </div>
           </div>
           <div class="flex items-start justify-start">
-            <div class="text-base leading-relaxed text-right text-coolGray-900">
+            <a
+              href="/m/forget-password-mobile"
+              class="text-base leading-relaxed text-right text-coolGray-900"
+            >
               Forgot Password?
-            </div>
+            </a>
           </div>
         </div>
 
@@ -102,7 +107,10 @@
 
         <div class="flex self-stretch items-center justify-center">
           <div class="text-base leading-relaxed text-center">
-            Not have account yet? <a class=" text-blue-500">Sign Up</a>
+            Not have account yet?{" "}
+            <a href="/m/register-mobile" class=" text-blue-500">
+              Sign Up
+            </a>
           </div>
         </div>
       </div>

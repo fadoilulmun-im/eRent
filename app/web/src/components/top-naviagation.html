@@ -1,0 +1,22 @@
+<>
+  <div
+    class={
+      "flex self-stretch space-x-4 items-start px-6 pb-2 pt-5 " +
+      (props.mode === 1 ? "justify-end" : "justify-between")
+    }
+    style={"padding-top: 3rem; padding-bottom: 1rem"}
+  >
+    <button
+      onClick={() => {
+        history.back();
+      }}
+      class={props.mode === 1 ? "hidden" : ""}
+    >
+      <img src="/fimgs/192_116.x1.svg" />
+    </button>
+    <div class={"flex space-x-2 " + (props.mode === 2 ? "hidden" : "")}>
+      <img src="/fimgs/157_549.x1.svg" />
+      <img src="/fimgs/157_606.x1.svg" />
+    </div>
+  </div>
+</>

@@ -1,0 +1,65 @@
+<>
+  <effect
+    meta={{
+      email: "",
+    }}
+    run={async () => {
+      meta.action = {
+        emailChange: (e) => {
+          runInAction(() => {
+            meta.email = e.target.value;
+            console.log(meta.email); //check email di sini
+          });
+        },
+        login: (e) => {
+          api("/api/customer/forgot-password", {
+            email: meta.email,
+          }).then((e) => {
+            console.log(e);
+          });
+        },
+      };
+    }}
+  />
+  <>
+    <div class="flex flex-1 h-full self-stretch items-start justify-start px-6 pt-20 pb-32 bg-white">
+      <div class="flex flex-1 flex-col space-y-6 items-start justify-start">
+        <img
+          src="/fimgs/147_59.x1.svg"
+          class="flex self-stretch flex-col items-center justify-start"
+        />
+        <div class="flex self-stretch items-center justify-center">
+          <div class="text-3xl font-bold text-center">Forget password.</div>
+        </div>
+
+        <div class="flex self-stretch flex-col space-y-5 items-start justify-start">
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              Email
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                value={meta.email}
+                onChange={(e) => meta.action.emailChange(e)}
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex self-stretch flex-col items-start justify-start">
+          <button
+            onClick={() => {
+              meta.action.login();
+            }}
+            class="flex self-stretch items-center justify-center px-4 py-2 bg-blue-600 rounded text-base font-medium leading-relaxed text-center text-white"
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </>
+</>

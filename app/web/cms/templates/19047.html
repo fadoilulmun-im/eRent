@@ -1,0 +1,95 @@
+<>
+  <effect
+    meta={{
+      email: "",
+      password: "",
+      repassword: "",
+      login: (e) => {
+        console.log(e.target.value);
+      },
+    }}
+    run={async () => {
+      console.log(params);
+      meta.action = {
+        passwordChange: (e) => {
+          runInAction(() => {
+            meta.password = e.target.value;
+            console.log(meta.password); //check password di sini
+          });
+        },
+        repasswordChange: (e) => {
+          runInAction(() => {
+            meta.repassword = e.target.value;
+            console.log(meta.repassword); //check password di sini
+          });
+        },
+        change: () => {
+          if (meta.password === meta.repassword) {
+            api(`/api/customer/password-reset/${params.id}/${params.token}`, {
+              password: meta.password,
+            }).then((e) => {
+              console.log(e);
+            });
+          } else {
+            console.log("tydaksama");
+          }
+        },
+      };
+    }}
+  />
+  <>
+    <div class="flex flex-1 h-full self-stretch items-start justify-start px-6 pt-20 pb-32 bg-white">
+      <div class="flex flex-1 flex-col space-y-6 items-start justify-start">
+        <img
+          src="/fimgs/147_59.x1.svg"
+          class="flex self-stretch flex-col items-center justify-start"
+        />
+        <div class="flex self-stretch items-center justify-center">
+          <div class="text-3xl font-bold text-center">Create New Password.</div>
+        </div>
+
+        <div class="flex self-stretch flex-col space-y-5 items-start justify-start">
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              New Password
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                value={meta.password}
+                onChange={(e) => meta.action.passwordChange(e)}
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              Confirm Password
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                value={meta.repassword}
+                onChange={(e) => meta.action.repasswordChange(e)}
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex self-stretch flex-col items-start justify-start">
+          <button
+            onClick={() => {
+              meta.action.change();
+            }}
+            class="flex self-stretch items-center justify-center px-4 py-2 bg-blue-600 rounded text-base font-medium leading-relaxed text-center text-white"
+          >
+            Change
+          </button>
+        </div>
+      </div>
+    </div>
+  </>
+</>
