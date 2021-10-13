@@ -1,0 +1,43 @@
+<div class="flex self-stretch flex-col items-start justify-start">
+  <div class="flex self-stretch space-x-4 items-center justify-start bg-white">
+    <img
+      src={props.img}
+      class="flex flex-1 flex-col items-start justify-start py-2 bg-coolGray-100 rounded-tl rounded-bl"
+      style="width: 116px; min-width: 116px; max-width: 116px; height: 117px; min-height: 117px; max-height: 117px;"
+    />
+    <div class="flex flex-col space-y-1 items-start justify-start">
+      <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+        <div class="text-base font-medium leading-relaxed text-coolGray-900">
+          {props.title}
+        </div>
+        <div class="text-sm leading-snug text-coolGray-500">Rp{props.price}</div>
+      </div>
+      <div class="flex self-stretch space-x-16 items-end justify-between">
+        <div class="flex space-x-3 items-center justify-start">
+          <div class="flex justify-center">
+            <button class="flex items-start justify-start px-1 py-0 border rounded border-coolGray-500">
+              -
+            </button>
+          </div>
+          <div class="text-sm leading-snug text-center text-coolGray-500 px-4">
+            1
+          </div>
+          <div class="flex flex-col space-y-96 justify-center">
+            <button class="flex items-start justify-start px-1 py-0 border rounded border-coolGray-500">
+              +
+            </button>
+          </div>
+        </div>
+        <div class="flex space-x-3 items-center justify-end">
+          <button>
+            <img
+              class={`bg-indigo-400`}
+              style="width: 18px; min-width: 18px; max-width: 18px; height: 20px; min-height: 20px; max-height: 20px;"
+              src="/fimgs/214_464.x1.svg"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
