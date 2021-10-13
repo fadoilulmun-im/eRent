@@ -31,7 +31,6 @@ model customer {
   status           Boolean?
   nama_perusahaan  String?           @db.VarChar(255)
   nama_customer    String?           @db.VarChar(200)
-  cart             cart[]
   token_reset_pass token_reset_pass?
   transaksi        transaksi[]
 }
@@ -45,32 +44,31 @@ model barang {
   stok_barang      Int
   harga_barang     Int?
   gambar_barang    String?            @db.VarChar(255)
-  cart             cart[]
   detail_transaksi detail_transaksi[]
 }
 
 model detail_transaksi {
-  id           Int       @id @default(autoincrement())
-  id_transaksi Int
-  id_barang    Int
-  quantity     Int
-  total_harga  Int
-  barang       barang    @relation(fields: [id_barang], references: [id])
-  transaksi    transaksi @relation(fields: [id_transaksi], references: [id])
+  id           Int        @id @default(autoincrement())
+  id_transaksi Int?
+  id_barang    Int?
+  quantity     Int?
+  total_harga  Int?
+  barang       barang?    @relation(fields: [id_barang], references: [id])
+  transaksi    transaksi? @relation(fields: [id_transaksi], references: [id])
 }
 
 model transaksi {
   id                 Int                @id @default(autoincrement())
   id_customer        Int
   id_admin           Int?
-  tanggal_pemesanan  DateTime           @db.Timestamptz(6)
+  tanggal_pemesanan  DateTime?          @db.Timestamptz(6)
   bukti_pembayaran   String?            @db.VarChar(255)
   tanggal_approve    DateTime?          @db.Timestamptz(6)
   tanggal_pembayaran DateTime?          @db.Timestamptz(6)
   status_transaksi   Int?
-  quantity           Int
+  quantity           Int?
   tanggal_selesai    DateTime?          @db.Timestamptz(6)
-  total_harga        Int
+  total_harga        Int?
   admin              admin?             @relation(fields: [id_admin], references: [id])
   customer           customer           @relation(fields: [id_customer], references: [id])
   detail_transaksi   detail_transaksi[]
@@ -80,12 +78,4 @@ model token_reset_pass {
   id_user  Int      @id
   token    String?  @db.VarChar(150)
   customer customer @relation(fields: [id_user], references: [id])
-}
-
-model cart {
-  id          Int      @id @default(autoincrement())
-  id_customer Int
-  id_barang   Int
-  barang      barang   @relation(fields: [id_barang], references: [id])
-  customer    customer @relation(fields: [id_customer], references: [id])
 }
