@@ -5,12 +5,14 @@
       class="flex flex-1 flex-col items-start justify-start py-2 bg-coolGray-100 rounded-tl rounded-bl"
       style="width: 116px; min-width: 116px; max-width: 116px; height: 117px; min-height: 117px; max-height: 117px;"
     />
-    <div class="flex flex-col space-y-1 items-start justify-start">
+    <div class="flex flex-col space-y-1 items-start justify-start w-full">
       <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
         <div class="text-base font-medium leading-relaxed text-coolGray-900">
           {props.title}
         </div>
-        <div class="text-sm leading-snug text-coolGray-500">Rp{props.price}</div>
+        <div class="text-sm leading-snug text-coolGray-500">
+          Rp{props.price}
+        </div>
       </div>
       <div class="flex self-stretch space-x-16 items-end justify-between">
         <div class="flex space-x-3 items-center justify-start">
