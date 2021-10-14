@@ -14,7 +14,7 @@
   <>
     <div class="flex flex-col items-start justify-start h-screen w-full bg-white">
       {/*notif and chart button*/}
-      <top-naviagation mode={1} />
+      <top-naviagation mode={0} />
 
       {/*body*/}
       <div
@@ -22,10 +22,8 @@
         style="padding-bottom: 3rem;"
       >
         {/*search*/}
-        <div class="flex flex-col space-y-4 items-start justify-start w-full mb-2">
-          <div class="text-3xl font-bold text-coolGray-900 px-6">
-            Discover More
-          </div>
+        <div class="flex flex-col space-y-4 items-start justify-start w-full mb-1">
+          <div class="text-3xl font-bold text-coolGray-900 px-6">Search</div>
           <div class="flex w-full px-6">
             <input
               placeholder="Search"
@@ -33,29 +31,8 @@
             />
           </div>
         </div>
-
-        <div class="flex flex-col space-y-4 items-start justify-start w-full">
-          <div class="text-xl font-semibold text-coolGray-900 px-6">
-            Favorite items
-          </div>
-          <div class="flex items-start justify-start w-full overflow-auto space-x-4">
-            <div class="px-1"></div>
-            <box-item />
-            <box-item />
-            <box-item />
-            <box-item />
-            <box-item />
-            <div class="px-1"></div>
-          </div>
-        </div>
-
         {/*aa*/}
         <div class="flex self-stretch flex-col space-y-4 items-start justify-start px-6">
-          {/* tile*/}
-          <div class="text-xl font-semibold text-coolGray-900">
-            Recommend for you
-          </div>
-
           <div class="grid grid-cols-2 gap-3 w-full">
             {meta.barangs.map((x, i) => (
               <box-item2
@@ -66,13 +43,7 @@
             ))}
           </div>
         </div>
-
-        <div class="text-sm font-bold leading-snug text-center text-coolGray-400 w-full">
-          you’ve reached the end.
-        </div>
       </div>
-
-      <navbar />
     </div>
   </>
 </>
