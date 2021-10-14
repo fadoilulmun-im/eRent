@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -58,24 +59,34 @@ model detail_transaksi {
 }
 
 model transaksi {
-  id                 Int                @id @default(autoincrement())
-  id_customer        Int
-  id_admin           Int?
-  tanggal_pemesanan  DateTime?          @db.Timestamptz(6)
-  bukti_pembayaran   String?            @db.VarChar(255)
-  tanggal_approve    DateTime?          @db.Timestamptz(6)
-  tanggal_pembayaran DateTime?          @db.Timestamptz(6)
-  status_transaksi   Int?
-  quantity           Int?
-  tanggal_selesai    DateTime?          @db.Timestamptz(6)
-  total_harga        Int?
-  admin              admin?             @relation(fields: [id_admin], references: [id])
-  customer           customer           @relation(fields: [id_customer], references: [id])
-  detail_transaksi   detail_transaksi[]
+  id                   Int                @id @default(autoincrement())
+  id_customer          Int
+  id_admin             Int?
+  tanggal_pemesanan    DateTime?          @db.Timestamp(6)
+  bukti_pembayaran     String?            @db.VarChar(255)
+  tanggal_approve      DateTime?          @db.Timestamp(6)
+  tanggal_pembayaran   DateTime?          @db.Timestamp(6)
+  status_transaksi     String?            @db.VarChar(50)
+  quantity             Int?
+  tanggal_selesai      DateTime?          @db.Timestamp(6)
+  total_harga          Int?
+  tanggal_peminjaman   DateTime?          @db.Timestamp(6)
+  tanggal_pengembalian DateTime?          @db.Timestamp(6)
+  admin                admin?             @relation(fields: [id_admin], references: [id])
+  customer             customer           @relation(fields: [id_customer], references: [id])
+  detail_transaksi     detail_transaksi[]
 }
 
 model token_reset_pass {
-  id_user  Int      @id
+  id_user  Int      @id @default(autoincrement())
   token    String?  @db.VarChar(150)
   customer customer @relation(fields: [id_user], references: [id])
+}
+
+enum status_transaksi {
+  berhasil
+  gagal
+  belum_bayar
+  sudah_bayar
+  selesai
 }
