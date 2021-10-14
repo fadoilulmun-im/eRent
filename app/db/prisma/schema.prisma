@@ -52,7 +52,7 @@ model detail_transaksi {
   id           Int        @id @default(autoincrement())
   id_transaksi Int?
   id_barang    Int?
-  quantity     Int?
+  quantity     Int?       @default(1)
   total_harga  Int?
   barang       barang?    @relation(fields: [id_barang], references: [id])
   transaksi    transaksi? @relation(fields: [id_transaksi], references: [id])
