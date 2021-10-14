@@ -2,13 +2,30 @@
   <effect
     meta={{
       barangs: [],
+      search_keyword: "",
     }}
     run={async () => {
       console.log("aaa");
       api("/api/barang").then((e) => {
-        console.log(e);
+        console.log(params.keyword);
+        meta.search_keyword = params.keyword;
         meta.barangs = e.data;
       });
+
+      meta.action = {
+        onEnter: (e) => {
+          if (e.code === "Enter") {
+            console.log(meta.search_keyword);
+            // api seacrh disini
+            //location.href = `/m/search-mobile/${meta.search_keyword}`;
+          }
+        },
+        onSearch: (e) => {
+          runInAction(() => {
+            meta.search_keyword = e.target.value;
+          });
+        },
+      };
     }}
   />
   <>
@@ -26,6 +43,13 @@
           <div class="text-3xl font-bold text-coolGray-900 px-6">Search</div>
           <div class="flex w-full px-6">
             <input
+              value={meta.search_keyword}
+              onChange={(e) => {
+                meta.action.onSearch(e);
+              }}
+              onKeyPress={(e) => {
+                meta.action.onEnter(e);
+              }}
               placeholder="Search"
               class=" flex w-full bg-gray-100 px-3 py-2 rounded"
             />
