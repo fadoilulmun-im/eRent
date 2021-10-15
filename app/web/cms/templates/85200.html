@@ -1,32 +1,61 @@
 <>
-  <effect meta={{}} run={async () => {}} />
+  <effect
+    meta={{
+      cart: [
+        {
+          title: "panasonik",
+          price: 5000,
+          img: "https://picsum.photos/300",
+          qty: 1,
+        },
+        {
+          title: "panasonik",
+          price: 2000,
+          img: "https://picsum.photos/200",
+          qty: 1,
+        },
+      ],
+    }}
+    run={async () => {
+      meta.action = {
+        addQty: (idx) => {
+          runInAction(() => {
+            meta.cart[idx].qty += 1;
+            console.log(meta.cart[idx].qty);
+          });
+        },
+        subQty: (idx) => {
+          runInAction(() => {
+            if (meta.cart[idx].qty > 1) {
+              meta.cart[idx].qty -= 1;
+            }
+          });
+        },
+      };
+    }}
+  />
   <>
     <div class="flex flex-col items-start justify-start h-screen w-full bg-white">
       {/*notif and chart button*/}
       <top-naviagation />
-      <div class="flex self-stretch flex-col items-start justify-start overflow-auto">
+      <div class="flex self-stretch flex-grow flex-col items-start justify-start overflow-auto">
         <div class="flex self-stretch flex-col space-y-4 items-start justify-start px-6">
           <div class="text-3xl font-bold text-coolGray-900">Cart</div>
-          <item-cart
-            title={"hellow world"}
-            img={"https://picsum.photos/300"}
-            price={"500000"}
-          />
-          <item-cart
-            title={"hellow world"}
-            img={"https://picsum.photos/300"}
-            price={"500000"}
-          />
-          <item-cart
-            title={"hellow world"}
-            img={"https://picsum.photos/300"}
-            price={"500000"}
-          />
-          <item-cart
-            title={"hellow world"}
-            img={"https://picsum.photos/300"}
-            price={"500000"}
-          />
+
+          {meta.cart.map((x, i) => (
+            <item-cart
+              title={x.title}
+              img={x.img}
+              price={x.price}
+              qty={x.qty}
+              add={() => {
+                meta.action.addQty(i);
+              }}
+              sub={() => {
+                meta.action.subQty(i);
+              }}
+            />
+          ))}
         </div>
       </div>
       <total-price-cart />
