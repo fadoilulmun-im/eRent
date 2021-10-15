@@ -15,7 +15,12 @@
     <div class="flex self-stretch space-x-16 items-end justify-between">
       <div class="flex space-x-3 items-center justify-start">
         <div class="flex justify-center">
-          <button onClick={()=>{props.sub()}} class="flex items-start justify-start px-1 py-0 border rounded border-coolGray-500">
+          <button
+            onClick={() => {
+              props.sub();
+            }}
+            class="flex items-start justify-start px-1 py-0 border rounded border-coolGray-500"
+          >
             -
           </button>
         </div>
@@ -23,7 +28,12 @@
           {props.qty}
         </div>
         <div class="flex flex-col space-y-96 justify-center">
-          <button onClick={()=>{props.add()}} class="flex items-start justify-start px-1 py-0 border rounded border-coolGray-500">
+          <button
+            onClick={() => {
+              props.add();
+            }}
+            class="flex items-start justify-start px-1 py-0 border rounded border-coolGray-500"
+          >
             +
           </button>
         </div>
