@@ -2,7 +2,8 @@
   <div
     class={
       "flex self-stretch space-x-4 items-start px-6 pb-2 pt-5 " +
-      (props.mode === 1 ? "justify-end" : "justify-between")
+      (props.mode === 1 ? "justify-end" : "justify-between ") +
+      (props.mode === 3 ? "bg-gray-100 justify-between " : "")
     }
     style={"padding-top: 3rem; padding-bottom: 1rem"}
   >
