@@ -1,0 +1,125 @@
+<>
+  <effect meta={{}} run={async () => {}} />
+  <>
+    <div class="flex flex-col items-start justify-start h-screen w-full bg-white">
+      <top-naviagation mode={2} />
+      <div class="flex self-stretch flex-col space-y-4 items-start justify-start relative overflow-y-auto">
+        <div class="text-3xl font-bold text-coolGray-900 px-6">Checkout</div>
+        <div class="flex self-stretch flex-col space-y-6 items-start justify-start pb-10">
+          {/*date*/}
+          <div class="flex flex-wrap self-stretch items-start justify-between overflow-hidden px-5">
+            <div class="flex flex-col flex-1 m-2">
+              <span>Start Date</span>
+              <div class="bg-gray-100 px-3 py-2 rounded ">
+                <input type="date" class="w-full" />
+              </div>
+            </div>
+            <div class="flex flex-col flex-1 m-2">
+              <span>Start Date</span>
+              <div class="bg-gray-100 px-3 py-2 rounded">
+                <input type="date" class="w-full" />
+              </div>
+            </div>
+          </div>
+
+          {/*item list*/}
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start px-6">
+            <div class="text-base font-bold leading-relaxed text-coolGray-900">
+              Item List
+            </div>
+            <item-cart
+              img="/fimgs/bg-1fe75495ded35ab8867987493035eb8786a4bf07"
+              title="sonic the hedgehog"
+              price="5000"
+            />
+            <item-cart
+              img="/fimgs/bg-1fe75495ded35ab8867987493035eb8786a4bf07"
+              title="panasonic"
+              price="5000"
+            />
+          </div>
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start px-6">
+            <div class="flex self-stretch space-x-4 items-center justify-start">
+              <div class="text-base font-bold leading-relaxed text-coolGray-900">
+                Shipping Address
+              </div>
+              <div class="text-xs font-bold leading-tight text-right text-coolGray-300">
+                Change Address
+              </div>
+            </div>
+            <div class="flex self-stretch space-x-3 items-start justify-start">
+              <div />
+              <div class="text-sm leading-snug text-coolGray-900">
+                John Doe - (+62) 876 1244 1222
+                <br />
+                Jl. Payung no 26D
+                <br />
+                Kota Pekanbaru - Payung Sekaki, Riau
+              </div>
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start px-6">
+            <div class="flex self-stretch space-x-4 items-center justify-start">
+              <div class="text-base font-bold leading-relaxed text-coolGray-900">
+                Payment Method
+              </div>
+              <div class="text-xs font-bold leading-tight text-right text-coolGray-300">
+                Change Method
+              </div>
+            </div>
+            <div class="flex self-stretch space-x-2 items-center justify-start">
+              <div class="flex flex-col items-center justify-center px-1 py-0.5">
+                <div style="background-image: url('/fimgs/bg-ef96eb56abdbb4c581e69e19dde25a0e8d233b7a');background-size:100% 100%;background-repeat:no-repeat;" />
+              </div>
+              <div class="text-sm leading-snug text-coolGray-900">
+                Transfer Manual
+              </div>
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start px-6">
+            <div class="flex items-center justify-start">
+              <div class="text-base font-bold leading-relaxed text-coolGray-900">
+                Detail Transaction
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-3 items-start justify-start">
+              <div class="flex self-stretch space-x-4 items-start justify-start">
+                <div class="text-sm leading-snug text-coolGray-900">
+                  Total Cost
+                </div>
+                <div class="text-sm leading-snug text-right text-coolGray-900">
+                  Rp9.238.000
+                </div>
+              </div>
+              <div class="flex self-stretch space-x-4 items-start justify-start">
+                <div class="text-sm leading-snug text-coolGray-900">
+                  Shipping Total
+                </div>
+                <div class="text-sm leading-snug text-right text-coolGray-900">
+                  Rp35.000
+                </div>
+              </div>
+              <div class="flex self-stretch space-x-4 items-start justify-start">
+                <div class="text-sm leading-snug text-coolGray-900">
+                  Admin Cost
+                </div>
+                <div class="text-sm leading-snug text-right text-coolGray-900">
+                  Rp1.000
+                </div>
+              </div>
+              <div class="flex self-stretch space-x-4 items-start justify-start">
+                <div class="text-sm leading-snug text-coolGray-900">
+                  Unique Code
+                </div>
+                <div class="text-sm leading-snug text-right text-coolGray-900">
+                  Rp125
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <total-price-cart />
+    </div>
+  </>
+</>

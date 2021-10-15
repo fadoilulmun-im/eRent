@@ -45,16 +45,9 @@ export default {
     import("./components/total-price-cart"),
     { c: "", s: "", h: "" },
   ],
-  "total-price-cart": () => [
-    import("./components/total-price-cart"),
-    { c: "", s: "", h: "" },
-  ],
   "item-cart": () => [
     import("./components/item-cart"),
     { c: "", s: "", h: "" },
   ],
-  "item-cart": () => [
-    import("./components/item-cart"),
-    { c: "", s: "", h: "" },
-  ],
+
 };

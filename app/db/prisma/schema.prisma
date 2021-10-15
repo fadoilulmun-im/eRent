@@ -32,7 +32,6 @@ model customer {
   status           Boolean?
   nama_perusahaan  String?           @db.VarChar(255)
   nama_customer    String?           @db.VarChar(200)
-  cart             cart[]
   token_reset_pass token_reset_pass?
   transaksi        transaksi[]
 }
@@ -46,7 +45,6 @@ model barang {
   stok_barang      Int
   harga_barang     Int?
   gambar_barang    String?            @db.VarChar(255)
-  cart             cart[]
   detail_transaksi detail_transaksi[]
 }
 
@@ -54,7 +52,7 @@ model detail_transaksi {
   id           Int        @id @default(autoincrement())
   id_transaksi Int?
   id_barang    Int?
-  quantity     Int?       @default(1)
+  quantity     Int?
   total_harga  Int?
   barang       barang?    @relation(fields: [id_barang], references: [id])
   transaksi    transaksi? @relation(fields: [id_transaksi], references: [id])
@@ -85,3 +83,10 @@ model token_reset_pass {
   customer customer @relation(fields: [id_user], references: [id])
 }
 
+enum status_transaksi {
+  berhasil
+  gagal
+  belum_bayar
+  sudah_bayar
+  selesai
+}
