@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://magang:magang123$%^@db.plansys.co:5432/magang5?schema=public"
+  url      = "postgresql://magang:magang123$%^@db.plansys.co/magang5?schema=public"
 }
 
 model admin {
@@ -45,6 +45,9 @@ model barang {
   stok_barang      Int
   harga_barang     Int?
   gambar_barang    String?            @db.VarChar(255)
+  kategori         Int?
+  created_at       DateTime?          @db.Timestamp(6)
+  categories       categories?        @relation(fields: [kategori], references: [id])
   detail_transaksi detail_transaksi[]
 }
 
@@ -52,7 +55,7 @@ model detail_transaksi {
   id           Int        @id @default(autoincrement())
   id_transaksi Int?
   id_barang    Int?
-  quantity     Int?       @default(1)
+  quantity     Int?
   total_harga  Int?
   barang       barang?    @relation(fields: [id_barang], references: [id])
   transaksi    transaksi? @relation(fields: [id_transaksi], references: [id])
@@ -66,14 +69,15 @@ model transaksi {
   bukti_pembayaran     String?            @db.VarChar(255)
   tanggal_approve      DateTime?          @db.Timestamp(6)
   tanggal_pembayaran   DateTime?          @db.Timestamp(6)
-  status_transaksi     String?            @db.VarChar(50)
   quantity             Int?
   tanggal_selesai      DateTime?          @db.Timestamp(6)
   total_harga          Int?
   tanggal_peminjaman   DateTime?          @db.Timestamp(6)
   tanggal_pengembalian DateTime?          @db.Timestamp(6)
+  status_transaksi     Int?
   admin                admin?             @relation(fields: [id_admin], references: [id])
   customer             customer           @relation(fields: [id_customer], references: [id])
+  status               status?            @relation(fields: [status_transaksi], references: [id])
   detail_transaksi     detail_transaksi[]
 }
 
@@ -83,10 +87,14 @@ model token_reset_pass {
   customer customer @relation(fields: [id_user], references: [id])
 }
 
-enum status_transaksi {
-  berhasil
-  gagal
-  belum_bayar
-  sudah_bayar
-  selesai
+model status {
+  id        Int         @id @default(autoincrement())
+  nama      String      @db.VarChar(100)
+  transaksi transaksi[]
+}
+
+model categories {
+  id     Int      @id @default(autoincrement())
+  name   String   @db.VarChar(100)
+  barang barang[]
 }
