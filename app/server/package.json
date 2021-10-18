@@ -7,6 +7,5 @@
     "argon2": "^0.28.2",
     "nodemailer": "^6.6.5"
   },
-  "types": "./src/index.ts",
-  "main": "./build/index.js"
+  "types": "./src/index.ts"
 }
