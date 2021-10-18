@@ -45,9 +45,7 @@ model barang {
   stok_barang      Int
   harga_barang     Int?
   gambar_barang    String?            @db.VarChar(255)
-  kategori         Int?
-  created_at       DateTime?          @db.Timestamp(6)
-  categories       categories?        @relation(fields: [kategori], references: [id])
+  created_at       DateTime?          @default(now()) @db.Timestamp(6)
   detail_transaksi detail_transaksi[]
 }
 
@@ -91,10 +89,4 @@ model status {
   id        Int         @id @default(autoincrement())
   nama      String      @db.VarChar(100)
   transaksi transaksi[]
-}
-
-model categories {
-  id     Int      @id @default(autoincrement())
-  name   String   @db.VarChar(100)
-  barang barang[]
 }
