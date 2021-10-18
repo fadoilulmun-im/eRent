@@ -28,7 +28,8 @@
             </div>
             <div class="flex self-stretch space-x-4 items-center justify-between">
               <div class="text-2xl font-semibold">
-                Rp{meta.barang.harga_barang}
+                Rp
+                {numberWithCommas(meta.barang.harga_barang)}
               </div>
               <div class="text-sm leading-snug text-right text-coolGray-500">
                 stock: {meta.barang.stok_barang}
