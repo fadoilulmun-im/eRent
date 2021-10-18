@@ -1,34 +1,53 @@
 <>
   <effect
     meta={{
-      cart: [
-        {
-          title: "panasonik",
-          price: 5000,
-          img: "https://picsum.photos/300",
-          qty: 1,
-        },
-        {
-          title: "panasonik",
-          price: 2000,
-          img: "https://picsum.photos/200",
-          qty: 1,
-        },
-      ],
+      cart: [],
+      total_harga: 0,
+      total_item: 0,
     }}
     run={async () => {
+      api(`/api/customer/${user.customer.id}/cart`).then((e) => {
+        console.log(e);
+        meta.cart = e.data;
+        meta.action.total_count();
+      });
+
       meta.action = {
+        total_count: () => {
+          let tt_h = 0;
+          let tt_i = 0;
+
+          meta.cart.forEach((x, i) => {
+            tt_h += x.barang.harga_barang * x.quantity;
+            tt_i += x.quantity;
+          });
+          runInAction(() => {
+            meta.total_harga = tt_h;
+            meta.total_item = tt_i;
+          });
+        },
         addQty: (idx) => {
           runInAction(() => {
-            meta.cart[idx].qty += 1;
-            console.log(meta.cart[idx].qty);
+            meta.cart[idx].quantity += 1;
+            meta.action.total_count();
           });
         },
         subQty: (idx) => {
           runInAction(() => {
-            if (meta.cart[idx].qty > 1) {
-              meta.cart[idx].qty -= 1;
+            if (meta.cart[idx].quantity > 1) {
+              meta.cart[idx].quantity -= 1;
+              meta.action.total_count();
             }
+          });
+        },
+        del: (idx) => {
+          runInAction(() => {
+            api(`/api/customer/${user.customer.id}/delete-cart`, {
+              id_barang: meta.cart[idx].barang.id,
+            }).then((e) => {
+              meta.cart.splice(idx, 1);
+              meta.action.total_count();
+            });
           });
         },
       };
@@ -44,21 +63,27 @@
 
           {meta.cart.map((x, i) => (
             <item-cart
-              title={x.title}
-              img={x.img}
-              price={x.price}
-              qty={x.qty}
+              title={x.barang.nama_barang}
+              img={"https://picsum.photos/300"}
+              price={x.barang.harga_barang}
+              qty={x.quantity}
               add={() => {
                 meta.action.addQty(i);
               }}
               sub={() => {
                 meta.action.subQty(i);
               }}
+              del={() => {
+                meta.action.del(i);
+              }}
             />
           ))}
         </div>
       </div>
-      <total-price-cart />
+      <total-price-cart
+        total_item={meta.total_item}
+        total_harga={meta.total_harga}
+      />
     </div>
   </>
 </>

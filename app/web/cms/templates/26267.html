@@ -1,5 +1,15 @@
 <>
-  <effect meta={{}} run={async () => {}} />
+  <effect
+    meta={{
+      barang: {},
+    }}
+    run={async () => {
+      api(`/api/barang/show/${params.id}`).then((e) => {
+        meta.barang = e.data;
+        console.log(e);
+      });
+    }}
+  />
   <>
     <div
       class={`flex flex-col items-start justify-start h-screen w-full bg-white`}
@@ -13,11 +23,15 @@
         />
         <div class="flex self-stretch flex-col space-y-6 items-start justify-start px-6 pt-4">
           <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
-            <div class="text-xl text-coolGray-900">Macbook Air M1 2020</div>
+            <div class="text-xl text-coolGray-900">
+              {meta.barang.nama_barang}
+            </div>
             <div class="flex self-stretch space-x-4 items-center justify-between">
-              <div class="text-2xl font-semibold">Rp768.000</div>
+              <div class="text-2xl font-semibold">
+                Rp{meta.barang.harga_barang}
+              </div>
               <div class="text-sm leading-snug text-right text-coolGray-500">
-                stock: 10
+                stock: {meta.barang.stok_barang}
               </div>
             </div>
           </div>
@@ -64,7 +78,7 @@
           </div>
         </div>
       </div>
-      <total-price-cart />
+      <rent-now id={params.id} />
     </div>
   </>
 </>
