@@ -50,6 +50,6 @@ export const fileUpload = async (
   }
 }
 
-export const numberWithCommas = (x)=>{
+export const numberWithCommas = (x: string)=>{
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

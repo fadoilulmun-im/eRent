@@ -1,0 +1,12 @@
+<button
+  onClick={() => {
+    props.changeSwitch(props.value);
+  }}
+  style="border-radius: 2rem;display:inline"
+  class={
+    "text-sm flex-1 m-1 text-coolGray-900 items-start inline px-5 py-2 bg-white shadow border " +
+    (props.switch == props.value ? "border-blue-500" : "border-gray-300")
+  }
+>
+  {props.name}
+</button>

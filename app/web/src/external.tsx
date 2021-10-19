@@ -49,8 +49,9 @@ export default {
     import("./components/item-cart"),
     { c: "", s: "", h: "" },
   ],
-  "rent-now": () => [
-    import("./components/rent-now"),
+  "rent-now": () => [import("./components/rent-now"), { c: "", s: "", h: "" }],
+  "option-item": () => [
+    import("./components/option-item"),
     { c: "", s: "", h: "" },
   ],
 };

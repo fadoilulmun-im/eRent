@@ -26,10 +26,18 @@
             meta.total_item = tt_i;
           });
         },
+        update_qty: (id, qty) => {
+          api(`/api/customer/${user.customer.id}/update-cart/${id}`, {
+            quantity: qty,
+          }).then((e) => {
+            console.log(e);
+          });
+        },
         addQty: (idx) => {
           runInAction(() => {
             meta.cart[idx].quantity += 1;
             meta.action.total_count();
+            meta.action.update_qty(meta.cart[idx].id, meta.cart[idx].quantity);
           });
         },
         subQty: (idx) => {
@@ -37,14 +45,18 @@
             if (meta.cart[idx].quantity > 1) {
               meta.cart[idx].quantity -= 1;
               meta.action.total_count();
+              meta.action.update_qty(
+                meta.cart[idx].id,
+                meta.cart[idx].quantity
+              );
             }
           });
         },
         del: (idx) => {
           runInAction(() => {
-            api(`/api/customer/${user.customer.id}/delete-cart`, {
-              id_barang: meta.cart[idx].barang.id,
-            }).then((e) => {
+            api(
+              `/api/customer/${user.customer.id}/delete-cart/${meta.cart[idx].id}`
+            ).then((e) => {
               meta.cart.splice(idx, 1);
               meta.action.total_count();
             });
@@ -61,23 +73,32 @@
         <div class="flex self-stretch flex-col space-y-4 items-start justify-start px-6">
           <div class="text-3xl font-bold text-coolGray-900">Cart</div>
 
-          {meta.cart.map((x, i) => (
-            <item-cart
-              title={x.barang.nama_barang}
-              img={"/fimgs/232_297.x1.svg"}
-              price={x.barang.harga_barang}
-              qty={x.quantity}
-              add={() => {
-                meta.action.addQty(i);
-              }}
-              sub={() => {
-                meta.action.subQty(i);
-              }}
-              del={() => {
-                meta.action.del(i);
-              }}
-            />
-          ))}
+          {meta.cart.length > 0 ? (
+            meta.cart.map((x, i) => (
+              <item-cart
+                title={x.barang.nama_barang}
+                img={"/fimgs/232_297.x1.svg"}
+                price={x.barang.harga_barang}
+                qty={x.quantity}
+                add={() => {
+                  meta.action.addQty(i);
+                }}
+                sub={() => {
+                  meta.action.subQty(i);
+                }}
+                del={() => {
+                  meta.action.del(i);
+                }}
+              />
+            ))
+          ) : (
+            <div
+              style="padding-top: 5rem;"
+              class="text-sm font-bold leading-snug text-center text-coolGray-400 w-full"
+            >
+              Empty
+            </div>
+          )}
         </div>
       </div>
       <total-price-cart
