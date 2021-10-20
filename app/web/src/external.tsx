@@ -55,6 +55,9 @@ export default {
   ],
   "bottom-nav-detail-product": () => [
     import("./components/bottom-nav-detail-product"),
-    { c: "", s: "", h: "" },
-  ],
+    "rent-now": () => [import("./components/rent-now"), { c: "", s: "", h: "" }],
+    "option-item": () => [
+      import("./components/option-item"),
+      { c: "", s: "", h: "" },
+    ],
 };

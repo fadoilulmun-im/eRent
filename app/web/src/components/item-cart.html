@@ -15,23 +15,37 @@
     <div class="flex self-stretch space-x-16 items-end justify-between">
       <div class="flex space-x-3 items-center justify-start">
         <div class="flex justify-center">
-          <button class="flex items-start justify-start px-1 py-0 border rounded border-coolGray-500">
+          <button
+            onClick={() => {
+              props.sub();
+            }}
+            class="flex items-start justify-start px-1 py-0 border rounded border-coolGray-500"
+          >
             -
           </button>
         </div>
         <div class="text-sm leading-snug text-center text-coolGray-500 px-4">
-          1
+          {props.qty}
         </div>
         <div class="flex flex-col space-y-96 justify-center">
-          <button class="flex items-start justify-start px-1 py-0 border rounded border-coolGray-500">
+          <button
+            onClick={() => {
+              props.add();
+            }}
+            class="flex items-start justify-start px-1 py-0 border rounded border-coolGray-500"
+          >
             +
           </button>
         </div>
       </div>
       <div class="flex space-x-3 items-center justify-end">
-        <button>
+        <button
+          onClick={() => {
+            props.del();
+          }}
+        >
           <img
-            class={`bg-indigo-400`}
+            class={`bg-indigo-400 `+(props.mode ? 'hidden':'')}
             style="width: 18px; min-width: 18px; max-width: 18px; height: 20px; min-height: 20px; max-height: 20px;"
             src="/fimgs/214_464.x1.svg"
           />
@@ -40,7 +54,3 @@
     </div>
   </div>
 </div>
-
-{
-  /*<div class="flex self-stretch flex-col items-start justify-start"></div>*/
-}

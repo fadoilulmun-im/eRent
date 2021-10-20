@@ -6,8 +6,8 @@
     }}
     run={async () => {
       console.log("aaa");
-      api("/api/barang").then((e) => {
-        console.log(params.keyword);
+      api("/api/barang?search=" + params.keyword).then((e) => {
+        console.log(e);
         meta.search_keyword = params.keyword;
         meta.barangs = e.data;
       });
@@ -63,6 +63,7 @@
                 title={x.nama_barang}
                 harga={x.harga_barang}
                 img={x.gambar_barang}
+                id={x.id}
               />
             ))}
           </div>

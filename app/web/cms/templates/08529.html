@@ -3,10 +3,11 @@
     meta={{
       barangs: [],
       search_keyword: "",
+      pagination: 1,
     }}
     run={async () => {
       console.log("aaa");
-      api("/api/barang").then((e) => {
+      api("/api/barang?page=" + meta.pagination).then((e) => {
         console.log(e);
         meta.barangs = e.data;
       });
@@ -22,6 +23,19 @@
             meta.search_keyword = e.target.value;
           });
         },
+        onBottom: (e) => {
+          const bottom =
+            e.target.scrollHeight - e.target.scrollTop ===
+            e.target.clientHeight;
+          if (bottom) {
+            meta.pagination += 1;
+            console.log(meta.pagination);
+            api("/api/barang?page=" + meta.pagination).then((e) => {
+              console.log(e);
+              meta.barangs.push(...e.data);
+            });
+          }
+        },
       };
     }}
   />
@@ -32,6 +46,9 @@
 
       {/*body*/}
       <div
+        onScroll={(e) => {
+          meta.action.onBottom(e);
+        }}
         class="flex self-stretch flex-col  flex-grow space-y-7 items-start justify-start overflow-auto"
         style="padding-bottom: 3rem;"
       >
@@ -57,7 +74,7 @@
 
         <div class="flex flex-col space-y-4 items-start justify-start w-full">
           <div class="text-xl font-semibold text-coolGray-900 px-6">
-            Favorite items
+            New Arrival
           </div>
           <div class="flex items-start justify-start w-full overflow-auto space-x-4">
             <div class="px-1"></div>
@@ -82,7 +99,8 @@
               <box-item2
                 title={x.nama_barang}
                 harga={x.harga_barang}
-                img={x.gambar_barang}
+                img={"/fimgs/232_297.x1.svg"}
+                id={x.id}
               />
             ))}
           </div>
