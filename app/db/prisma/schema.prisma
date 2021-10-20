@@ -73,6 +73,7 @@ model transaksi {
   tanggal_peminjaman   DateTime?          @db.Timestamp(6)
   tanggal_pengembalian DateTime?          @db.Timestamp(6)
   status_transaksi     Int?
+  kode_unik            Int?               @db.SmallInt
   admin                admin?             @relation(fields: [id_admin], references: [id])
   customer             customer           @relation(fields: [id_customer], references: [id])
   status               status?            @relation(fields: [status_transaksi], references: [id])
