@@ -1,137 +1,107 @@
 <>
-  <effect
-    meta={{
-      barang: {},
-      barangs: [],
-      option: 0,
+  <effect meta={{ barang: {}, barangs: [], option: 0, }} run={async ()=> {
+    api(`/api/barang/show/${params.id}`).then((e) => {
+    meta.barang = e.data;
+    console.log(e);
+    });
+    api("/api/barang?perPage=" + 4).then((e) => {
+    console.log(e);
+    meta.barangs = e.data;
+    });
+    meta.action = {
+    optionSwitch: (e) => {
+    runInAction(() => {
+    meta.option = e;
+    });
+    },
+    };
     }}
-    run={async () => {
-      api(`/api/barang/show/${params.id}`).then((e) => {
-        meta.barang = e.data;
-        console.log(e);
-      });
-      api("/api/barang?perPage=" + 4).then((e) => {
-        console.log(e);
-        meta.barangs = e.data;
-      });
-      meta.action = {
-        optionSwitch: (e) => {
-          runInAction(() => {
-            meta.option = e;
-          });
-        },
-      };
-    }}
-  />
-  <>
-    <div
-      class={`flex flex-col items-start justify-start h-screen w-full bg-white`}
-    >
-      {/*notif and chart button*/}
-      <top-naviagation mode={3} />
-      <div class="flex self-stretch flex-col items-start justify-start overflow-auto">
-        <img
-          src="/fimgs/232_297.x1.svg"
-          class="flex self-stretch flex-col items-start justify-start px-4 py-3 bg-gray-100"
-        />
-        <div class="flex self-stretch flex-col space-y-6 items-start justify-start px-6 pt-4">
-          <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
-            <div class="text-xl text-coolGray-900">
-              {meta.barang.nama_barang}
-            </div>
-            <div class="flex self-stretch space-x-4 items-center justify-between">
-              <div class="text-2xl font-semibold">
-                Rp
-                {meta.barang.harga_barang
+    />
+    <>
+      <div class={`flex flex-col items-start justify-start h-screen w-full bg-white`}>
+        {/*notif and chart button*/}
+        <top-naviagation mode={3} />
+        <div class="flex self-stretch flex-col items-start justify-start overflow-auto">
+          <img src="/fimgs/232_297.x1.svg"
+            class="flex self-stretch flex-col items-start justify-start px-4 py-3 bg-gray-100" />
+          <div class="flex self-stretch flex-col space-y-6 items-start justify-start px-6 pt-4">
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-xl text-coolGray-900">
+                {meta.barang.nama_barang}
+              </div>
+              <div class="flex self-stretch space-x-4 items-center justify-between">
+                <div class="text-2xl font-semibold">
+                  Rp
+                  {meta.barang.harga_barang
                   ? numberWithCommas(meta.barang.harga_barang)
                   : "0"}
+                </div>
+                <div class="text-sm leading-snug text-right text-coolGray-500">
+                  stock: {meta.barang.stok_barang}
+                </div>
               </div>
-              <div class="text-sm leading-snug text-right text-coolGray-500">
-                stock: {meta.barang.stok_barang}
+            </div>
+
+            {/* option */}
+            <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
+              <div class="text-base font-bold leading-relaxed text-coolGray-900">
+                Options
+              </div>
+              <div class="flex flex-wrap w-full">
+                <option-item value={0} switch={meta.option} changeSwitch={(e)=> {
+                  meta.action.optionSwitch(e);
+                  }}
+                  name={"pink"}
+                  />
+                  <option-item value={1} switch={meta.option} changeSwitch={(e)=> {
+                    meta.action.optionSwitch(e);
+                    }}
+                    name={"blue"}
+                    />
+                    <option-item value={2} switch={meta.option} changeSwitch={(e)=> {
+                      meta.action.optionSwitch(e);
+                      }}
+                      name={"magenta"}
+                      />
+                      <option-item value={3} switch={meta.option} changeSwitch={(e)=> {
+                        meta.action.optionSwitch(e);
+                        }}
+                        name={"magenta"}
+                        />
+                        <option-item value={4} switch={meta.option} changeSwitch={(e)=> {
+                          meta.action.optionSwitch(e);
+                          }}
+                          name={"magenta"}
+                          />
               </div>
             </div>
-          </div>
+            {/* */}
 
-          {/*    option      */}
-          <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
-            <div class="text-base font-bold leading-relaxed text-coolGray-900">
-              Options
+            <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
+              <div class="text-base font-bold leading-relaxed text-coolGray-900">
+                About
+              </div>
+              <div class="text-sm leading-snug text-coolGray-900">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum
+                cursus auctor egestas nibh aliquet lectus. Fermentum imperdiet mi,
+                aliquet vitae. Amet eros vitae consectetur leo. Ante egestas ac in
+                blandit. Ultricies pellentesque in ultrices augue orci
+                scelerisque.
+              </div>
             </div>
-            <div class="flex flex-wrap w-full">
-              <option-item
-                value={0}
-                switch={meta.option}
-                changeSwitch={(e) => {
-                  meta.action.optionSwitch(e);
-                }}
-                name={"pink"}
-              />
-              <option-item
-                value={1}
-                switch={meta.option}
-                changeSwitch={(e) => {
-                  meta.action.optionSwitch(e);
-                }}
-                name={"blue"}
-              />
-              <option-item
-                value={2}
-                switch={meta.option}
-                changeSwitch={(e) => {
-                  meta.action.optionSwitch(e);
-                }}
-                name={"magenta"}
-              />
-              <option-item
-                value={3}
-                switch={meta.option}
-                changeSwitch={(e) => {
-                  meta.action.optionSwitch(e);
-                }}
-                name={"magenta"}
-              />
-              <option-item
-                value={4}
-                switch={meta.option}
-                changeSwitch={(e) => {
-                  meta.action.optionSwitch(e);
-                }}
-                name={"magenta"}
-              />
-            </div>
-          </div>
-          {/*          */}
-
-          <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
-            <div class="text-base font-bold leading-relaxed text-coolGray-900">
-              About
-            </div>
-            <div class="text-sm leading-snug text-coolGray-900">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum
-              cursus auctor egestas nibh aliquet lectus. Fermentum imperdiet mi,
-              aliquet vitae. Amet eros vitae consectetur leo. Ante egestas ac in
-              blandit. Ultricies pellentesque in ultrices augue orci
-              scelerisque.
-            </div>
-          </div>
-          <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
-            <div class="text-base font-bold leading-relaxed text-coolGray-900">
-              Related Product
-            </div>
-            <div class="grid grid-cols-2 gap-3 w-full">
-              {meta.barangs.map((x, i) => (
-                <box-item2
-                  title={x.nama_barang}
-                  harga={x.harga_barang}
-                  img={"/fimgs/232_297.x1.svg"}
-                  id={x.id}
-                />
-              ))}
+            <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
+              <div class="text-base font-bold leading-relaxed text-coolGray-900">
+                Related Product
+              </div>
+              <div class="grid grid-cols-2 gap-3 w-full">
+                {meta.barangs.map((x, i) => (
+                <box-item2 title={x.nama_barang} harga={x.harga_barang} img={"/fimgs/232_297.x1.svg"} id={x.id} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
+        <rent-now id={params.id} />
       </div>
-      <rent-now id={params.id} />
-    </div>
-  </>
+    </>
 </>
