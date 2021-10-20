@@ -29,4 +29,27 @@ body,
       font-weight: 700;
       src: url(/fonts/Poppins-Bold.ttf) format("truetype");
     }
+
 }
+
+.notif{
+  transform: translateY(-100px);
+}
+.notif-n{
+  /* transform: translateY(0rem); */
+  display: flex;
+  position: fixed;
+  background-color: blue;
+  justify-content: space-between;
+  color: white;
+  left:1rem;
+  right:1rem;
+  padding:1rem;
+  top:3rem;
+  transition: all;
+}
+/* @layer utilities{
+.notif {
+  @apply fixed bg-blue-600 rounded text-white flex justify-between items-center transform-all translate-y-10; 
+}
+} */

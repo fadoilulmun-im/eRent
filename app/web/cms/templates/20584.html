@@ -6,9 +6,16 @@
       login: (e) => {
         console.log(e.target.value);
       },
+      notif_msg: "",
+      notif_state: false,
     }}
     run={async () => {
       meta.action = {
+        notifclick: () => {
+          runInAction(() => {
+            meta.notif_state = !meta.notif_state;
+          });
+        },
         emailChange: (e) => {
           runInAction(() => {
             meta.email = e.target.value;
@@ -27,6 +34,15 @@
             password: meta.password,
           }).then((e) => {
             console.log(e);
+            if (e.status == "ERROR") {
+              runInAction(() => {
+                meta.notif_msg = e.message;
+                meta.action.notifclick();
+              });
+            } else {
+              user.customer = e.data;
+              location.href = "/m/home-mobile";
+            }
             //mengara ke home page
           });
         },
@@ -34,6 +50,13 @@
     }}
   />
   <>
+    <notif
+      state={meta.notif_state}
+      click={() => {
+        meta.action.notifclick();
+      }}
+      msg={meta.notif_msg}
+    />
     <div class="h-screen flex flex-1 self-stretch items-start justify-start px-6 pt-20 pb-32 bg-white">
       <div class="flex flex-1 flex-col space-y-6 items-start justify-start">
         <img
