@@ -1,0 +1,64 @@
+<>
+  <effect
+    meta={{ option: 1 }}
+    run={async () => {
+      meta.action = {
+        changeSwitch: (e) => {
+          runInAction(() => {
+            meta.option = e;
+          });
+        },
+      };
+    }}
+  />
+  <>
+    <div class="flex flex-1 self-stretch flex-col items-start justify-start bg-white h-screen w-full">
+      {/*notif and chart button*/}
+      <top-naviagation mode={2} />
+      <div class="flex flex-1 self-stretch flex-col items-start justify-start px-6 relative overflow-y-auto">
+        <div class="flex self-stretch flex-col items-start justify-start pb-10">
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
+            <div class="flex self-stretch items-center justify-start">
+              <div class="text-xl font-bold text-coolGray-900">
+                Shipping Method
+              </div>
+            </div>
+            <button
+              onClick={(e) => meta.action.changeSwitch(1)}
+              class={
+                "flex self-stretch space-x-2 items-center justify-start py-4 " +
+                (meta.option == 1 ? "bg-gray-50" : "")
+              }
+            >
+              <img
+                src="/fimgs/305_1054.x1.png"
+                class="flex flex-col items-center justify-center px-1 py-0.5"
+                style="width: 68px; min-width: 68px; max-width: 68px; height: 28.70px; min-height: 28.70px; max-height: 28.70px;"
+              />
+              <div class="text-sm leading-snug text-coolGray-900">
+                Self Pickup
+              </div>
+            </button>
+            <button
+              onClick={(e) => meta.action.changeSwitch(0)}
+              class={
+                "flex self-stretch space-x-2 items-center justify-start py-4 " +
+                (meta.option == 0 ? "bg-gray-50" : "")
+              }
+            >
+              <img
+                src="/fimgs/305_1058.x1.png"
+                class="flex flex-col items-center justify-center px-1 py-0.5"
+                style="width: 68px; min-width: 68px; max-width: 68px; height: 28.70px; min-height: 28.70px; max-height: 28.70px;"
+              />
+              <div class="text-sm leading-snug text-coolGray-900">
+                Erent Shipping
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <shipping-nav />
+    </div>
+  </>
+</>
