@@ -49,5 +49,12 @@ export default {
     import("./components/item-cart"),
     { c: "", s: "", h: "" },
   ],
-
+  "bottom-nav-detail-product": () => [
+    import("./components/bottom-nav-detail-product"),
+    { c: "", s: "", h: "" },
+  ],
+  "bottom-nav-detail-product": () => [
+    import("./components/bottom-nav-detail-product"),
+    { c: "", s: "", h: "" },
+  ],
 };
