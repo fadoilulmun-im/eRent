@@ -11,24 +11,18 @@ export const formatSeparatorDec = (value: any, decimal?: number) => {
   }
 
 export const dateFormat = (
-  value: any,
-  format?: string,
-  locale: string = 'id'
+  d: Date,
 ) => {
-  const inputFormat = format ? format : 'dd MMM yyyy - HH:mm'
-  try {
-    if (typeof value === 'string') {
-      return formatFNS(parseISO(value), inputFormat, {
-        locale: (locales as any)[locale],
-      })
-    } else {
-      return formatFNS(value, inputFormat, {
-        locale: (locales as any)[locale],
-      })
-    }
-  } catch (e) {
-    return ''
-  }
+  let month = '' + (d.getMonth() + 1),
+  day = '' + d.getDate(),
+  year = d.getFullYear();
+
+if (month.length < 2) 
+  month = '0' + month;
+if (day.length < 2) 
+  day = '0' + day;
+
+return [year, month, day].join('-');
 }
 
 export const fileUpload = async (
@@ -51,5 +45,5 @@ export const fileUpload = async (
 }
 
 export const numberWithCommas = (x: string)=>{
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }

@@ -4,6 +4,9 @@
       cart: [],
       total_harga: 0,
       total_item: 0,
+      batas_date: "",
+      start_date: "",
+      end_date: "",
     }}
     run={async () => {
       api(`/api/customer/${user.customer.id}/cart`).then((e) => {
@@ -11,7 +14,50 @@
         meta.cart = e.data;
         meta.action.total_count();
       });
+
+      let a = new Date();
+      a.setDate(a.getDate() + 1);
+      meta.start_date = dateFormat(a);
+      meta.batas_date = dateFormat(a);
+      a.setDate(a.getDate() + 1);
+      meta.end_date = dateFormat(a);
+      console.log();
+
       meta.action = {
+        get_price: () => {
+          if (meta.cart.length > 0) {
+            api(`/api/checkout/${meta.cart[0].transaksi.id}`, {
+              tanggal_peminjaman: meta.start_date,
+              tanggal_pengembalian: meta.end_date,
+            }).then((e) => {
+              console.log(e);
+            });
+          }
+        },
+        start_date_change: (e) => {
+          runInAction(() => {
+            meta.start_date = e.target.value;
+            let a = new Date(meta.start_date);
+            a.setHours(0, 0, 0, 0);
+            let b = new Date(meta.end_date);
+            b.setHours(0, 0, 0, 0);
+            //jika start date lebih dari end date maka end date otomatis +1 dari start date
+            if (a > b) {
+              console.log("oooo");
+              let aa = new Date(meta.start_date);
+              aa.setDate(aa.getDate() + 1);
+              meta.end_date = dateFormat(aa);
+            }
+            meta.action.total_count();
+          });
+        },
+        end_date_change: (e) => {
+          runInAction(() => {
+            meta.end_date = e.target.value;
+            meta.action.total_count();
+          });
+        },
+
         total_count: () => {
           let tt_h = 0;
           let tt_i = 0;
@@ -20,8 +66,14 @@
             tt_h += x.barang.harga_barang * x.quantity;
             tt_i += x.quantity;
           });
+
+          let a = new Date(meta.start_date);
+          let b = new Date(meta.end_date);
+
+          let h = Math.floor((b - a) / (1000 * 60 * 60 * 24));
+
           runInAction(() => {
-            meta.total_harga = tt_h;
+            meta.total_harga = tt_h * h;
             meta.total_item = tt_i;
           });
         },
@@ -65,13 +117,29 @@
             <div class="flex flex-col flex-1 m-2">
               <span>Start Date</span>
               <div class="bg-gray-100 px-3 py-2 rounded ">
-                <input type="date" class="w-full" />
+                <input
+                  min={meta.batas_date}
+                  value={meta.start_date}
+                  onChange={(e) => {
+                    meta.action.start_date_change(e);
+                  }}
+                  type="date"
+                  class="w-full"
+                />
               </div>
             </div>
             <div class="flex flex-col flex-1 m-2">
-              <span>Start Date</span>
+              <span>End Date</span>
               <div class="bg-gray-100 px-3 py-2 rounded">
-                <input type="date" class="w-full" />
+                <input
+                  min={meta.start_date}
+                  value={meta.end_date}
+                  onChange={(e) => {
+                    meta.action.end_date_change(e);
+                  }}
+                  type="date"
+                  class="w-full"
+                />
               </div>
             </div>
           </div>
@@ -192,6 +260,10 @@
       <total-price-cart
         total_item={meta.total_item}
         total_harga={meta.total_harga}
+        btn_title="checkout"
+        btnClick={() => {
+          meta.action.get_price();
+        }}
       />
     </div>
   </>

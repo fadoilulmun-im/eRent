@@ -8,12 +8,17 @@
         total: {props.total_item} items
       </div>
       <div class="text-xl font-semibold text-coolGray-900">
-        Rp.{props.total_harga? numberWithCommas(props.total_harga):0}
+        Rp {props.total_harga ? numberWithCommas(props.total_harga) : 0}
       </div>
     </div>
     <div class="flex items-center justify-end px-6 py-2 bg-blue-700 rounded">
-      <button class="text-base font-medium leading-relaxed text-center text-white">
-        Checkout
+      <button
+        onClick={() => {
+          props.btnClick();
+        }}
+        class="text-base font-medium leading-relaxed text-center text-white"
+      >
+        {props.btn_title}
       </button>
     </div>
   </div>
