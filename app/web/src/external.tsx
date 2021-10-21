@@ -41,6 +41,7 @@ export default {
     { c: "", s: "", h: "" },
   ],
   notif: () => [import("./components/notif"), { c: "", s: "", h: "" }],
+
   "total-price-cart": () => [
     import("./components/total-price-cart"),
     { c: "", s: "", h: "" },
@@ -49,11 +50,25 @@ export default {
     import("./components/item-cart"),
     { c: "", s: "", h: "" },
   ],
+  "bottom-nav-detail-product": () => [
+    import("./components/bottom-nav-detail-product"),
+    { c: "", s: "", h: "" },
+  ],
   "rent-now": () => [import("./components/rent-now"), { c: "", s: "", h: "" }],
   "option-item": () => [
     import("./components/option-item"),
     { c: "", s: "", h: "" },
   ],
+
   loding: () => [import("./components/loding"), { c: "", s: "", h: "" }],
   test: () => [import("./components/test"), { c: "", s: "", h: "" }],
+
+  "payment-nav": () => [
+    import("./components/payment-nav"),
+    { c: "", s: "", h: "" },
+  ],
+  "shipping-nav": () => [
+    import("./components/shipping-nav"),
+    { c: "", s: "", h: "" },
+  ],
 };
