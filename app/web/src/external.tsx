@@ -41,7 +41,6 @@ export default {
     { c: "", s: "", h: "" },
   ],
   notif: () => [import("./components/notif"), { c: "", s: "", h: "" }],
-  
   "total-price-cart": () => [
     import("./components/total-price-cart"),
     { c: "", s: "", h: "" },
@@ -55,4 +54,6 @@ export default {
     import("./components/option-item"),
     { c: "", s: "", h: "" },
   ],
+  loding: () => [import("./components/loding"), { c: "", s: "", h: "" }],
+  test: () => [import("./components/test"), { c: "", s: "", h: "" }],
 };

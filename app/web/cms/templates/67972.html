@@ -7,12 +7,14 @@
       batas_date: "",
       start_date: "",
       end_date: "",
+      is_loading: true,
     }}
     run={async () => {
       api(`/api/customer/${user.customer.id}/cart`).then((e) => {
         console.log(e);
         meta.cart = e.data;
         meta.action.total_count();
+        meta.is_loading = false;
       });
 
       let a = new Date();
@@ -107,7 +109,13 @@
     }}
   />
   <>
-    <div class="flex flex-col items-start justify-start h-screen w-full bg-white">
+    <loding state={meta.is_loading} />
+    <div
+      class={
+        (meta.is_loading ? "hidden" : "flex") +
+        " flex-col items-start justify-start h-screen w-full bg-white"
+      }
+    >
       <top-naviagation mode={2} />
       <div class="flex self-stretch flex-col space-y-4 items-start justify-start relative overflow-y-auto">
         <div class="text-3xl font-bold text-coolGray-900 px-6">Checkout</div>

@@ -4,12 +4,14 @@
       cart: [],
       total_harga: 0,
       total_item: 0,
+      is_loding: true,
     }}
     run={async () => {
       api(`/api/customer/${user.customer.id}/cart`).then((e) => {
         console.log(e);
         meta.cart = e.data;
         meta.action.total_count();
+        meta.is_loding = false;
       });
 
       meta.action = {
@@ -66,7 +68,13 @@
     }}
   />
   <>
-    <div class="flex flex-col items-start justify-start h-screen w-full bg-white">
+    <loding state={meta.is_loding} />
+    <div
+      class={
+        "flex-col items-start justify-start h-screen w-full bg-white " +
+        (meta.is_loding ? "hidden" : "flex")
+      }
+    >
       {/*notif and chart button*/}
       <top-naviagation />
       <div class="flex self-stretch flex-grow flex-col items-start justify-start overflow-auto">

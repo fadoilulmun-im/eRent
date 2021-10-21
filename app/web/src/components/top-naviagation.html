@@ -1,23 +1,35 @@
-<>
-  <div
-    class={
-      "flex self-stretch space-x-4 items-start px-6 pb-2 pt-5 " +
-      (props.mode === 1 ? "justify-end" : "justify-between ") +
-      (props.mode === 3 ? "bg-gray-100 justify-between " : "")
-    }
-    style={"padding-top: 3rem; padding-bottom: 1rem"}
+<div
+  className={
+    "flex self-stretch space-x-4 items-start px-6 pb-2 pt-8 " +
+    (props.mode === 1 ? "justify-end" : "justify-between ") +
+    (props.mode === 3 ? "bg-gray-100 justify-between " : "")
+  }
+  style="padding-top:3rem;padding-bottom: 1rem"
+>
+  <button
+    onClick={() => {
+      window.history.back();
+      //history.back();
+    }}
+    className={props.mode === 1 ? "hidden" : ""}
   >
+    <img src="/fimgs/192_116.x1.svg " />
+  </button>
+  <div
+    className={
+      "flex space-x-2 items-center" + (props.mode === 2 ? "hidden" : "")
+    }
+  >
+    <button style="width: 2rem; height: 2rem">
+      <img src="/fimgs/157_549.x1.svg" />
+    </button>
     <button
       onClick={() => {
-        history.back();
+        location.href = "/m/cart-mobile";
       }}
-      class={props.mode === 1 ? "hidden" : ""}
+      style="width: 2rem; height: 2rem"
     >
-      <img src="/fimgs/192_116.x1.svg " />
+      <img src="/fimgs/157_606.x1.svg" />
     </button>
-    <div class={"flex space-x-2 items-center" + (props.mode === 2 ? "hidden" : "")}>
-      <a href="#" style="width:2rem;hight:2rem;"><img src="/fimgs/157_549.x1.svg" /></a>
-      <a href="/m/cart-mobile" style="width:2rem;hight:2rem;"><img src="/fimgs/157_606.x1.svg"/></a>
-    </div>
   </div>
-</>
+</div>

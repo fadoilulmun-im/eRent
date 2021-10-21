@@ -36,7 +36,7 @@ export const initHmr = () => {
 
           //location.reload()
           
-          console.log(msg);
+          //console.log(msg);
         }
         break
       case 'component-reload':

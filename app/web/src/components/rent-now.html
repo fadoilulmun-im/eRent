@@ -11,7 +11,8 @@
             quantity: 1,
           }).then((e) => {
             console.log(e);
-            navigate.apply("/m/cart-mobile");
+            props.onSucess(e);
+            //navigate.apply("/m/cart-mobile");
           });
         }}
         style="width:2rem;height:3rem"

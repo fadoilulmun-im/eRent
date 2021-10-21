@@ -4,12 +4,14 @@
       barangs: [],
       search_keyword: "",
       pagination: 1,
+      is_loding: true,
     }}
     run={async () => {
       console.log("aaa");
       api("/api/barang?page=" + meta.pagination).then((e) => {
         console.log(e);
         meta.barangs = e.data;
+        meta.is_loding = false;
       });
       meta.action = {
         onEnter: (e) => {
@@ -37,10 +39,17 @@
           }
         },
       };
+      window.history.pushState("aa", "home page", "/m/home-mobile");
     }}
   />
   <>
-    <div class="flex flex-col items-start justify-start h-screen w-full bg-white">
+    <loding state={meta.is_loding} />
+    <div
+      class={
+        "flex-col items-start justify-start h-screen w-full bg-white " +
+        (meta.is_loding ? "hidden" : "flex")
+      }
+    >
       {/*notif and chart button*/}
       <top-naviagation mode={1} />
 
@@ -58,17 +67,20 @@
             Discover More
           </div>
           <div class="flex w-full px-6">
-            <input
-              value={meta.search_keyword}
-              onChange={(e) => {
-                meta.action.onSearch(e);
-              }}
-              onKeyPress={(e) => {
-                meta.action.onEnter(e);
-              }}
-              placeholder="Search"
-              class=" flex w-full bg-gray-100 px-3 py-2 rounded"
-            />
+            <div class=" flex w-full bg-gray-100 px-3 py-2 rounded">
+              <input
+                value={meta.search_keyword}
+                onChange={(e) => {
+                  meta.action.onSearch(e);
+                }}
+                onKeyPress={(e) => {
+                  meta.action.onEnter(e);
+                }}
+                placeholder="Search"
+                class="w-full bg-transparent"
+              />
+              <img src="/fimgs/I308_1998_157_91.x1.svg" />
+            </div>
           </div>
         </div>
 

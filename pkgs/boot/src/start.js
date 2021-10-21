@@ -6,7 +6,7 @@ const os = require('os')
 const { pathExists, readJSON, readJSONSync, writeJSON } = require('fs-extra')
 const chalk = require('chalk')
 
-// to prevent segmentation fault in platform's child thread
+// to prevent segmentation fault in platform's child thread s
 // require('sharp');
 
 const readDeps = (pkgdir) => {
@@ -28,6 +28,7 @@ const main = async () => {
 
   // make sure builder is built first
   if (!(await pathExists(join(dirs.pkgs.builder, 'build', 'index.js')))) {
+    console.log(dirs);
     await build({
       entryPoints: [join(dirs.pkgs.builder, 'src', 'index.ts')],
       outfile: join(dirs.pkgs.builder, 'build', 'index.js'),
