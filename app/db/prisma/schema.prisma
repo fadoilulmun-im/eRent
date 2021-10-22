@@ -27,11 +27,13 @@ model customer {
   email            String            @unique @db.VarChar(100)
   password         String            @db.VarChar(150)
   no_hp            String?           @db.VarChar(50)
-  alamat           String?           @db.VarChar(255)
+  kategori_alamat  String?           @db.VarChar(255)
   surat_ket_pt     String?           @db.VarChar(255)
   status           Boolean?
   nama_perusahaan  String?           @db.VarChar(255)
   nama_customer    String?           @db.VarChar(200)
+  foto             String?           @db.VarChar(200)
+  alamat           alamat[]
   token_reset_pass token_reset_pass?
   transaksi        transaksi[]
 }
@@ -74,7 +76,12 @@ model transaksi {
   tanggal_pengembalian DateTime?          @db.Timestamp(6)
   status_transaksi     Int?
   kode_unik            Int?               @db.SmallInt
+  id_bank              Int?
+  metode_pengiriman    Boolean?
+  id_alamat            Int?
   admin                admin?             @relation(fields: [id_admin], references: [id])
+  alamat               alamat?            @relation(fields: [id_alamat], references: [id])
+  bank                 bank?              @relation(fields: [id_bank], references: [id])
   customer             customer           @relation(fields: [id_customer], references: [id])
   status               status?            @relation(fields: [status_transaksi], references: [id])
   detail_transaksi     detail_transaksi[]
@@ -90,4 +97,30 @@ model status {
   id        Int         @id @default(autoincrement())
   nama      String      @db.VarChar(100)
   transaksi transaksi[]
+}
+
+model alamat {
+  id                 Int         @id @default(autoincrement())
+  id_customer        Int
+  kategori_alamat    String      @db.VarChar(100)
+  nama               String      @db.VarChar(100)
+  no_hp              String      @db.VarChar(20)
+  alamat_pengiriman  String      @db.VarChar(100)
+  provinsi           String      @db.VarChar(100)
+  kecamatan          String      @db.VarChar(100)
+  kode_pos           String      @db.VarChar(10)
+  informasi_tambahan String      @db.VarChar(100)
+  kota               String      @db.VarChar(100)
+  customer           customer    @relation(fields: [id_customer], references: [id])
+  transaksi          transaksi[]
+}
+
+model bank {
+  id          Int         @id @default(autoincrement())
+  nama        String      @db.VarChar(50)
+  logo        String      @db.VarChar(200)
+  no_rekening String      @db.VarChar(100)
+  atas_nama   String      @db.VarChar(255)
+  biaya_admin Int?
+  transaksi   transaksi[]
 }
