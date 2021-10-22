@@ -36,7 +36,7 @@
       };
 
       meta.action.get_items();
-      window.history.replaceState("aa", "home page", "/m/search-mobile/");
+      window.history.replaceState("aa", "product page", "/m/products-mobile");
     }}
   />
   <>
@@ -55,7 +55,7 @@
       }
     >
       {/*notif and chart button*/}
-      <top-naviagation mode={0} />
+      <top-naviagation mode={1} />
 
       {/*body*/}
       <div
@@ -65,7 +65,7 @@
         {/*search*/}
         <div class="flex flex-col space-y-4 items-start justify-start w-full mb-1">
           <div class="flex justify-between self-stretch px-6">
-            <div class="text-3xl font-bold text-coolGray-900 ">Search</div>
+            <div class="text-3xl font-bold text-coolGray-900 ">Products</div>
             <button
               onClick={() => {
                 meta.is_filter = !meta.is_filter;
@@ -116,6 +116,7 @@
           )}
         </div>
       </div>
+      <navbar class="text-blue-700" state={2} />
     </div>
   </>
 </>

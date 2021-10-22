@@ -41,7 +41,6 @@ export default {
     { c: "", s: "", h: "" },
   ],
   notif: () => [import("./components/notif"), { c: "", s: "", h: "" }],
-
   "total-price-cart": () => [
     import("./components/total-price-cart"),
     { c: "", s: "", h: "" },
@@ -59,10 +58,8 @@ export default {
     import("./components/option-item"),
     { c: "", s: "", h: "" },
   ],
-
   loding: () => [import("./components/loding"), { c: "", s: "", h: "" }],
   test: () => [import("./components/test"), { c: "", s: "", h: "" }],
-
   "payment-nav": () => [
     import("./components/payment-nav"),
     { c: "", s: "", h: "" },
@@ -71,4 +68,5 @@ export default {
     import("./components/shipping-nav"),
     { c: "", s: "", h: "" },
   ],
+  filter: () => [import("./components/filter"), { c: "", s: "", h: "" }],
 };

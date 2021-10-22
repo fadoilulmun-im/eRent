@@ -39,7 +39,7 @@
           }
         },
       };
-      window.history.pushState("aa", "home page", "/m/home-mobile");
+      window.history.replaceState("aa", "home page", "/m/home-mobile");
     }}
   />
   <>
@@ -123,7 +123,7 @@
         </div>
       </div>
 
-      <navbar />
+      <navbar class="text-blue-700" state={1} />
     </div>
   </>
 </>
