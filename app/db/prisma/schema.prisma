@@ -77,7 +77,7 @@ model transaksi {
   status_transaksi     Int?
   kode_unik            Int?               @db.SmallInt
   id_bank              Int?
-  metode_pengiriman    Boolean?
+  is_kirim             Boolean?
   id_alamat            Int?
   admin                admin?             @relation(fields: [id_admin], references: [id])
   alamat               alamat?            @relation(fields: [id_alamat], references: [id])
