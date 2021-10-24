@@ -1,0 +1,39 @@
+<>
+  <effect meta={{}} run={() => {}} />
+  <admin
+    content={{
+      bank: {
+        table: "bank",
+        list: {
+          table: {
+            columns: [
+              ["nama", {}],
+              ["no_rekening", {}],
+              ["atas_nama", {}],
+              ["biaya_admin", {}],
+              ["logo", {}],
+            ],
+          },
+        },
+        form: {
+          alter: {
+            logo: {
+              type: "file",
+              required: true,
+              fieldProps: {
+                acceptFile: "asas",
+              },
+            },
+          },
+          layout: [
+            ["logo"],
+            ["nama"],
+            ["no_rekening"],
+            ["atas_nama"],
+            ["biaya_admin"],
+          ],
+        },
+      },
+    }}
+  />
+</>
