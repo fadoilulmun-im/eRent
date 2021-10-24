@@ -1,6 +1,6 @@
 <div
   className={
-    "flex self-stretch space-x-4 items-start px-6 pb-2 pt-8 " +
+    "flex self-stretch space-x-4 items-center px-6 pb-2 pt-8 " +
     (props.mode === 1 ? "justify-end" : "justify-between ") +
     (props.mode === 3 ? "bg-gray-100 justify-between " : "")
   }
@@ -17,19 +17,30 @@
   </button>
   <div
     className={
-      "flex space-x-2 items-center" + (props.mode === 2 ? "hidden" : "")
+      "flex space-x-2 items-center " + (props.mode === 2 ? "hidden" : "")
     }
   >
-    <button style="width: 2rem; height: 2rem">
+    <button style="width: 2rem; height: 2rem;" class="flex items-center">
       <img src="/fimgs/157_549.x1.svg" />
+      {user.notif && (
+        <div
+          style="width:0.5rem;height:0.5rem;transform:translate(10px,-5px)"
+          class=" absolute bg-blue-700 rounded-full"
+        />
+      )}
     </button>
     <button
       onClick={() => {
         location.href = "/m/cart-mobile";
       }}
       style="width: 2rem; height: 2rem"
+      class="flex items-center"
     >
       <img src="/fimgs/157_606.x1.svg" />
+      <div
+        style="width:0.5rem;height:0.5rem;transform:translate(15px,-5px)"
+        class=" absolute bg-blue-700 rounded-full"
+      />
     </button>
   </div>
 </div>

@@ -1,0 +1,16 @@
+<div class="flex self-stretch space-x-4 items-center justify-start bg-white">
+  <div
+    class="bg-gray-100 p-4 rounded"
+    style="min-width: 5rem; max-width: 5rem;"
+  >
+    <img src={props.img} />
+  </div>
+  <div class="flex flex-col flex-grow space-y-3 items-start justify-start flex-grow">
+    <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+      <div class="text-base font-medium leading-relaxed text-coolGray-900">
+        {props.title}
+      </div>
+      <div class="text-sm leading-snug text-coolGray-500">Rp{props.price} x{props.qty}</div>
+    </div>
+  </div>
+</div>

@@ -69,4 +69,13 @@ export default {
     { c: "", s: "", h: "" },
   ],
   filter: () => [import("./components/filter"), { c: "", s: "", h: "" }],
+  "item-cart2": () => [
+    import("./components/item-cart2"),
+    { c: "", s: "", h: "" },
+  ],
+  address: () => [import("./components/address"), { c: "", s: "", h: "" }],
+  "save-cancel": () => [
+    import("./components/save-cancel"),
+    { c: "", s: "", h: "" },
+  ],
 };

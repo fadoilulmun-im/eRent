@@ -2,7 +2,7 @@
 import { jsx } from "@emotion/react";
 import { useComponent } from "web.utils/component";
 
-export default (props) => {
-  const _component = useComponent("navbar","/app/web/src/components/navbar",{ props });
+export default ({ children }) => {
+  const _component = useComponent("address","/app/web/src/components/address",{});
   return eval(_component.render)
 }

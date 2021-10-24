@@ -1,0 +1,120 @@
+<>
+  <effect meta={{}} run={async () => {}} />
+  <>
+    <loding state={meta.is_loding} />
+    <div
+      class={
+        "flex-col items-start justify-start h-screen w-full bg-white " +
+        (meta.is_loding ? "hidden" : "flex")
+      }
+    >
+      {/*notif and chart button*/}
+      <top-naviagation mode={2} />
+      <div
+        class="flex self-stretch flex-grow flex-col items-start justify-start overflow-auto space-y-4"
+        style="padding-bottom:3rem"
+      >
+        <span class="px-6 font-bold text-2xl">New Address</span>
+        <div class="flex flex-col w-full space-y-4 px-6">
+          <div class="flex self-stretch flex-col space-y-1 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              Address Title
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-1 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              Name
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-1 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              Phone number
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-1 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              Road Name - House Number
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-1 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              Province
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-1 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              City
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-1 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              Province
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-1 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              Subdistrict
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <save-cancel />
+    </div>
+  </>
+</>

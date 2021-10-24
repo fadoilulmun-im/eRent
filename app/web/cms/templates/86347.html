@@ -88,18 +88,11 @@
             </div>
             {meta.cart.length > 0 ? (
               meta.cart.map((x, i) => (
-                <item-cart
+                <item-cart2
                   title={x.barang.nama_barang}
                   img={"/fimgs/232_297.x1.svg"}
                   price={x.barang.harga_barang}
                   qty={x.quantity}
-                  add={() => {
-                    meta.action.addQty(i);
-                  }}
-                  sub={() => {
-                    meta.action.subQty(i);
-                  }}
-                  mode={true}
                 />
               ))
             ) : (
@@ -191,6 +184,7 @@
       <total-price-cart
         total_item={meta.total_item}
         total_harga={meta.total_harga}
+        btn_title="checkout"
       />
     </div>
   </>
