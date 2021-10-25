@@ -1,0 +1,65 @@
+<>
+  <effect meta={{}} run={async () => {}} />
+  <>
+    <loding state={meta.is_loding} />
+    <div
+      class={
+        "flex-col items-start justify-start h-screen w-full bg-white " +
+        (meta.is_loding ? "hidden" : "flex")
+      }
+    >
+      {/*notif and chart button*/}
+      <top-naviagation mode={2} />
+      <div
+        class="flex self-stretch flex-grow flex-col items-start justify-start overflow-auto space-y-4"
+        style="padding-bottom:3rem"
+      >
+        <span class="px-6 font-bold text-2xl">Pending Order</span>
+        <span class="px-6 text-lg">Payment Detail</span>
+        <div class="flex flex-col w-full space-y-4 px-6 text-gray-400">
+          <div class="flex justify-between">
+            <span>Transaction ID</span>
+            <span>868911</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Total</span>
+            <span>Rp9.273.125</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Bank Name</span>
+            <span>BCA</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Account Owner</span>
+            <span>Admin Erent</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Account Number</span>
+            <span>229011233</span>
+          </div>
+        </div>
+        <span class="px-6 text-lg text-gray-500">Upload proof of payment</span>
+        <div class="flex space-x-2 items-center justify-start px-6 ">
+          <div class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
+            <button
+              onClick={() => {
+                //meta.action.importFile();
+              }}
+              class="text-base leading-relaxed text-center text-white"
+            >
+              Choose File
+            </button>
+          </div>
+          <div class="text-base leading-relaxed text-center text-coolGray-500">
+            {"No file choosen."}
+          </div>
+        </div>
+        <div class="px-6 text-blue-700">
+          NB: Important! Please transfer to the last 3 digits so that our system
+          can recognize your payment.
+        </div>
+      </div>
+      <save-cancel title="Send" />
+    </div>
+  </>
+</>
