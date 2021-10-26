@@ -79,6 +79,7 @@ model transaksi {
   id_bank              Int?
   is_kirim             Boolean?
   id_alamat            Int?
+  biaya_pengiriman     Int?               @db.SmallInt
   admin                admin?             @relation(fields: [id_admin], references: [id])
   alamat               alamat?            @relation(fields: [id_alamat], references: [id])
   bank                 bank?              @relation(fields: [id_bank], references: [id])
