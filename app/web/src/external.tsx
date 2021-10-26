@@ -78,4 +78,8 @@ export default {
     import("./components/save-cancel"),
     { c: "", s: "", h: "" },
   ],
+  "delivery-status": () => [
+    import("./components/delivery-status"),
+    { c: "", s: "", h: "" },
+  ],
 };
