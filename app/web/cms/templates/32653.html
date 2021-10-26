@@ -1,5 +1,61 @@
 <>
-  <effect meta={{}} run={async () => {}} />
+  <effect
+    meta={{
+      province: [],
+      selected_province: 0,
+      city: [],
+      selected_city: 0,
+      subdistrict: [],
+      selected_subdistrict: 0,
+    }}
+    run={async () => {
+      fetch("http://www.emsifa.com/api-wilayah-indonesia/api/provinces.json")
+        .then((response) => response.json())
+        .then((data) => {
+          meta.province = data;
+        });
+      meta.action = {
+        onProvinceChange: (e) => {
+          console.log(e.target.value);
+          meta.selected_province = e.target.value;
+          if (e.target.value !== "-None-") {
+            fetch(
+              `http://www.emsifa.com/api-wilayah-indonesia/api/regencies/${
+                meta.province[meta.selected_province].id
+              }.json`
+            )
+              .then((response) => response.json())
+              .then((data) => {
+                meta.city = data;
+              });
+          } else {
+            meta.city = [];
+          }
+        },
+        onCityChange: (e) => {
+          console.log(e.target.value);
+          meta.selected_city = e.target.value;
+          if (e.target.value !== "-None-") {
+            fetch(
+              `http://www.emsifa.com/api-wilayah-indonesia/api/districts/${
+                meta.city[meta.selected_city].id
+              }.json`
+            )
+              .then((response) => response.json())
+              .then((data) => {
+                meta.subdistrict = data;
+              });
+          } else {
+            meta.subdistrict = [];
+          }
+        },
+        onSubdistrictChange: (e) => {
+          console.log(e.target.value);
+          meta.selected_subdistrict = e.target.value;
+        },
+      };
+    }}
+  />
   <>
     <loding state={meta.is_loding} />
     <div
@@ -70,11 +126,17 @@
             </div>
             <div class="flex self-stretch items-start justify-start">
               <select
+                value={meta.selected_province}
+                onChange={(e) => {
+                  meta.action.onProvinceChange(e);
+                }}
                 class={
                   "flex items-center justify-start py-3 px-4 bg-gray-100 border rounded border-gray-100 w-full"
                 }
               >
-                <option>aaaa</option>
+                {meta.province.map((x, i) => (
+                  <option value={i}>{x.name}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -83,16 +145,44 @@
               City
             </div>
             <div class="flex self-stretch items-start justify-start">
-              <input
+              <select
+                value={meta.selected_city}
+                onChange={(e) => {
+                  meta.action.onCityChange(e);
+                }}
                 class={
-                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                  "flex items-center justify-start py-3 px-4 bg-gray-100 border rounded border-gray-100 w-full"
                 }
-              />
+              >
+                {meta.city.map((x, i) => (
+                  <option value={i}>{x.name}</option>
+                ))}
+              </select>
             </div>
           </div>
           <div class="flex self-stretch flex-col space-y-1 items-start justify-start">
             <div class="text-base font-medium leading-relaxed text-coolGray-500">
-              Province
+              Subdistrict
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <select
+                value={meta.selected_subdistrict}
+                onChange={(e) => {
+                  meta.action.onSubdistrictChange(e);
+                }}
+                class={
+                  "flex items-center justify-start py-3 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              >
+                {meta.subdistrict.map((x, i) => (
+                  <option value={i}>{x.name}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-1 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              Post Number
             </div>
             <div class="flex self-stretch items-start justify-start">
               <input
@@ -104,7 +194,7 @@
           </div>
           <div class="flex self-stretch flex-col space-y-1 items-start justify-start">
             <div class="text-base font-medium leading-relaxed text-coolGray-500">
-              Subdistrict
+              Additional Details
             </div>
             <div class="flex self-stretch items-start justify-start">
               <input

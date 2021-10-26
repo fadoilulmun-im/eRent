@@ -3,7 +3,7 @@ import get from 'lodash.get'
 export const api = async (
   url: string,
   body?: any,
-  opt?: { method?: 'GET' | 'POST'; raw?: boolean }
+  opt?: { method?: 'GET' | 'POST'; raw?: boolean },
 ) => {
   const method = get(opt, 'method') || body ? 'POST' : 'GET'
   const options: any = {
@@ -28,6 +28,7 @@ export const api = async (
 
   try {
     let finalURL = url
+    
     if (typeof global !== 'undefined' && (global as any).mode) {
       // this is running from server
       if (url.indexOf('http') !== 0) {
@@ -36,9 +37,11 @@ export const api = async (
           url[0] === '/' ? url.substr(1) : url
         }`
       }
+    }else{
     }
 
     const res = await fetch(finalURL, options)
+    //const res = await fetch(finalURL);
     if (get(opt, 'raw')) {
       return await res.text()
     }

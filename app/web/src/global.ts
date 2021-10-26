@@ -4,25 +4,25 @@ import * as locales from 'date-fns/locale';
 export const globalVar = {}
 
 export const formatSeparatorDec = (value: any, decimal?: number) => {
-    if (decimal || decimal === 0) value = Number(value).toFixed(decimal)
-    return parseFloat((value || 0).toString().replace(/,/g, ''))
-      .toLocaleString('en')
-      .replace(/,/gi, ',')
-  }
+  if (decimal || decimal === 0) value = Number(value).toFixed(decimal)
+  return parseFloat((value || 0).toString().replace(/,/g, ''))
+    .toLocaleString('en')
+    .replace(/,/gi, ',')
+}
 
 export const dateFormat = (
   d: Date,
 ) => {
   let month = '' + (d.getMonth() + 1),
-  day = '' + d.getDate(),
-  year = d.getFullYear();
+    day = '' + d.getDate(),
+    year = d.getFullYear();
 
-if (month.length < 2) 
-  month = '0' + month;
-if (day.length < 2) 
-  day = '0' + day;
+  if (month.length < 2)
+    month = '0' + month;
+  if (day.length < 2)
+    day = '0' + day;
 
-return [year, month, day].join('-');
+  return [year, month, day].join('-');
 }
 
 export const fileUpload = async (
@@ -44,6 +44,6 @@ export const fileUpload = async (
   }
 }
 
-export const numberWithCommas = (x: string)=>{
+export const numberWithCommas = (x: string) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
