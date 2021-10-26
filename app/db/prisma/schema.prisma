@@ -85,6 +85,7 @@ model transaksi {
   customer             customer           @relation(fields: [id_customer], references: [id])
   status               status?            @relation(fields: [status_transaksi], references: [id])
   detail_transaksi     detail_transaksi[]
+  track_order          track_order[]
 }
 
 model token_reset_pass {
@@ -123,4 +124,12 @@ model bank {
   atas_nama   String      @db.VarChar(255)
   biaya_admin Int?
   transaksi   transaksi[]
+}
+
+model track_order {
+  id           Int       @id @default(autoincrement())
+  desc         String    @db.VarChar(300)
+  created_at   DateTime  @default(now()) @db.Timestamp(6)
+  id_transaksi Int
+  transaksi    transaksi @relation(fields: [id_transaksi], references: [id])
 }
