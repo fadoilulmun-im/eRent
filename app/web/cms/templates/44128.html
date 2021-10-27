@@ -1,0 +1,175 @@
+<>
+  <effect
+    meta={{ option: 0 }}
+    run={async () => {
+      meta.action = {
+        changeSwitch: (e) => {
+          runInAction(() => {
+            meta.option = e;
+          });
+        },
+      };
+    }}
+  />
+  <>
+    <div class="flex flex-1 self-stretch flex-col items-start justify-start bg-white h-screen w-full">
+      {/*notif and a chart button*/}
+      <top-naviagation mode={1} />
+      <div class="flex self-stretch flex-col space-y-6 items-start justify-start relative overflow-y-auto">
+        <div class="flex self-stretch items-start justify-start px-6">
+          <div class="text-3xl font-bold text-coolGray-900">Profile</div>
+        </div>
+        <div class="flex self-stretch space-x-4 items-center justify-start px-6">
+          <img
+            src="/fimgs/364_1722.x1.png"
+            class="flex flex-col items-start justify-start bg-white"
+            style="width: 64px; min-width: 64px; max-width: 64px; height: 64px; min-height: 64px; max-height: 64px;"
+          />
+          <div class="flex flex-1 flex-col space-y-1 items-start justify-start">
+            <div class="text-xl font-bold text-coolGray-900">John Doe</div>
+            <div class="text-base leading-relaxed text-coolGray-500">
+              (+62) 7611 1212 1212
+            </div>
+          </div>
+        </div>
+        <div class="flex self-stretch flex-col space-y-4 items-start justify-start pb-10">
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
+            <div class="flex self-stretch items-start justify-start px-6">
+              <div class="text-xl font-semibold text-coolGray-900">
+                Order History
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col items-start justify-start">
+              <button
+                onClick={(e) => meta.action.changeSwitch(0)}
+                class={
+                  "flex self-stretch space-x-4 items-start justify-start px-6 py-4 " +
+                  (meta.option == 0 ? "bg-coolGray-100" : "")
+                }
+              >
+                <img
+                  src="/fimgs/I366_3285_306_1605.x3.png"
+                  class={`bg-coolGray-900`}
+                  style={`width: 16.89px; min-width: 16.89px; max-width: 16.89px; height: 19.89px; min-height: 19.89px; max-height: 19.89px;`}
+                />
+                <div class="text-base leading-relaxed text-coolGray-900">
+                  My Orders
+                </div>
+                <img
+                  src="/fimgs/I366_3290_306_1640.x1.svg"
+                  class={`bg-coolGray-900 place-items-end`}
+                  style={`width: 6.25px; min-width: 6.25px; max-width: 6.25px; height: 10.49px; min-height: 10.49px; max-height: 10.49px;`}
+                />
+              </button>
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
+            <div class="flex self-stretch items-start justify-start px-6">
+              <div class="text-xl font-semibold text-coolGray-900">
+                My Account
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-1 items-start justify-start">
+              <button
+                onClick={(e) => meta.action.changeSwitch(1)}
+                class={
+                  "flex self-stretch space-x-4 items-start justify-start px-6 py-4 " +
+                  (meta.option == 1 ? "bg-coolGray-100" : "")
+                }
+              >
+                <img
+                  src="/fimgs/I366_3249_306_1607.x1.png"
+                  class={`bg-coolGray-900`}
+                  style={`width: 16.89px; min-width: 16.89px; max-width: 16.89px; height: 19.89px; min-height: 19.89px; max-height: 19.89px;`}
+                />
+                <div class="text-base leading-relaxed text-coolGray-900">
+                  Edit Profile
+                </div>
+                <img
+                  src="/fimgs/I366_3290_306_1640.x1.svg"
+                  class={`bg-coolGray-900 place-items-end`}
+                  style={`width: 6.25px; min-width: 6.25px; max-width: 6.25px; height: 10.49px; min-height: 10.49px; max-height: 10.49px;`}
+                />
+              </button>
+              <button
+                onClick={(e) => meta.action.changeSwitch(2)}
+                class={
+                  "flex self-stretch space-x-4 items-start justify-start px-6 py-4 " +
+                  (meta.option == 2 ? "bg-coolGray-100" : "")
+                }
+              >
+                <img
+                  src="/fimgs/I366_3253_306_1609.x1.png"
+                  class={`bg-coolGray-900`}
+                  style={`width: 16.89px; min-width: 16.89px; max-width: 16.89px; height: 19.89px; min-height: 19.89px; max-height: 19.89px;`}
+                />
+                <div class="text-base leading-relaxed text-coolGray-900">
+                  My Address
+                </div>
+                <img
+                  src="/fimgs/I366_3290_306_1640.x1.svg"
+                  class={`bg-coolGray-900 place-items-end`}
+                  style={`width: 6.25px; min-width: 6.25px; max-width: 6.25px; height: 10.49px; min-height: 10.49px; max-height: 10.49px;`}
+                />
+              </button>
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
+            <div class="flex self-stretch items-start justify-start px-6">
+              <div class="text-xl font-semibold text-coolGray-900">Help</div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-1 items-start justify-start">
+              <button
+                onClick={(e) => meta.action.changeSwitch(3)}
+                class={
+                  "flex self-stretch space-x-4 items-start justify-start px-6 py-4 " +
+                  (meta.option == 3 ? "bg-coolGray-100" : "")
+                }
+              >
+                <img
+                  src="/fimgs/I366_3261_306_1661.x1.png"
+                  class={`bg-coolGray-900`}
+                  style={`width: 16.89px; min-width: 16.89px; max-width: 16.89px; height: 19.89px; min-height: 19.89px; max-height: 19.89px;`}
+                />
+                <div class="text-base leading-relaxed text-coolGray-900">
+                  About
+                </div>
+                <img
+                  src="/fimgs/I366_3290_306_1640.x1.svg"
+                  class={`bg-coolGray-900 place-items-end`}
+                  style={`width: 6.25px; min-width: 6.25px; max-width: 6.25px; height: 10.49px; min-height: 10.49px; max-height: 10.49px;`}
+                />
+              </button>
+              <button
+                onClick={(e) => meta.action.changeSwitch(4)}
+                class={
+                  "flex self-stretch space-x-4 items-start justify-start px-6 py-4 " +
+                  (meta.option == 4 ? "bg-coolGray-100" : "")
+                }
+              >
+                <img
+                  src="/fimgs/I366_3265_306_1667.x1.png"
+                  class={`bg-coolGray-900`}
+                  style={`width: 16.89px; min-width: 16.89px; max-width: 16.89px; height: 19.89px; min-height: 19.89px; max-height: 19.89px;`}
+                />
+                <div class="text-base leading-relaxed text-coolGray-900">
+                  Request Delete Account
+                </div>
+                <img
+                  src="/fimgs/I366_3290_306_1640.x1.svg"
+                  class={`bg-coolGray-900 place-items-end`}
+                  style={`width: 6.25px; min-width: 6.25px; max-width: 6.25px; height: 10.49px; min-height: 10.49px; max-height: 10.49px;`}
+                />
+              </button>
+            </div>
+          </div>
+          <button class="flex self-stretch items-start justify-start px-6">
+            <div class="text-base leading-relaxed text-red-600">Log Out</div>
+          </button>
+        </div>
+      </div>
+
+      <navbar class="text-blue-700" state={3} />
+    </div>
+  </>
+</>

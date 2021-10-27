@@ -82,4 +82,8 @@ export default {
     import("./components/delivery-status"),
     { c: "", s: "", h: "" },
   ],
+  "button-edit-profile": () => [
+    import("./components/button-edit-profile"),
+    { c: "", s: "", h: "" },
+  ],
 };
