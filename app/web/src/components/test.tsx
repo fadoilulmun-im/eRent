@@ -1,10 +1,12 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { Page, Navbar, BlockTitle, Swiper, SwiperSlide, Block, } from 'framework7-react';
-import { useState,useEffect } from "react";
+import { Page, Navbar, BlockTitle, Swiper, SwiperSlide, Block, Sheet, PageContent } from 'framework7-react';
+import { useState, useEffect } from "react";
 import Tab from "./Tab";
 import Home from "./home";
+import Product from "./product";
 import { motion } from "framer-motion";
+import eventBus from "./Event/EventBus";
 
 const Nav = (props) => {
 
@@ -71,11 +73,24 @@ export default ({ children, content }) => {
   //const _component = useComponent("btn","/app/web/src/components/test",{});
   const [state, setState] = useState(0);
   const [swiper, setSwiper] = useState({ slideTo: (e) => { } });
-  useEffect(()=>{
+  const [filterOn, setFilterOn] = useState(false);
+
+  const [sortByState, setSortByState] = useState(0);
+  const [categoryState, setCategoryState] = useState(1);
+  const sortby = ["New Product", "Most Expensive", "Cheapest", "A-Z"];
+  const category = ["komputer", "alat ajaib", "monitor"];
+
+
+  useEffect(() => {
     console.log("yeah");
+    eventBus.on('filter', (e) => {
+      console.log(e.message + "aaaa");
+      setFilterOn(true);
+    });
   });
   return (
     <Page >
+
       <div className="h-screen bg-white flex flex-col">
         <div className="">
           <Tab />
@@ -90,7 +105,7 @@ export default ({ children, content }) => {
             </SwiperSlide>
             <SwiperSlide>
               <motion.div animate={{ opacity: state == 1 ? 1 : 0 }}>
-                Slide 2
+                <Product />
               </motion.div>
             </SwiperSlide>
             <SwiperSlide>
@@ -104,6 +119,63 @@ export default ({ children, content }) => {
           <Nav setState={(e) => { setState(e); swiper.slideTo(e) }} state={state} />
         </div>
       </div>
+      <Sheet
+        swipeToClose
+        backdrop
+        style={{ height: 'auto' }}
+        opened={filterOn}
+        onSheetClose={() => {
+          setFilterOn(false);
+        }}
+      >
+        <PageContent >
+          <Block className="px-6 space-y-2">
+            <div className="text-xl font-semibold text-coolGray-900" style={{ paddingBottom: '1rem' }}>Filter</div>
+            <div className=" flex flex-col space-y-2">
+              <span className="text-base font-medium text-coolGray-900">Sort by</span>
+              <div className="w-full flex flex-wrap">
+                {sortby.map((x, i) => (
+                  <span className="m-1" key={i}>
+                    <button
+                      onClick={() => {
+                        setSortByState(i);
+                      }}
+                      className={
+                        " rounded-full text-sm text-coolGray-900 text-center inline px-5 py-2 bg-white shadow border " +
+                        (i == sortByState ? "border-blue-700" : "border-gray-300")
+                      }
+                    >
+                      {x}
+                    </button>
+                  </span>
+                ))}
+              </div>
+              <span className="text-base font-medium text-coolGray-900">Category</span>
+              <div className="w-full flex flex-wrap">
+                {category.map((x, i) => (
+                  <span className="m-1" key={i}>
+                    <button
+                      onClick={() => {
+                        setCategoryState(i);
+                      }}
+                      className={
+                        " rounded-full text-sm text-coolGray-900 text-center inline px-5 py-2 bg-white shadow border " +
+                        (i == categoryState ? "border-blue-700" : "border-gray-300")
+                      }
+                    >
+                      {x}
+                    </button>
+                  </span>
+                ))}
+              </div>
+              <button className=" mt-3 flex self-stretch text-white font-medium justify-center px-6 py-2 text-base bg-blue-700 rounded">
+                Show
+              </button>
+            </div>
+
+          </Block>
+        </PageContent>
+      </Sheet>
     </Page>
   )
 }
