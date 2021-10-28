@@ -1,0 +1,52 @@
+<>
+  <effect meta={{}} run={async () => {}} />
+  <>
+    <div class="flex flex-1 self-stretch flex-col space-y-6 items-start justify-start bg-white">
+      {/*notif and a chart button*/}
+      <top-naviagation mode={0} />
+      <div class="w-full flex flex-wrap overflow-x-auto px-6">
+        <div class="flex space-x-2 items-start justify-start">
+          <div class="flex items-start justify-start px-5 py-2 bg-white shadow border rounded-full border-blue-700">
+            <div class="text-sm text-coolGray-900">All Orders</div>
+          </div>
+          <div class="flex items-start justify-start px-5 py-2 bg-white shadow border rounded-full border-coolGray-300">
+            <div class="text-sm text-coolGray-900">Pending</div>
+          </div>
+          <div class="flex items-start justify-start px-5 py-2 bg-white shadow border rounded-full border-coolGray-300">
+            <div class="text-sm text-coolGray-900">
+              Waiting for Confirmation
+            </div>
+          </div>
+          <div class="flex items-start justify-start px-5 py-2 bg-white shadow border rounded-full border-coolGray-300">
+            <div class="text-sm text-coolGray-900">Packed</div>
+          </div>
+          <div class="flex items-start justify-start px-5 py-2 bg-white shadow border rounded-full border-coolGray-300">
+            <div class="text-sm text-coolGray-900">On The Way</div>
+          </div>
+          <div class="flex items-start justify-start px-5 py-2 bg-white shadow border rounded-full border-coolGray-300">
+            <div class="text-sm text-coolGray-900">Arrived</div>
+          </div>
+          <div class="flex items-start justify-start px-5 py-2 bg-white shadow border rounded-full border-coolGray-300">
+            <div class="text-sm text-coolGray-900">On Return</div>
+          </div>
+          <div class="flex items-start justify-start px-5 py-2 bg-white shadow border rounded-full border-coolGray-300">
+            <div class="text-sm text-coolGray-900">Completed</div>
+          </div>
+          <div class="flex items-start justify-start px-5 py-2 bg-white shadow border rounded-full border-coolGray-300">
+            <div class="text-sm text-coolGray-900">Cancelled</div>
+          </div>
+        </div>
+      </div>
+      <div class="flex self-stretch flex-col items-start justify-start pb-10 relative overflow-y-auto">
+        <div class="flex self-stretch flex-col space-y-4 items-start justify-start pb-10">
+          <order-history />
+          <order-history />
+          <order-history />
+          <order-history />
+          <order-history />
+          <order-history />
+        </div>
+      </div>
+    </div>
+  </>
+</>
