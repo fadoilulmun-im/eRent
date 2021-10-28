@@ -40,7 +40,6 @@ model customer {
 
 model barang {
   id               Int                @id @default(autoincrement())
-  jenis_barang     String?            @db.VarChar(150)
   nama_barang      String             @db.VarChar(250)
   merk_barang      String?            @db.VarChar(200)
   detail_barang    String?
@@ -48,7 +47,10 @@ model barang {
   harga_barang     Int?
   gambar_barang    String?            @db.VarChar(255)
   created_at       DateTime?          @default(now()) @db.Timestamp(6)
+  kategori_barang  Int?
+  kategori         kategori?          @relation(fields: [kategori_barang], references: [id])
   detail_transaksi detail_transaksi[]
+  option           option[]
 }
 
 model detail_transaksi {
@@ -57,7 +59,9 @@ model detail_transaksi {
   id_barang    Int?
   quantity     Int?
   total_harga  Int?
+  id_option    Int?
   barang       barang?    @relation(fields: [id_barang], references: [id])
+  option       option?    @relation(fields: [id_option], references: [id])
   transaksi    transaksi? @relation(fields: [id_transaksi], references: [id])
 }
 
@@ -133,4 +137,18 @@ model track_order {
   created_at   DateTime  @default(now()) @db.Timestamp(6)
   id_transaksi Int
   transaksi    transaksi @relation(fields: [id_transaksi], references: [id])
+}
+
+model option {
+  id               Int                @id @default(autoincrement())
+  nama             String             @db.VarChar(150)
+  id_barang        Int
+  barang           barang             @relation(fields: [id_barang], references: [id])
+  detail_transaksi detail_transaksi[]
+}
+
+model kategori {
+  id     Int      @id @default(autoincrement())
+  nama   String   @db.VarChar(100)
+  barang barang[]
 }
