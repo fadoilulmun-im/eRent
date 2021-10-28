@@ -43,7 +43,7 @@
               <button
                 onClick={(e) => meta.action.changeSwitch(0)}
                 class={
-                  "flex self-stretch space-x-4 items-start justify-start px-6 py-4 " +
+                  "flex self-stretch space-x-4 items-start justify-start px-6 py-4 items-center " +
                   (meta.option == 0 ? "bg-coolGray-100" : "")
                 }
               >
@@ -73,7 +73,7 @@
               <button
                 onClick={(e) => meta.action.changeSwitch(1)}
                 class={
-                  "flex self-stretch space-x-4 items-start justify-start px-6 py-4 " +
+                  "flex self-stretch space-x-4 items-start justify-start px-6 py-4 items-center " +
                   (meta.option == 1 ? "bg-coolGray-100" : "")
                 }
               >
@@ -94,7 +94,7 @@
               <button
                 onClick={(e) => meta.action.changeSwitch(2)}
                 class={
-                  "flex self-stretch space-x-4 items-start justify-start px-6 py-4 " +
+                  "flex self-stretch space-x-4 items-start justify-start px-6 py-4 items-center " +
                   (meta.option == 2 ? "bg-coolGray-100" : "")
                 }
               >
@@ -163,7 +163,7 @@
               </button>
             </div>
           </div>
-          <button class="flex self-stretch items-start justify-start px-6">
+          <button class="flex self-stretch items-start justify-start px-6 focus:bg-gray-100 focus:bg-gray-50  transition-all">
             <div class="text-base leading-relaxed text-red-600">Log Out</div>
           </button>
         </div>

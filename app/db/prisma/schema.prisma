@@ -40,7 +40,6 @@ model customer {
 
 model barang {
   id               Int                @id @default(autoincrement())
-  jenis_barang     String?            @db.VarChar(150)
   nama_barang      String             @db.VarChar(250)
   merk_barang      String?            @db.VarChar(200)
   detail_barang    String?
@@ -48,7 +47,10 @@ model barang {
   harga_barang     Int?
   gambar_barang    String?            @db.VarChar(255)
   created_at       DateTime?          @default(now()) @db.Timestamp(6)
+  kategori_barang  Int?
+  kategori         kategori?          @relation(fields: [kategori_barang], references: [id])
   detail_transaksi detail_transaksi[]
+  option           option[]
 }
 
 model detail_transaksi {
@@ -57,7 +59,9 @@ model detail_transaksi {
   id_barang    Int?
   quantity     Int?
   total_harga  Int?
+  id_option    Int?
   barang       barang?    @relation(fields: [id_barang], references: [id])
+  option       option?    @relation(fields: [id_option], references: [id])
   transaksi    transaksi? @relation(fields: [id_transaksi], references: [id])
 }
 
@@ -79,12 +83,14 @@ model transaksi {
   id_bank              Int?
   is_kirim             Boolean?
   id_alamat            Int?
+  biaya_pengiriman     Int?               @db.SmallInt
   admin                admin?             @relation(fields: [id_admin], references: [id])
   alamat               alamat?            @relation(fields: [id_alamat], references: [id])
   bank                 bank?              @relation(fields: [id_bank], references: [id])
   customer             customer           @relation(fields: [id_customer], references: [id])
   status               status?            @relation(fields: [status_transaksi], references: [id])
   detail_transaksi     detail_transaksi[]
+  track_order          track_order[]
 }
 
 model token_reset_pass {
@@ -108,8 +114,8 @@ model alamat {
   alamat_pengiriman  String      @db.VarChar(100)
   provinsi           String      @db.VarChar(100)
   kecamatan          String      @db.VarChar(100)
-  kode_pos           String      @db.VarChar(10)
-  informasi_tambahan String      @db.VarChar(100)
+  kode_pos           String?     @db.VarChar(10)
+  informasi_tambahan String?     @db.VarChar(100)
   kota               String      @db.VarChar(100)
   customer           customer    @relation(fields: [id_customer], references: [id])
   transaksi          transaksi[]
@@ -123,4 +129,26 @@ model bank {
   atas_nama   String      @db.VarChar(255)
   biaya_admin Int?
   transaksi   transaksi[]
+}
+
+model kategori {
+  id     Int      @id @default(autoincrement())
+  nama   String   @db.VarChar(100)
+  barang barang[]
+}
+
+model option {
+  id               Int                @id @default(autoincrement())
+  nama             String             @db.VarChar(150)
+  id_barang        Int
+  barang           barang             @relation(fields: [id_barang], references: [id])
+  detail_transaksi detail_transaksi[]
+}
+
+model track_order {
+  id           Int       @id @default(autoincrement())
+  desc         String    @db.VarChar(300)
+  created_at   DateTime  @default(now()) @db.Timestamp(6)
+  id_transaksi Int
+  transaksi    transaksi @relation(fields: [id_transaksi], references: [id])
 }

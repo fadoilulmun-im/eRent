@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Tab from "./Tab";
 import Home from "./home";
 import Product from "./product";
+import Profile from "./profile";
 import { motion } from "framer-motion";
 import eventBus from "./Event/EventBus";
 
@@ -82,7 +83,6 @@ export default ({ children, content }) => {
 
 
   useEffect(() => {
-    console.log("yeah");
     eventBus.on('filter', (e) => {
       console.log(e.message + "aaaa");
       setFilterOn(true);
@@ -93,7 +93,7 @@ export default ({ children, content }) => {
 
       <div className="h-screen bg-white flex flex-col">
         <div className="">
-          <Tab />
+          <Tab mode={1} />
         </div>
         <div className=" flex-grow overflow-y-auto">
 
@@ -110,7 +110,8 @@ export default ({ children, content }) => {
             </SwiperSlide>
             <SwiperSlide>
               <motion.div animate={{ opacity: state == 2 ? 1 : 0 }}>
-                <div className="bg-blue-700" style={{ height: '100vh' }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae unde, perferendis eos laudantium aliquid, nulla quos excepturi soluta officiis adipisci aperiam impedit velit aliquam ipsam ex ut ad magnam sed!</div>
+                {/* <div className="bg-blue-700" style={{ height: '100vh' }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae unde, perferendis eos laudantium aliquid, nulla quos excepturi soluta officiis adipisci aperiam impedit velit aliquam ipsam ex ut ad magnam sed!</div> */}
+                <Profile />
               </motion.div>
             </SwiperSlide>
           </Swiper>
