@@ -152,3 +152,17 @@ model track_order {
   id_transaksi Int
   transaksi    transaksi @relation(fields: [id_transaksi], references: [id])
 }
+
+model option {
+  id               Int                @id @default(autoincrement())
+  nama             String             @db.VarChar(150)
+  id_barang        Int
+  barang           barang             @relation(fields: [id_barang], references: [id])
+  detail_transaksi detail_transaksi[]
+}
+
+model kategori {
+  id     Int      @id @default(autoincrement())
+  nama   String   @db.VarChar(100)
+  barang barang[]
+}
