@@ -1,0 +1,61 @@
+<>
+  <effect meta={{}} run={async () => {}} />
+  <>
+    <div class="flex flex-col items-start justify-start h-screen w-full bg-white">
+      {/*notif and a chart button*/}
+      <top-naviagation mode={2} />
+      <div class="flex self-stretch flex-col space-y-4 items-start justify-start relative overflow-y-auto">
+        <div class="flex self-stretch flex-col space-y-6 items-start justify-start px-6">
+          <div class="text-xl font-bold text-coolGray-900">Return Product</div>
+          <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+            <div class="text-base leading-relaxed text-coolGray-900">
+              Return Date
+            </div>
+            <div class="flex self-stretch space-x-2.5 items-start justify-start px-3 py-2.5 bg-gray-100 border rounded border-gray-100">
+              <div class="text-sm leading-snug text-coolGray-900">
+                20/10/2021
+              </div>
+              <div />
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+            <div class="flex flex-col items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Return Method
+              </div>
+            </div>
+            <div class="flex self-stretch space-x-2 items-start justify-start px-3 py-2.5 bg-gray-100 border rounded border-gray-100">
+              <div class="flex flex-1 items-start justify-start">
+                <div class="text-base leading-relaxed text-coolGray-900">
+                  Erent Shipping
+                </div>
+              </div>
+              <div />
+            </div>
+          </div>
+          <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              Document Upload (optional)
+            </div>
+            <div class="flex space-x-2 items-center justify-start">
+              <button class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
+                <div class="text-base leading-relaxed text-center text-white">
+                  Choose File
+                </div>
+              </button>
+              <div class="text-base leading-relaxed text-center text-coolGray-500">
+                No file choosen.
+              </div>
+            </div>
+            <div class="text-sm font-medium leading-snug text-blue-700">
+              NB: Important! If you choose erent shipping, you will be charged
+              with the fees listed below, please upload proof of payment in the
+              form provided
+            </div>
+          </div>
+        </div>
+      </div>
+      <shipping-nav btn_title="Send" />
+    </div>
+  </>
+</>
