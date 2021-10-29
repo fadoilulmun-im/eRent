@@ -6,7 +6,7 @@
       option: 0,
       notif_msg: "",
       notif_state: false,
-      is_loding: true,
+      is_loding: false,
     }}
     run={async () => {
       onload = () => {
@@ -16,11 +16,11 @@
         meta.barang = e.data;
         console.log(e);
       });
-      api("/api/barang?perPage=" + 4).then((e) => {
-        console.log(e);
-        meta.barangs = e.data;
-        meta.is_loding = false;
-      });
+      // api("/api/barang?perPage=" + 4).then((e) => {
+      //   console.log(e);
+      //   meta.barangs = e.data;
+      //   meta.is_loding = false;
+      // });
       meta.action = {
         optionSwitch: (e) => {
           runInAction(() => {

@@ -1,9 +1,21 @@
 import ItemBox from './comp/ItemBox';
-import eventBus from './Event/EventBus';
-
+//import eventBus from './Event/EventBus';
+import {eventBus} from "../global"
+import { useState,useEffect } from 'react';
+import { api } from 'web.utils/src/api';
 export default () => {
+    const [barangs,setBarangs] = useState([]);
+    const [pageN,setPageN] = useState(0);
+    useEffect(()=>{
+        // api('/api/barang?perPage='+pageN).then(e=>{
+        //     console.log(e);
+        // })
+        eventBus.on('bottom',()=>{
+            console.log('aad item')
+        })
+    },[])
     return (
-        <div className="flex self-stretch flex-col  flex-grow space-y-7 items-start justify-start overflow-auto"
+        <div className="flex flex-col  flex-grow space-y-7 items-start justify-start"
             style={{ paddingBottom: '3rem' }}>
             <div className="flex flex-col space-y-4 items-start justify-start mb-2 w-full">
                 <div className="text-3xl font-bold text-coolGray-900 px-6 flex justify-between w-full">
@@ -31,6 +43,8 @@ export default () => {
             </div>
             <div className="flex flex-col space-y-4 items-start justify-start w-full">
                 <div className="grid grid-cols-2 gap-3 w-full px-6">
+                    <ItemBox title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
+                    <ItemBox title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
                     <ItemBox title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
                     <ItemBox title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
                     <ItemBox title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />

@@ -54,12 +54,9 @@ export default {
     { c: "", s: "", h: "" },
   ],
   "rent-now": () => [import("./components/rent-now"), { c: "", s: "", h: "" }],
-  "option-item": () => [
-    import("./components/option-item"),
-    { c: "", s: "", h: "" },
-  ],
   loding: () => [import("./components/loding"), { c: "", s: "", h: "" }],
   test: () => [import("./components/test"), { c: "", s: "", h: "" }],
+  detailProduct: () => [import("./components/detailProduct"), { c: "", s: "", h: "" }],
   "payment-nav": () => [
     import("./components/payment-nav"),
     { c: "", s: "", h: "" },

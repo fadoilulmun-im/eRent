@@ -1,15 +1,14 @@
+import { motion } from "framer-motion"
 
-
-export default (props)=>{
-    return (<div className="flex flex-col rounded overflow-hidden overflow-hidde">
-    <a
-      className="block"
-      style={{padding:'0px',margin:'0px'}}
-      href={`/m/product-detail-mobile/${props.id}`}
-    >
-      <div className="bg-gray-100 p-4">
+export default (props) => {
+  return (
+    <motion.div onClick={() => {
+      console.log("click");
+      location.href="/m/test"
+    }} whileTap={{ scale: 0.95 }} className="flex flex-col rounded overflow-hidden overflow-hidde">
+      <div className="bg-gray-100 p-4 " style={{ minHeight: '5rem' }}>
         <img src={props.img} />
-        
+
       </div>
       <div className="bg-white px-4 py-3 space-y-1">
         <div className="text-xs font-medium leading-tight text-coolGray-900">
@@ -19,6 +18,5 @@ export default (props)=>{
           Rp {props.harga ? props.harga : "kosong"}
         </div>
       </div>
-    </a>
-  </div>)
+    </motion.div>)
 }

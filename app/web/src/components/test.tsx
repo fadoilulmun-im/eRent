@@ -6,8 +6,12 @@ import Tab from "./Tab";
 import Home from "./home";
 import Product from "./product";
 import Profile from "./profile";
+import Login from "./login";
 import { motion } from "framer-motion";
-import eventBus from "./Event/EventBus";
+import {eventBus} from "../global"
+import Notif from "./notif";
+
+
 
 const Nav = (props) => {
 
@@ -84,34 +88,44 @@ export default ({ children, content }) => {
 
   useEffect(() => {
     eventBus.on('filter', (e) => {
-      console.log(e.message + "aaaa");
       setFilterOn(true);
     });
+    eventBus.on('notLogin',()=>{
+      setState(2);
+      swiper.slideTo(2);
+    })
   });
+  const handleScroll = (e)=>{
+    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (bottom) {
+      eventBus.dispatch('bottom',{});
+    }
+  }
   return (
     <Page >
-
+      <Notif/>
       <div className="h-screen bg-white flex flex-col">
         <div className="">
           <Tab mode={1} />
         </div>
-        <div className=" flex-grow overflow-y-auto">
+        <div className=" flex-grow overflow-y-auto" >
 
-          <Swiper autoHeight={true} onSwiper={setSwiper} onSlideChange={(e) => { setState(e.activeIndex) }} >
-            <SwiperSlide>
+          <Swiper style={{height:'100%'}}  onSwiper={setSwiper} onSlideChange={(e) => { setState(e.activeIndex) }} >
+            <SwiperSlide  style={{height:'100%',overflowY:'scroll'}}>
               <motion.div animate={{ opacity: state == 0 ? 1 : 0 }}>
                 <Home />
               </motion.div>
             </SwiperSlide>
-            <SwiperSlide>
+            <SwiperSlide onScroll={(e)=>{handleScroll(e)}} style={{height:'100%',overflowY:'scroll'}}>
               <motion.div animate={{ opacity: state == 1 ? 1 : 0 }}>
                 <Product />
               </motion.div>
             </SwiperSlide>
-            <SwiperSlide>
+            <SwiperSlide style={{height:'100%',overflowY:'scroll'}}>
               <motion.div animate={{ opacity: state == 2 ? 1 : 0 }}>
-                {/* <div className="bg-blue-700" style={{ height: '100vh' }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae unde, perferendis eos laudantium aliquid, nulla quos excepturi soluta officiis adipisci aperiam impedit velit aliquam ipsam ex ut ad magnam sed!</div> */}
-                <Profile />
+                
+                {localStorage.getItem('user') ? <Profile />:<Login/>}
+
               </motion.div>
             </SwiperSlide>
           </Swiper>

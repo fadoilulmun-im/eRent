@@ -1,5 +1,16 @@
 import { Button } from 'framework7-react';
+import { api } from "web.utils/src/api";
+
+
 export default () => {
+    const logout = ()=>{
+        api('http://localhost:3200/api/logout').then((e)=>{
+            if(e.status == 'SUCCESS'){
+                localStorage.removeItem('user');
+                location.reload();
+            }
+        });
+    }
 
     return (
         <div className="flex self-stretch flex-col  flex-grow space-y-5 items-start justify-start overflow-auto"
@@ -89,7 +100,7 @@ export default () => {
                 </button>
             </div>
             <div className="px-6">
-                <button className="text-base text-red-600 ">Log Out</button>
+                <button onClick={()=>{logout()}} className="text-base text-red-600 ">Log Out</button>
             </div>
         </div>
     )
