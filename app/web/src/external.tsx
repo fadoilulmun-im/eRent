@@ -56,6 +56,7 @@ export default {
   "rent-now": () => [import("./components/rent-now"), { c: "", s: "", h: "" }],
   loding: () => [import("./components/loding"), { c: "", s: "", h: "" }],
   test: () => [import("./components/test"), { c: "", s: "", h: "" }],
+  search: () => [import("./components/search"), { c: "", s: "", h: "" }],
   detailProduct: () => [import("./components/detailProduct"), { c: "", s: "", h: "" }],
   "payment-nav": () => [
     import("./components/payment-nav"),

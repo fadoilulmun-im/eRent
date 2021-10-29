@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { Page, Navbar, BlockTitle, Swiper, SwiperSlide, Block, Sheet, PageContent } from 'framework7-react';
+import { Page, Swiper, SwiperSlide, Block, Sheet, PageContent } from 'framework7-react';
 import { useState, useEffect } from "react";
 import Tab from "./Tab";
 import Home from "./home";
@@ -8,8 +8,9 @@ import Product from "./product";
 import Profile from "./profile";
 import Login from "./login";
 import { motion } from "framer-motion";
-import {eventBus} from "../global"
+import { eventBus } from "../global"
 import Notif from "./notif";
+import Loding from "./loding";
 
 
 
@@ -79,6 +80,7 @@ export default ({ children, content }) => {
   const [state, setState] = useState(0);
   const [swiper, setSwiper] = useState({ slideTo: (e) => { } });
   const [filterOn, setFilterOn] = useState(false);
+  const [loding,setLoding] = useState(true);
 
   const [sortByState, setSortByState] = useState(0);
   const [categoryState, setCategoryState] = useState(1);
@@ -87,44 +89,50 @@ export default ({ children, content }) => {
 
 
   useEffect(() => {
+    setLoding(false);
+  }, [])
+
+  useEffect(() => {
     eventBus.on('filter', (e) => {
       setFilterOn(true);
     });
-    eventBus.on('notLogin',()=>{
+    eventBus.on('notLogin', () => {
       setState(2);
       swiper.slideTo(2);
     })
+
   });
-  const handleScroll = (e)=>{
+  const handleScroll = (e) => {
     const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
     if (bottom) {
-      eventBus.dispatch('bottom',{});
+      eventBus.dispatch('bottom', {});
     }
   }
   return (
     <Page >
-      <Notif/>
-      <div className="h-screen bg-white flex flex-col">
+      <Notif />
+      <Loding state={loding}/>
+      <div className={"h-screen bg-white flex-col "+(loding?"hidden":"flex")}>
         <div className="">
           <Tab mode={1} />
         </div>
         <div className=" flex-grow overflow-y-auto" >
 
-          <Swiper style={{height:'100%'}}  onSwiper={setSwiper} onSlideChange={(e) => { setState(e.activeIndex) }} >
-            <SwiperSlide  style={{height:'100%',overflowY:'scroll'}}>
+          <Swiper style={{ height: '100%' }} onSwiper={setSwiper} onSlideChange={(e) => { setState(e.activeIndex) }} >
+            <SwiperSlide style={{ height: '100%', overflowY: 'scroll' }}>
               <motion.div animate={{ opacity: state == 0 ? 1 : 0 }}>
                 <Home />
               </motion.div>
             </SwiperSlide>
-            <SwiperSlide onScroll={(e)=>{handleScroll(e)}} style={{height:'100%',overflowY:'scroll'}}>
+            <SwiperSlide onScroll={(e) => { handleScroll(e) }} style={{ height: '100%', overflowY: 'scroll' }}>
               <motion.div animate={{ opacity: state == 1 ? 1 : 0 }}>
                 <Product />
               </motion.div>
             </SwiperSlide>
-            <SwiperSlide style={{height:'100%',overflowY:'scroll'}}>
+            <SwiperSlide style={{ height: '100%', overflowY: 'scroll' }}>
               <motion.div animate={{ opacity: state == 2 ? 1 : 0 }}>
-                
-                {localStorage.getItem('user') ? <Profile />:<Login/>}
+
+                {localStorage.getItem('user') ? <Profile /> : <Login />}
 
               </motion.div>
             </SwiperSlide>

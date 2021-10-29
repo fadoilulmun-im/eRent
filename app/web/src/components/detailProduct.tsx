@@ -4,7 +4,14 @@ import { useState, useEffect } from 'react'
 import OptionItem from "./optionItem"
 import { api } from "web.utils/src/api"
 import { numberWithCommas } from '../global'
-const RentNow = () => {
+import { Page } from 'framework7-react';
+import Notif from "./notif"
+import Loding from "./loding"
+import { motion } from "framer-motion"
+
+
+
+const RentNow = (props) => {
   return (
     <div
       className="flex self-stretch justify-start px-6 py-4 bg-white shadow items-center"
@@ -12,15 +19,16 @@ const RentNow = () => {
     >
       <div className="flex flex-1 space-x-4 items-center justify-start">
         <div className="flex flex-1 flex-col space-y-0.5 items-start justify-start">
-          <button
+          <motion.button
+            whileTap={{ scale: 0.9 }}
             onClick={() => {
-              eventBus.dispatch("cart", { type: 0 })
+              props.onAdd()
             }}
             className="flex items-center"
             style={{ width: '2rem', height: '3rem' }}
           >
             <img src="/fimgs/259_239.x1.svg" />
-          </button>
+          </motion.button>
         </div>
         <div className="flex items-center justify-end px-6 py-2 bg-blue-700 rounded">
           <button className="text-base font-medium leading-relaxed text-center text-white">
@@ -34,76 +42,84 @@ const RentNow = () => {
 
 export default ({ id }) => {
   const [barang, setBarang] = useState({});
+  const [loding, setLoding] = useState(true);
+  const [user, setUser] = useState(null);
   useEffect(() => {
     api(`/api/barang/show/${id ? id : 1}`).then((e) => {
       console.log(e);
       setBarang(e.data);
+      setLoding(false);
     });
-    api("/api/barang?perPage=" + 4).then((e) => {
-      console.log(e);
-    });
+
+    setUser(JSON.parse(localStorage.getItem('user')))
+    // api("/api/barang?perPage=" + 4).then((e) => {
+    //   console.log(e);
+    // });
   }, [])
   return (
-    <div
-      className={
-        `flex-col items-start justify-start h-screen w-full bg-white flex`
-      }
-    >
-      {/*notif and chart button*/}
-      {/* <top-naviagation mode={3} /> */}
-      <Tab mode={3} />
-      <div className="flex self-stretch flex-col items-start justify-start overflow-auto">
-        <img
-          src="/fimgs/232_297.x1.svg"
-          className="flex self-stretch flex-col items-start justify-start px-4 py-3 bg-gray-100"
-        />
-        <div className="flex self-stretch flex-col space-y-6 items-start justify-start px-6 pt-4">
-          <div className="flex self-stretch flex-col space-y-2 items-start justify-start">
-            <div className="text-xl text-coolGray-900">
-              {/* {meta.barang.nama_barang} */}
-              {barang['nama_barang']}
-            </div>
-            <div className="flex self-stretch space-x-4 items-center justify-between">
-              <div className="text-2xl font-semibold">
-                Rp {barang['harga_barang'] ? numberWithCommas(barang['harga_barang']) : "0"}
-                {/* {meta.barang.harga_barang
+    <Page >
+      <Loding />
+      <Notif />
+      <div
+        className={
+          `flex-col items-start justify-start h-screen w-full bg-white ${loding ? 'hidden' : 'flex'}`
+        }
+      >
+        {/*notif and chart button*/}
+        {/* <top-naviagation mode={3} /> */}
+        <Tab mode={3} />
+        <div className="flex self-stretch flex-col items-start justify-start overflow-auto">
+          <img
+            src="/fimgs/232_297.x1.svg"
+            className="flex self-stretch flex-col items-start justify-start px-4 py-3 bg-gray-100"
+          />
+          <div className="flex self-stretch flex-col space-y-6 items-start justify-start px-6 pt-4">
+            <div className="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div className="text-xl text-coolGray-900">
+                {/* {meta.barang.nama_barang} */}
+                {barang['nama_barang']}
+              </div>
+              <div className="flex self-stretch space-x-4 items-center justify-between">
+                <div className="text-2xl font-semibold">
+                  Rp {barang['harga_barang'] ? numberWithCommas(barang['harga_barang']) : "0"}
+                  {/* {meta.barang.harga_barang
                     ? numberWithCommas(meta.barang.harga_barang)
                     : "0"} */}
+                </div>
+                <div className="text-sm leading-snug text-right text-coolGray-500">
+                  {/* stock: {meta.barang.stok_barang} */}
+                  stock: {barang['stok_barang']}
+                </div>
               </div>
-              <div className="text-sm leading-snug text-right text-coolGray-500">
-                {/* stock: {meta.barang.stok_barang} */}
-                stock: {barang['stok_barang']}
+            </div>
+
+            {/* option */}
+            <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
+              <div className="text-base font-bold leading-relaxed text-coolGray-900">
+                Options
+              </div>
+              <OptionItem items={["pink", "blue", "yellow"]} />
+            </div>
+            {/* */}
+
+            <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
+              <div className="text-base font-bold leading-relaxed text-coolGray-900">
+                About
+              </div>
+              <div className="text-sm leading-snug text-coolGray-900">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum
+                cursus auctor egestas nibh aliquet lectus. Fermentum imperdiet mi,
+                aliquet vitae. Amet eros vitae consectetur leo. Ante egestas ac in
+                blandit. Ultricies pellentesque in ultrices augue orci
+                scelerisque.
               </div>
             </div>
-          </div>
-
-          {/* option */}
-          <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
-            <div className="text-base font-bold leading-relaxed text-coolGray-900">
-              Options
-            </div>
-            <OptionItem items={["pink", "blue", "yellow"]} />
-          </div>
-          {/* */}
-
-          <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
-            <div className="text-base font-bold leading-relaxed text-coolGray-900">
-              About
-            </div>
-            <div className="text-sm leading-snug text-coolGray-900">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum
-              cursus auctor egestas nibh aliquet lectus. Fermentum imperdiet mi,
-              aliquet vitae. Amet eros vitae consectetur leo. Ante egestas ac in
-              blandit. Ultricies pellentesque in ultrices augue orci
-              scelerisque.
-            </div>
-          </div>
-          <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
-            <div className="text-base font-bold leading-relaxed text-coolGray-900">
-              Related Product
-            </div>
-            <div className="grid grid-cols-2 gap-3 w-full">
-              {/* {meta.barangs.map((x, i) => (
+            <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
+              <div className="text-base font-bold leading-relaxed text-coolGray-900">
+                Related Product
+              </div>
+              <div className="grid grid-cols-2 gap-3 w-full">
+                {/* {meta.barangs.map((x, i) => (
                   <box-item2
                     title={x.nama_barang}
                     harga={x.harga_barang}
@@ -111,18 +127,28 @@ export default ({ id }) => {
                     id={x.id}
                   />
                 ))} */}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <RentNow />
-      {/* <rent-now
+        <RentNow onAdd={() => {
+
+          console.log(user);
+          if (user) {
+            eventBus.dispatch("cart", { type: 0 })
+          } else {
+            eventBus.dispatch("notif", { message: "you must login first" })
+          }
+
+        }} />
+        {/* <rent-now
           id={params.id}
           onSucess={(e) => {
             meta.notif_msg = e.message;
             meta.notif_state = true;
           }}
         /> */}
-    </div>
+      </div>
+    </Page >
   )
 }
