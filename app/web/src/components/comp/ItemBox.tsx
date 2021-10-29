@@ -2,7 +2,10 @@ import { motion } from "framer-motion"
 
 export default (props) => {
   return (
-    <motion.div onClick={() => {
+    <motion.div
+      initial={{opacity:0}}
+      animate={{opacity:1}}
+    onClick={() => {
       console.log("click");
       location.href="/m/product-detail-mobile/"+props.id
     }} whileTap={{ scale: 0.95 }} className="flex flex-col rounded overflow-hidden overflow-hidde">

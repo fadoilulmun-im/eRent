@@ -11,7 +11,7 @@ export default () => {
         }
     }
     return (
-        <div className="flex self-stretch flex-col  flex-grow space-y-7 items-start justify-start overflow-auto"
+        <div className="flex self-stretch flex-col  flex-grow space-y-7 items-start justify-start h-full overflow-y-auto"
             style={{ paddingBottom: '3rem' }}>
             <div className="flex flex-col space-y-4 items-start justify-start mb-2 w-full">
                 <div className="text-3xl font-bold text-coolGray-900 px-6">

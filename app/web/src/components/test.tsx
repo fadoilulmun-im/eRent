@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 import { eventBus } from "../global"
 import Notif from "./notif";
 import Loding from "./loding";
-
+import Filter from "./comp/filter";
 
 
 const Nav = (props) => {
@@ -79,23 +79,14 @@ export default ({ children, content }) => {
   //const _component = useComponent("btn","/app/web/src/components/test",{});
   const [state, setState] = useState(0);
   const [swiper, setSwiper] = useState({ slideTo: (e) => { } });
-  const [filterOn, setFilterOn] = useState(false);
   const [loding,setLoding] = useState(true);
-
-  const [sortByState, setSortByState] = useState(0);
-  const [categoryState, setCategoryState] = useState(1);
-  const sortby = ["New Product", "Most Expensive", "Cheapest", "A-Z"];
-  const category = ["komputer", "alat ajaib", "monitor"];
-
 
   useEffect(() => {
     setLoding(false);
   }, [])
 
   useEffect(() => {
-    eventBus.on('filter', (e) => {
-      setFilterOn(true);
-    });
+
     eventBus.on('notLogin', () => {
       setState(2);
       swiper.slideTo(2);
@@ -119,18 +110,18 @@ export default ({ children, content }) => {
         <div className=" flex-grow overflow-y-auto" >
 
           <Swiper style={{ height: '100%' }} onSwiper={setSwiper} onSlideChange={(e) => { setState(e.activeIndex) }} >
-            <SwiperSlide style={{ height: '100%', overflowY: 'scroll' }}>
-              <motion.div animate={{ opacity: state == 0 ? 1 : 0 }}>
+            <SwiperSlide style={{ height: '100%'}}>
+              <motion.div style={{height:'100%'}} animate={{ opacity: state == 0 ? 1 : 0 }}>
                 <Home />
               </motion.div>
             </SwiperSlide>
-            <SwiperSlide onScroll={(e) => { handleScroll(e) }} style={{ height: '100%', overflowY: 'scroll' }}>
-              <motion.div animate={{ opacity: state == 1 ? 1 : 0 }}>
+            <SwiperSlide style={{ height: '100%'}}>
+              <motion.div style={{height:'100%'}} animate={{ opacity: state == 1 ? 1 : 0 }}>
                 <Product />
               </motion.div>
             </SwiperSlide>
-            <SwiperSlide style={{ height: '100%', overflowY: 'scroll' }}>
-              <motion.div animate={{ opacity: state == 2 ? 1 : 0 }}>
+            <SwiperSlide style={{ height: '100%'}}>
+              <motion.div style={{height:'100%'}} animate={{ opacity: state == 2 ? 1 : 0 }}>
 
                 {localStorage.getItem('user') ? <Profile /> : <Login />}
 
@@ -142,63 +133,7 @@ export default ({ children, content }) => {
           <Nav setState={(e) => { setState(e); swiper.slideTo(e) }} state={state} />
         </div>
       </div>
-      <Sheet
-        swipeToClose
-        backdrop
-        style={{ height: 'auto' }}
-        opened={filterOn}
-        onSheetClose={() => {
-          setFilterOn(false);
-        }}
-      >
-        <PageContent >
-          <Block className="px-6 space-y-2">
-            <div className="text-xl font-semibold text-coolGray-900" style={{ paddingBottom: '1rem' }}>Filter</div>
-            <div className=" flex flex-col space-y-2">
-              <span className="text-base font-medium text-coolGray-900">Sort by</span>
-              <div className="w-full flex flex-wrap">
-                {sortby.map((x, i) => (
-                  <span className="m-1" key={i}>
-                    <button
-                      onClick={() => {
-                        setSortByState(i);
-                      }}
-                      className={
-                        " rounded-full text-sm text-coolGray-900 text-center inline px-5 py-2 bg-white shadow border " +
-                        (i == sortByState ? "border-blue-700" : "border-gray-300")
-                      }
-                    >
-                      {x}
-                    </button>
-                  </span>
-                ))}
-              </div>
-              <span className="text-base font-medium text-coolGray-900">Category</span>
-              <div className="w-full flex flex-wrap">
-                {category.map((x, i) => (
-                  <span className="m-1" key={i}>
-                    <button
-                      onClick={() => {
-                        setCategoryState(i);
-                      }}
-                      className={
-                        " rounded-full text-sm text-coolGray-900 text-center inline px-5 py-2 bg-white shadow border " +
-                        (i == categoryState ? "border-blue-700" : "border-gray-300")
-                      }
-                    >
-                      {x}
-                    </button>
-                  </span>
-                ))}
-              </div>
-              <button className=" mt-3 flex self-stretch text-white font-medium justify-center px-6 py-2 text-base bg-blue-700 rounded">
-                Show
-              </button>
-            </div>
-
-          </Block>
-        </PageContent>
-      </Sheet>
+      
     </Page>
   )
 }

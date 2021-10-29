@@ -58,6 +58,7 @@ export default {
   test: () => [import("./components/test"), { c: "", s: "", h: "" }],
   search: () => [import("./components/search"), { c: "", s: "", h: "" }],
   detailProduct: () => [import("./components/detailProduct"), { c: "", s: "", h: "" }],
+  editProfil: () => [import("./components/editProfil"), { c: "", s: "", h: "" }],
   "payment-nav": () => [
     import("./components/payment-nav"),
     { c: "", s: "", h: "" },
