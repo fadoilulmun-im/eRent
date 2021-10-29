@@ -22,7 +22,7 @@ export default () => {
                 console.log('error')
                 eventBus.dispatch('notif',{message:e.message});
             } else {
-                localStorage.setItem('user', JSON.stringify(e.data));
+                localStorage.setItem('user', JSON.stringify(e.data.customer));
                 location.reload();
             }
             //mengara ke home page

@@ -56,6 +56,18 @@ export default ({ id }) => {
     //   console.log(e);
     // });
   }, [])
+  const add = ()=>{
+    console.log(user);
+    if (user) {
+      
+      api(`/api/customer/${user['id']}/add-cart`,{id_barang:id,quantity:1}).then((e)=>{
+        eventBus.dispatch("cart", { type: 0 })
+        console.log(e);
+      })
+    } else {
+      eventBus.dispatch("notif", { message: "you must login first" })
+    }
+  }
   return (
     <Page >
       <Loding />
@@ -131,16 +143,7 @@ export default ({ id }) => {
             </div>
           </div>
         </div>
-        <RentNow onAdd={() => {
-
-          console.log(user);
-          if (user) {
-            eventBus.dispatch("cart", { type: 0 })
-          } else {
-            eventBus.dispatch("notif", { message: "you must login first" })
-          }
-
-        }} />
+        <RentNow onAdd={() => {add()}} />
         {/* <rent-now
           id={params.id}
           onSucess={(e) => {

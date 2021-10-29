@@ -79,19 +79,17 @@ export default ({ children, content }) => {
   //const _component = useComponent("btn","/app/web/src/components/test",{});
   const [state, setState] = useState(0);
   const [swiper, setSwiper] = useState({ slideTo: (e) => { } });
-  const [loding,setLoding] = useState(true);
+  const [loding, setLoding] = useState(true);
 
   useEffect(() => {
     setLoding(false);
   }, [])
 
   useEffect(() => {
-
     eventBus.on('notLogin', () => {
       setState(2);
       swiper.slideTo(2);
     })
-
   });
   const handleScroll = (e) => {
     const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
@@ -102,26 +100,26 @@ export default ({ children, content }) => {
   return (
     <Page >
       <Notif />
-      <Loding state={loding}/>
-      <div className={"h-screen bg-white flex-col "+(loding?"hidden":"flex")}>
+      <Loding state={loding} />
+      <div className={"h-screen bg-white flex-col " + (loding ? "hidden" : "flex")}>
         <div className="">
           <Tab mode={1} />
         </div>
         <div className=" flex-grow overflow-y-auto" >
 
           <Swiper style={{ height: '100%' }} onSwiper={setSwiper} onSlideChange={(e) => { setState(e.activeIndex) }} >
-            <SwiperSlide style={{ height: '100%'}}>
-              <motion.div style={{height:'100%'}} animate={{ opacity: state == 0 ? 1 : 0 }}>
+            <SwiperSlide style={{ height: '100%' }}>
+              <motion.div style={{ height: '100%' }} animate={{ opacity: state == 0 ? 1 : 0 }}>
                 <Home />
               </motion.div>
             </SwiperSlide>
-            <SwiperSlide style={{ height: '100%'}}>
-              <motion.div style={{height:'100%'}} animate={{ opacity: state == 1 ? 1 : 0 }}>
+            <SwiperSlide style={{ height: '100%' }}>
+              <motion.div style={{ height: '100%' }} animate={{ opacity: state == 1 ? 1 : 0 }}>
                 <Product />
               </motion.div>
             </SwiperSlide>
-            <SwiperSlide style={{ height: '100%'}}>
-              <motion.div style={{height:'100%'}} animate={{ opacity: state == 2 ? 1 : 0 }}>
+            <SwiperSlide style={{ height: '100%' }}>
+              <motion.div style={{ height: '100%' }} animate={{ opacity: state == 2 ? 1 : 0 }}>
 
                 {localStorage.getItem('user') ? <Profile /> : <Login />}
 
@@ -133,7 +131,7 @@ export default ({ children, content }) => {
           <Nav setState={(e) => { setState(e); swiper.slideTo(e) }} state={state} />
         </div>
       </div>
-      
+
     </Page>
   )
 }

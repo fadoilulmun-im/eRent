@@ -26,7 +26,7 @@ export const dateFormat = (
 }
 
 export const fileUpload = async (
-  file: File,
+  file: File | any,
   path: string = '',
 ) => {
   if (!file) {

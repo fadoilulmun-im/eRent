@@ -78,7 +78,7 @@ export default () => {
                     ))}
                 </div>
             </div>
-            <Filter show={() => { getBarang(keyword, 0, category) }} onCategorySwitch={(e) => { setCategory(e) }} />
+            <Filter show={() => { getBarang(keyword, 0, category) }} onSortSwitch={(e)=>{}} onCategorySwitch={(e) => { setCategory(e) }} />
         </div>
     )
 }
