@@ -83,4 +83,8 @@ export default {
     import("./components/button-edit-profile"),
     { c: "", s: "", h: "" },
   ],
+  "order-history": () => [
+    import("./components/order-history"),
+    { c: "", s: "", h: "" },
+  ],
 };
