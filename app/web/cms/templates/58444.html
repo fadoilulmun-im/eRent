@@ -12,9 +12,7 @@
               Return Date
             </div>
             <div class="flex self-stretch space-x-2.5 items-start justify-start px-3 py-2.5 bg-gray-100 border rounded border-gray-100">
-              <div class="text-sm leading-snug text-coolGray-900">
-                20/10/2021
-              </div>
+              <input type="date" class="w-full" />
               <div />
             </div>
           </div>
@@ -26,11 +24,15 @@
             </div>
             <div class="flex self-stretch space-x-2 items-start justify-start px-3 py-2.5 bg-gray-100 border rounded border-gray-100">
               <div class="flex flex-1 items-start justify-start">
-                <div class="text-base leading-relaxed text-coolGray-900">
-                  Erent Shipping
-                </div>
+                <select
+                  class={
+                    "flex items-center justify-start bg-gray-100 border rounded border-gray-100 w-full"
+                  }
+                >
+                  <option value="erent-shipping">Erent Shipping</option>
+                  <option value="self-pick-up">Self Pick Up</option>
+                </select>
               </div>
-              <div />
             </div>
           </div>
           <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
