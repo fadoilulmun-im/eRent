@@ -23,6 +23,8 @@ export default () => {
             } else {
                 setBarangs(e.data)
             }
+        }).catch((e)=>{
+            console.log(e);
         })
     }
 

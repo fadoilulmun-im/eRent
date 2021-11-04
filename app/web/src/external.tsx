@@ -59,6 +59,11 @@ export default {
   search: () => [import("./components/search"), { c: "", s: "", h: "" }],
   detailProduct: () => [import("./components/detailProduct"), { c: "", s: "", h: "" }],
   editProfil: () => [import("./components/editProfil"), { c: "", s: "", h: "" }],
+  newAddress: () => [import("./components/newAddress"), { c: "", s: "", h: "" }],
+  myAddress: () => [import("./components/myAddress"), { c: "", s: "", h: "" }],
+  cart: () => [import("./components/cart"), { c: "", s: "", h: "" }],
+  checkout: () => [import("./components/checkout"), { c: "", s: "", h: "" }],
+  
   "payment-nav": () => [
     import("./components/payment-nav"),
     { c: "", s: "", h: "" },

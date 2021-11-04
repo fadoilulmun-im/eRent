@@ -78,7 +78,7 @@ export default () => {
                     </div>
                     <svg style={{ width: '1.6rem', height: '1.6rem' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#111827" d="M14.83,11.29,10.59,7.05a1,1,0,0,0-1.42,0,1,1,0,0,0,0,1.41L12.71,12,9.17,15.54a1,1,0,0,0,0,1.41,1,1,0,0,0,.71.29,1,1,0,0,0,.71-.29l4.24-4.24A1,1,0,0,0,14.83,11.29Z" /></svg>
                 </button>
-                <button className="flex justify-between px-6 py-4 items-center hover:bg-gray-100 transition-all">
+                <button onClick={()=>{location.href="/m/my-address-mobile"}} className="flex justify-between px-6 py-4 items-center hover:bg-gray-100 transition-all">
                     <div className="flex items-center space-x-4">
                         <svg
                             style={{ width: '1.5rem', height: '1.5rem' }}

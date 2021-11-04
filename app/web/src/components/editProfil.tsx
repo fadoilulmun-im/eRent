@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from "react"
 import Tab from "./Tab";
 import SaveCancel from "./saveCancel";
 import { Page } from 'framework7-react';
-import { fileUpload } from "src/global";
+import { fileUpload } from "../global";
 import { api } from "web.utils/src/api";
 import Loding from "./loding";
 import Notif from "./notif";
-import { eventBus } from "src/global";
+import { eventBus } from "../global";
 
 export default () => {
     const [user, setUser] = useState({ id: null, name: '', email: '', phoneNumber: '', password: '', rePassword: '', companyName: '' });

@@ -52,7 +52,6 @@ export default () => {
                     <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
                 </div>
             </div>
-
         </div>
     )
 }

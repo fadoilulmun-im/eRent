@@ -11,14 +11,14 @@ import { motion } from "framer-motion";
 import { eventBus } from "../global"
 import Notif from "./notif";
 import Loding from "./loding";
-import Filter from "./comp/filter";
+
 
 
 const Nav = (props) => {
 
   return (<div
     className="items-center bg-white shadow flex "
-    style={{ boxShadow: '0px -4px 10px rgba(0, 0, 0, 0.15)', zIndex: 9, paddingLeft: '2rem', paddingRight: '2rem', paddingTop: '1rem', paddingBottom: '1.5rem' }}
+    style={{ boxShadow: '0px -4px 10px rgba(0, 0, 0, 0.15)', zIndex: 10, paddingLeft: '2rem', paddingRight: '2rem', paddingTop: '1rem', paddingBottom: '1.5rem' }}
   >
     <button onClick={() => { props.setState(0) }} className=" flex flex-col items-center justify-between space-y-2">
       <svg
@@ -116,6 +116,7 @@ export default ({ children, content }) => {
             <SwiperSlide style={{ height: '100%' }}>
               <motion.div style={{ height: '100%' }} animate={{ opacity: state == 1 ? 1 : 0 }}>
                 <Product />
+
               </motion.div>
             </SwiperSlide>
             <SwiperSlide style={{ height: '100%' }}>

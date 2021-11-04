@@ -25,7 +25,7 @@ export default (props) => {
     >
         <button
             onClick={() => {
-                window.history.back();
+                props.onBack?props.onBack():window.history.back();
                 //history.back();
             }}
             className={props.mode === 1 ? "hidden" : ""}
