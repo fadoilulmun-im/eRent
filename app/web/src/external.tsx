@@ -76,7 +76,7 @@ export default {
     import("./components/item-cart2"),
     { c: "", s: "", h: "" },
   ],
-  address: () => [import("./components/address"), { c: "", s: "", h: "" }],
+  address: () => [import("./components/comp/address"), { c: "", s: "", h: "" }],
   // "save-cancel": () => [
   //   import("./components/saveCancel"),
   //   { c: "", s: "", h: "" },

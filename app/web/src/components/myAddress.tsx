@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import Notif from "./notif";
 import Loding from "./loding";
 import NewAddress from "./newAddress";
-import Address from "./address";
+import Address from "./comp/address";
 import { api } from "web.utils/src/api";
 
 
@@ -22,7 +22,7 @@ const AllAddr = (props) => {
                 <span className="px-6 font-bold text-2xl">My Address</span>
                 <div className="flex flex-col w-full pb-10 ">
                     {props.addrs.map((x, i) => (
-                        <Address onClick={()=>{props.onSwitch(i)}} gray={(props.switch==i)} onEdit={() => { props.onEdit(i) }} data={x} key={i} />
+                        <Address onClick={()=>{props.onSwitch(x.id)}} gray={(props.switch==x.id)} onEdit={() => { props.onEdit(i) }} data={x} key={i} />
                     ))}
 
                 </div>
@@ -39,9 +39,9 @@ const AllAddr = (props) => {
     )
 }
 
-export default ({ children, content }) => {
+export default () => {
     //const _component = useComponent("btn","/app/web/src/components/test",{});
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({alamat_utama:0,id:0})
     const [state, setState] = useState(0);
     const [swiper, setSwiper] = useState({ slideTo: (e) => { } });
     const [loding, setLoding] = useState(true);
@@ -52,11 +52,11 @@ export default ({ children, content }) => {
     const [editAddr, setEditAddr] = useState(null);
 
     useEffect(() => {
-        let u = localStorage.getItem('user')
-        if (u) {
-            let uu = JSON.parse(u);
-            setUser(uu);
-            getAllAddr(uu.id);
+        let uu = localStorage.getItem('user')
+        if (uu) {
+          let u =JSON.parse(uu) 
+          setUser(u)
+          getAllAddr(u.id);
         } else {
             location.href = '/m/'
         }
@@ -67,6 +67,10 @@ export default ({ children, content }) => {
     const getAllAddr = (uid) => {
         api(`/api/customer/${uid}/list-alamat`).then((e) => {
             setAllAddr(e.data);
+
+            if(user.alamat_utama){
+                setAddrIdx(user.alamat_utama);                
+            }
             //console.log(e.data);
         })
     }
@@ -95,6 +99,18 @@ export default ({ children, content }) => {
         swiper.slideTo(1);
     }
 
+    const onSwitch = (e)=>{
+        setAddrIdx(e);
+        console.log("eee",e)
+        api(`/api/customer/${user.id}/alamat-utama/${e}`).then((i)=>{
+            console.log(i);
+            if(i.status == 'SUCCESS'){
+                setUser(i.data);
+                localStorage.setItem('user',JSON.stringify(i.data));
+            }
+        })
+    }
+
     return (
 
         <Page >
@@ -108,7 +124,7 @@ export default ({ children, content }) => {
                     <Swiper allowTouchMove={false} style={{ height: '100%' }} onSwiper={setSwiper} onSlideChange={(e) => { setState(e.activeIndex) }}>
                         <SwiperSlide style={{ height: '100%' }}>
                             <div className="h-full">
-                                <AllAddr onSwitch={(e)=>{setAddrIdx(e)}} switch={addrIdx} onEdit={(e) => { onAddrEdit(e) }} addrs={allAddr} onNewAddr={() => { onNewAddr() }} />
+                                <AllAddr onSwitch={onSwitch} switch={addrIdx} onEdit={(e) => { onAddrEdit(e) }} addrs={allAddr} onNewAddr={() => { onNewAddr() }} />
                             </div>
                         </SwiperSlide>
                         <SwiperSlide style={{ height: '100%   ' }}>

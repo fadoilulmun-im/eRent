@@ -50,17 +50,19 @@ export default ({ id }) => {
       setBarang(e.data);
       setLoding(false);
     });
-
-    setUser(JSON.parse(localStorage.getItem('user')))
+    let uu = localStorage.getItem('user')
+    if (uu) {
+      setUser(JSON.parse(uu))
+    }
     // api("/api/barang?perPage=" + 4).then((e) => {
     //   console.log(e);
     // });
   }, [])
-  const add = ()=>{
+  const add = () => {
     console.log(user);
     if (user) {
-      
-      api(`/api/customer/${user['id']}/add-cart`,{id_barang:id,quantity:1}).then((e)=>{
+
+      api(`/api/customer/${user['id']}/add-cart`, { id_barang: id, quantity: 1 }).then((e) => {
         eventBus.dispatch("cart", { type: 0 })
         console.log(e);
       })
@@ -143,7 +145,7 @@ export default ({ id }) => {
             </div>
           </div>
         </div>
-        <RentNow onAdd={() => {add()}} />
+        <RentNow onAdd={() => { add() }} />
         {/* <rent-now
           id={params.id}
           onSucess={(e) => {
