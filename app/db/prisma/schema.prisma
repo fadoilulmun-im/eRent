@@ -23,19 +23,20 @@ model admin {
 }
 
 model customer {
-  id               Int               @id @default(autoincrement())
-  email            String            @unique @db.VarChar(100)
-  password         String            @db.VarChar(150)
-  no_hp            String?           @db.VarChar(50)
-  kategori_alamat  String?           @db.VarChar(255)
-  surat_ket_pt     String?           @db.VarChar(255)
-  status           Boolean?
-  nama_perusahaan  String?           @db.VarChar(255)
-  nama_customer    String?           @db.VarChar(200)
-  foto             String?           @db.VarChar(200)
-  alamat           alamat[]
-  token_reset_pass token_reset_pass?
-  transaksi        transaksi[]
+  id                                   Int               @id @default(autoincrement())
+  email                                String            @unique @db.VarChar(100)
+  password                             String            @db.VarChar(150)
+  no_hp                                String?           @db.VarChar(50)
+  surat_ket_pt                         String?           @db.VarChar(255)
+  status                               Boolean?
+  nama_perusahaan                      String?           @db.VarChar(255)
+  nama_customer                        String?           @db.VarChar(200)
+  foto                                 String?           @db.VarChar(200)
+  alamat_utama                         Int?
+  alamat_alamatTocustomer_alamat_utama alamat?           @relation("alamatTocustomer_alamat_utama", fields: [alamat_utama], references: [id])
+  alamat                               alamat[]
+  token_reset_pass                     token_reset_pass?
+  transaksi                            transaksi[]
 }
 
 model barang {
@@ -69,7 +70,7 @@ model transaksi {
   id                   Int                @id @default(autoincrement())
   id_customer          Int
   id_admin             Int?
-  tanggal_pemesanan    DateTime?          @db.Timestamp(6)
+  tanggal_pemesanan    DateTime?          @db.Time(6)
   bukti_pembayaran     String?            @db.VarChar(255)
   tanggal_approve      DateTime?          @db.Timestamp(6)
   tanggal_pembayaran   DateTime?          @db.Timestamp(6)
@@ -106,19 +107,20 @@ model status {
 }
 
 model alamat {
-  id                 Int         @id @default(autoincrement())
-  id_customer        Int
-  kategori_alamat    String      @db.VarChar(100)
-  nama               String      @db.VarChar(100)
-  no_hp              String      @db.VarChar(20)
-  alamat_pengiriman  String      @db.VarChar(100)
-  provinsi           String      @db.VarChar(100)
-  kecamatan          String      @db.VarChar(100)
-  kode_pos           String?     @db.VarChar(10)
-  informasi_tambahan String?     @db.VarChar(100)
-  kota               String      @db.VarChar(100)
-  customer           customer    @relation(fields: [id_customer], references: [id])
-  transaksi          transaksi[]
+  id                                     Int         @id @default(autoincrement())
+  id_customer                            Int
+  kategori_alamat                        String      @db.VarChar(100)
+  nama                                   String      @db.VarChar(100)
+  no_hp                                  String      @db.VarChar(20)
+  alamat_pengiriman                      String      @db.VarChar(100)
+  provinsi                               String      @db.VarChar(100)
+  kecamatan                              String      @db.VarChar(100)
+  kode_pos                               String?     @db.VarChar(10)
+  informasi_tambahan                     String?     @db.VarChar(100)
+  kota                                   String      @db.VarChar(100)
+  customer                               customer    @relation(fields: [id_customer], references: [id])
+  customer_alamatTocustomer_alamat_utama customer[]  @relation("alamatTocustomer_alamat_utama")
+  transaksi                              transaksi[]
 }
 
 model bank {
