@@ -16,7 +16,6 @@ model admin {
   no_hp     String?     @db.VarChar(50)
   email     String      @db.VarChar(200)
   role      Boolean?
-  alamat    String?     @db.VarChar(255)
   transaksi transaksi[]
 
   @@unique([username, email], name: "admin_username_email_key")
