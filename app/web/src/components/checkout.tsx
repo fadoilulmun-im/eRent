@@ -7,6 +7,8 @@ import PriceBox from './comp/priceBox';
 import Address from "./comp/address";
 import { Page, Popup } from 'framework7-react';
 import { numberWithCommas } from "../global";
+import SelectBox from "./comp/selectBox";
+import BottomBox from "./comp/bottomBox";
 
 function formatDate(date) {
     var d = new Date(date),
@@ -33,28 +35,7 @@ function datediff(first, second) {
 }
 
 
-const Selcet = (props) => {
-    return (<div className={" transition-all flex self-stretch flex-col space-y-4 items-start justify-start px-6 py-2 "}>
-        <div className="flex self-stretch space-x-4 items-center justify-between">
-            <div className="text-base font-semibold leading-relaxed text-coolGray-900">
-                {props.header}
-            </div>
 
-            <a onClick={() => { props.onEdit() }} className="text-xs font-bold leading-tight text-right text-coolGray-300">
-                Change Method
-            </a>
-
-        </div>
-        <div onClick={() => { props.onClick() }} className="flex self-stretch space-x-3 items-center justify-start">
-            <div className="flex flex-col items-center justify-center px-1 py-0.5">
-                {props.icon}
-            </div>
-            <div className="text-sm leading-snug text-coolGray-900">
-                {props.title}
-            </div>
-        </div>
-    </div>)
-}
 
 const PaymentItem = (props) => {
     return (
@@ -83,32 +64,6 @@ const ShipingItem = (props) => {
 }
 
 
-const BottomBox = (props) => {
-    return (<div
-        className="flex self-stretch items-center justify-start px-6 py-4 bg-white shadow"
-        style={{ boxShadow: '0px -4px 10px rgba(0, 0, 0, 0.15)', zIndex: 10 }}
-    >
-        <div className="flex flex-1 space-x-4 items-center justify-start">
-            <div className="flex flex-1 flex-col space-y-0.5 items-start justify-start">
-                <div className="text-base font-medium leading-relaxed text-coolGray-500">
-                    Admin Cost
-                </div>
-                <div className="text-xl font-semibold text-coolGray-900">
-                    Rp {props.total_harga ? numberWithCommas(props.total_harga) : 0}
-                </div>
-            </div>
-            <div className="flex items-center justify-end px-6 py-2 bg-blue-700 rounded">
-                <button
-                    onClick={props.btnClick}
-                    className="text-base font-medium leading-relaxed text-center text-white"
-                >
-                    Chose This
-                </button>
-            </div>
-        </div>
-    </div>)
-}
-
 
 export default () => {
 
@@ -116,14 +71,14 @@ export default () => {
 
     const [price, setPrice] = useState({ price: 0, qty: 0 });
 
-    const [loding, setLoding] = useState(false);
+    const [loding, setLoding] = useState(true);
     const today = new Date();
     const [startDate, setStartDate] = useState(formatDate(today));
     const [endDate, setEndtDate] = useState(formatDate(new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000)));
     const [cart, setCart] = useState<any>([]);
     const [delList, setDelList] = useState([]);
 
-    const [addrs, setAddrs] = useState(null);
+    const [addrs, setAddrs] = useState({id:0});
 
 
     const [paymentPop, setPaymentPop] = useState(false);
@@ -153,7 +108,7 @@ export default () => {
             setUser(u)
             api(`/api/customer/${u.id}/cart`).then((e) => {
                 if (e.status == 'SUCCESS') {
-                    console.log(e.data);
+                    console.log(e);
                     setCart(e.data);
                     count(e.data, delList);
                 }
@@ -247,6 +202,31 @@ export default () => {
 
     }
 
+    const checkoutE = ()=>{
+        // tanggal_peminjaman,
+        // tanggal_pengembalian,
+        // id_bank,
+        // kirim,
+        // id_alamat,
+        // biaya_pengiriman,
+        api(`/api/checkout/${cart[0].transaksi.id}`,
+        {
+            tanggal_peminjaman:startDate,
+            tanggal_pengembalian:endDate,
+            kirim:shippingSwitch == 0,
+            id_alamat:addrs.id,
+            id_bank:1,
+            biaya_pengiriman:allShipping[shippingSwitch].cost
+
+        }).then((e)=>{
+            console.log(e);
+            if(e.status == 'SUCCESS'){
+                location.href="/m/order-detail-mobile/"+cart[0].transaksi.id;
+            }
+        })
+        console.log(cart)
+    }
+
     return (
         <>
             <Loding state={loding} />
@@ -292,8 +272,8 @@ export default () => {
                     {addrs ? (<Address data={addrs} onEdit={() => { location.href = '/m/my-address-mobile' }} />) : (
                         <span onClick={() => { location.href = '/m/my-address-mobile' }} className="flex justify-center items-center"> select address first </span>
                     )}
-                    <Selcet header="Payment Method" icon={<img style={{ width: '3rem' }} src="/fimgs/262_242.x3.png" />} title={allPayment[paymentSwitch].name} onEdit={() => { setPaymentPop(true) }} />
-                    <Selcet header="Choose Shipping" icon={allShipping[shippingSwitch].icon} title={allShipping[shippingSwitch].name} onEdit={() => { setShippingPop(true) }} />
+                    <SelectBox header="Payment Method" icon={<img style={{ width: '3rem' }} src="/fimgs/262_242.x3.png" />} title={allPayment[paymentSwitch].name} onEdit={() => { setPaymentPop(true) }} />
+                    <SelectBox header="Choose Shipping" icon={allShipping[shippingSwitch].icon} title={allShipping[shippingSwitch].name} onEdit={() => { setShippingPop(true) }} />
 
 
                     <div className="flex self-stretch flex-col space-y-4 items-start justify-start px-6">
@@ -333,7 +313,7 @@ export default () => {
 
                     {/* <Address data={x} /> */}
                 </div>
-                <PriceBox btnClick={() => { location.href = '/m/checkout-mobile' }} total_item={price.qty} total_harga={price.price + (allPayment[paymentSwitch].cost) + (allShipping[shippingSwitch].cost)} btn_title="Checkout" />
+                <PriceBox btnClick={() => { checkoutE() }} total_item={price.qty} total_harga={price.price + (allPayment[paymentSwitch].cost) + (allShipping[shippingSwitch].cost)} btn_title="Checkout" />
             </div>
 
 

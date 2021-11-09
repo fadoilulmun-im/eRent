@@ -7,12 +7,13 @@ export default (props) => {
     <div  className={(props.gray? 'bg-gray-100':'')+" transition-all flex self-stretch flex-col space-y-4 items-start justify-start px-6 py-2 "}>
       <div className="flex self-stretch space-x-4 items-center justify-between">
         <div className="text-base font-semibold leading-relaxed text-coolGray-900">
-          {props.data.kategori_alamat != '' ? props.data.kategori_alamat : "No titel"}
+          {props.title?props.title:(props.data.kategori_alamat != '' ? props.data.kategori_alamat : "No titel")}
         </div>
 
-        <a onClick={()=>{props.onEdit()}} className="text-xs font-bold leading-tight text-right text-coolGray-300">
+
+        { props.canEdit?"":<a onClick={()=>{props.onEdit()}} className="text-xs font-bold leading-tight text-right text-coolGray-300">
           Change Address
-        </a>
+        </a>}
 
       </div>
       <div onClick={()=>{props.onClick()}} className="flex self-stretch space-x-3 items-start justify-start">

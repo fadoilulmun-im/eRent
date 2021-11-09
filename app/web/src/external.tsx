@@ -63,6 +63,8 @@ export default {
   myAddress: () => [import("./components/myAddress"), { c: "", s: "", h: "" }],
   cart: () => [import("./components/cart"), { c: "", s: "", h: "" }],
   checkout: () => [import("./components/checkout"), { c: "", s: "", h: "" }],
+  myOrder: () => [import("./components/myOrder"), { c: "", s: "", h: "" }],
+  orderDetail: () => [import("./components/orderDetail"), { c: "", s: "", h: "" }],
   
   "payment-nav": () => [
     import("./components/payment-nav"),
