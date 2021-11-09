@@ -31,6 +31,12 @@ expose({
         data,
       })
     }
+    
+    //cobak socekt nk kene
+    
+    console.log("Farid")
+
+
 
     await server(main, mode, parent)
   },

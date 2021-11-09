@@ -1,15 +1,27 @@
-import React from 'react';
+
 import ItemBox from './comp/ItemBox';
 import { Page, Navbar, BlockTitle, Swiper, SwiperSlide, Block, } from 'framework7-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { api } from 'web.utils/src/api';
 
 export default () => {
-    const [keyword,setKeyword] = useState('');
+    const [keyword, setKeyword] = useState('');
+    const [items, setItems] = useState<any>([]);
+
     const search = (e) => {
-        if(e.code == 'Enter'){
-            location.href = "/m/search-mobile/"+keyword
+        if (e.code == 'Enter') {
+            location.href = "/m/search-mobile/" + keyword
         }
     }
+    useEffect(() => {
+        api('/api/barang/favorit').then((e) => {
+            if (e.status == 'SUCCESS') {
+                setItems(e.data);
+            }
+        })
+    }, [])
+
+
     return (
         <div className="flex self-stretch flex-col  flex-grow space-y-7 items-start justify-start h-full overflow-y-auto"
             style={{ paddingBottom: '3rem' }}>
@@ -23,7 +35,7 @@ export default () => {
                             placeholder="Search"
                             className="w-full bg-transparent"
                             value={keyword}
-                            onChange={(e)=>{setKeyword(e.target.value)}}
+                            onChange={(e) => { setKeyword(e.target.value) }}
                             onKeyPress={(e) => { search(e) }}
                         />
                         <img src="/fimgs/I308_1998_157_91.x1.svg" />
@@ -35,6 +47,7 @@ export default () => {
                     New Arrival
                 </div>
                 <div className="grid grid-cols-2 gap-3 w-full px-6">
+
                     <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
                     <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
                     <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
@@ -46,10 +59,13 @@ export default () => {
                     Recommend for you
                 </div>
                 <div className="grid grid-cols-2 gap-3 w-full px-6">
+                    {items.map((x, i) => (
+                        <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
+                    ))}
+                    {/* <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
                     <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
                     <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
+                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} /> */}
                 </div>
             </div>
         </div>
