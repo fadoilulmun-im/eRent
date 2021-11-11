@@ -1,6 +1,12 @@
 import { expose } from 'builder'
 import { CustomGlobal, MainControl, server } from './server'
 import fetch from 'node-fetch'
+
+
+
+
+
+
 declare const global: CustomGlobal
 
 global.fetch = fetch
@@ -32,12 +38,6 @@ expose({
       })
     }
     
-    //cobak socekt nk kene
-    
-    console.log("Farid")
-
-
-
     await server(main, mode, parent)
   },
   onMessage: async (msg: any) => {

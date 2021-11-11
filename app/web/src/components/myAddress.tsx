@@ -6,7 +6,7 @@ import Tab from "./Tab";
 import Home from "./home";
 import { motion } from "framer-motion";
 
-import Notif from "./notif";
+// import Notif from "./notif";
 import Loding from "./loding";
 import NewAddress from "./newAddress";
 import Address from "./comp/address";
@@ -114,7 +114,7 @@ export default () => {
     return (
 
         <Page >
-            <Notif />
+            {/* <Notif /> */}
             <Loding state={loding} />
             <div className="h-screen flex flex-col bg-white">
                 <div className="">

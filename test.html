@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"
+        integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="time" class="uid" />
+    <input type="text" class="inp">
+    <button class="btn">send</button>
+</body>
+<script>
+
+    //tt = new Date()
+    //tt.setHours(12,30,40,0)
+
+    //dT = Math.abs(tt -  new Date())
+    //console.log(dT)
+    //setTimeout(()=>{
+    //  alert("yeahhh")
+    //}, dT, "time's up!")
+
+    const socket = io("http://127.0.0.1:666", { transports: ['websocket'] });
+
+    socket.on("notif_5", (e) => {
+        console.log("oleh data")
+        console.log(e)
+    })
+
+    $(".btn").on("click", () => {
+        console.log("click")
+        let time = new Date()
+        time.setHours(15, 14, 0, 0);
+        //socket.emit("admin", { user_id: 5, time: time.getTime(), event: "notif", data:{message:$(".inp").val()}})
+        //socket.emit("cobak","ini adalah data");
+        
+    })
+
+</script>
+
+</html>
