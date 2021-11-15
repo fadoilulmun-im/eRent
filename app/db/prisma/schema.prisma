@@ -16,7 +16,6 @@ model admin {
   no_hp     String?     @db.VarChar(50)
   email     String      @db.VarChar(200)
   role      Boolean?
-  alamat    String?     @db.VarChar(255)
   transaksi transaksi[]
 
   @@unique([username, email], name: "admin_username_email_key")
@@ -70,21 +69,21 @@ model transaksi {
   id                   Int                @id @default(autoincrement())
   id_customer          Int
   id_admin             Int?
-  tanggal_pemesanan    DateTime?          @db.Time(6)
   bukti_pembayaran     String?            @db.VarChar(255)
   tanggal_approve      DateTime?          @db.Timestamp(6)
   tanggal_pembayaran   DateTime?          @db.Timestamp(6)
   quantity             Int?
   tanggal_selesai      DateTime?          @db.Timestamp(6)
   total_harga          Int?
-  tanggal_peminjaman   DateTime?          @db.Timestamp(6)
-  tanggal_pengembalian DateTime?          @db.Timestamp(6)
+  tanggal_peminjaman   DateTime?          @db.Date
+  tanggal_pengembalian DateTime?          @db.Date
   status_transaksi     Int?
   kode_unik            Int?               @db.SmallInt
   id_bank              Int?
   is_kirim             Boolean?
   id_alamat            Int?
   biaya_pengiriman     Int?               @db.SmallInt
+  tanggal_pemesanan    DateTime?          @db.Timestamp(6)
   admin                admin?             @relation(fields: [id_admin], references: [id])
   alamat               alamat?            @relation(fields: [id_alamat], references: [id])
   bank                 bank?              @relation(fields: [id_bank], references: [id])
@@ -148,9 +147,17 @@ model option {
 }
 
 model track_order {
-  id           Int       @id @default(autoincrement())
-  desc         String    @db.VarChar(300)
-  created_at   DateTime  @default(now()) @db.Timestamp(6)
-  id_transaksi Int
-  transaksi    transaksi @relation(fields: [id_transaksi], references: [id])
+  id                Int            @id @default(autoincrement())
+  created_at        DateTime       @default(now()) @db.Timestamp(6)
+  id_transaksi      Int
+  id_track_template Int
+  track_template    track_template @relation(fields: [id_track_template], references: [id])
+  transaksi         transaksi      @relation(fields: [id_transaksi], references: [id])
+}
+
+model track_template {
+  id          Int           @id @default(autoincrement())
+  title       String        @db.VarChar(50)
+  desc        String        @db.VarChar(100)
+  track_order track_order[]
 }
