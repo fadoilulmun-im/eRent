@@ -23,13 +23,7 @@ export default {
     import("./components/button-default"),
     { c: "", s: "", h: "" },
   ],
-  checkbox: () => [import("./components/checkbox"), { c: "", s: "", h: "" }],
   textinput: () => [import("./components/textinput"), { c: "", s: "", h: "" }],
-  coolbutton: () => [
-    import("./components/coolbutton"),
-    { c: "", s: "", h: "" },
-  ],
-  btn: () => [import("./components/test"), { c: "", s: "", h: "" }],
   "box-item": () => [import("./components/box-item"), { c: "", s: "", h: "" }],
   navbar: () => [import("./components/navbar"), { c: "", s: "", h: "" }],
   "box-item2": () => [
@@ -63,6 +57,10 @@ export default {
   myAddress: () => [import("./components/myAddress"), { c: "", s: "", h: "" }],
   cart: () => [import("./components/cart"), { c: "", s: "", h: "" }],
   checkout: () => [import("./components/checkout"), { c: "", s: "", h: "" }],
+  myOrder: () => [import("./components/myOrder"), { c: "", s: "", h: "" }],
+  orderDetail: () => [import("./components/orderDetail"), { c: "", s: "", h: "" }],
+  notification: () => [import("./components/notification"), { c: "", s: "", h: "" }],
+
   
   "payment-nav": () => [
     import("./components/payment-nav"),

@@ -61,6 +61,17 @@ export default () => {
             });
         }
         if ((user.password != '') && (user.rePassword != '')) {
+            console.log("eeee password");
+            if(user.password === user.rePassword){
+                api(`/api/customer/${user.id}/change-password`,{password:user.password}).then((e)=>{
+                    eventBus.dispatch('notif',{message:e.message})
+                    console.log(e)
+                    setUser({...user,password:"",rePassword:""})
+
+                })
+            }else{
+                eventBus.dispatch('notif',{message:'Password tidak sama'})
+            }
             // api()
         }
         api(`/api/customer/${user.id}/update`, { email: user.email, no_hp: user.phoneNumber, nama_perusahaan: user.companyName, nama_customer: user.name }).then((e) => {

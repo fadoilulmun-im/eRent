@@ -57,6 +57,7 @@
     "react-refresh": "^0.10.0",
     "safe-string-literal": "^1.0.4",
     "sharp": "^0.28.3",
+    "socket.io": "^4.3.2",
     "sodium-universal": "^3.0.4",
     "ts-dedent": "^2.1.1",
     "type-fest": "^1.2.1",

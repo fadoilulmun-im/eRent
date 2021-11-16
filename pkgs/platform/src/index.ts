@@ -1,6 +1,12 @@
 import { expose } from 'builder'
 import { CustomGlobal, MainControl, server } from './server'
 import fetch from 'node-fetch'
+
+
+
+
+
+
 declare const global: CustomGlobal
 
 global.fetch = fetch
@@ -31,7 +37,7 @@ expose({
         data,
       })
     }
-
+    
     await server(main, mode, parent)
   },
   onMessage: async (msg: any) => {
