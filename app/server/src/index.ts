@@ -32,7 +32,7 @@ io.on("connection", (socket) => {
   console.log(socket.id);
 });
 
-io.listen(666)
+io.listen(3333)
 
 
 export const ext = {
