@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require("path");
 const pump = require("pump")
+const socketio = require('./socketio')
 
 export const ext = {
   argon2,
@@ -11,5 +12,6 @@ export const ext = {
   crypto,
   fs,
   path,
-  pump
+  pump,
+  socketio
 }
