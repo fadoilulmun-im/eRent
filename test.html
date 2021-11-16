@@ -19,15 +19,6 @@
 </body>
 <script>
 
-    //tt = new Date()
-    //tt.setHours(12,30,40,0)
-
-    //dT = Math.abs(tt -  new Date())
-    //console.log(dT)
-    //setTimeout(()=>{
-    //  alert("yeahhh")
-    //}, dT, "time's up!")
-
     const socket = io("http://127.0.0.1:666", { transports: ['websocket'] });
 
     socket.on("notif_5", (e) => {
@@ -43,7 +34,8 @@
         //socket.emit("cobak","ini adalah data");
         
     })
+    
+
 
 </script>
-
 </html>

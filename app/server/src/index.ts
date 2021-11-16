@@ -16,8 +16,8 @@ io.on("connection", (socket) => {
     if (e.time) {
       let tim = e.time - new Date().getTime();
 
-      console.log(e);
-      console.log(tim);
+      // console.log(e);
+      // console.log(tim);
       setTimeout(() => {
         io.emit(e.event + "_" + e.user_id, e.data);
       }, tim, "data")
@@ -42,6 +42,5 @@ export const ext = {
   fs,
   path,
   pump,
-  
   
 }
