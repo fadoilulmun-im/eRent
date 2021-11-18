@@ -5,7 +5,8 @@
   "scripts": {},
   "dependencies": {
     "argon2": "^0.28.2",
-    "nodemailer": "^6.6.5"
+    "nodemailer": "^6.6.5",
+    "socket.io": "^4.3.2"
   },
   "types": "./src/index.ts",
   "main": "./build/index.js"
