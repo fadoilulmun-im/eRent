@@ -40,7 +40,7 @@ export const ext = {
   sendEmail,
   crypto,
   fs,
-  path,
+  path, 
   pump,
-  
+  io
 }

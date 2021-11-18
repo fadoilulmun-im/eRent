@@ -100,9 +100,10 @@ model token_reset_pass {
 }
 
 model status {
-  id        Int         @id @default(autoincrement())
-  nama      String      @db.VarChar(100)
-  transaksi transaksi[]
+  id             Int              @id @default(autoincrement())
+  nama           String           @db.VarChar(100)
+  track_template track_template[]
+  transaksi      transaksi[]
 }
 
 model alamat {
@@ -159,5 +160,15 @@ model track_template {
   id          Int           @id @default(autoincrement())
   title       String        @db.VarChar(50)
   desc        String        @db.VarChar(100)
+  id_status   Int?
+  status      status?       @relation(fields: [id_status], references: [id])
   track_order track_order[]
+}
+
+model notif {
+  id          Int      @id @default(autoincrement())
+  id_customer Int
+  title       String   @db.VarChar(50)
+  desc        String   @db.VarChar(100)
+  created_at  DateTime @default(now()) @db.Timestamp(6)
 }
