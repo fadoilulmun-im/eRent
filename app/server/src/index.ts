@@ -5,12 +5,16 @@ const fs = require('fs');
 const path = require("path");
 const pump = require("pump");
 
+// socket untuk client di api (ilul)
+import { io } from "socket.io-client";
+const socket = io("http://127.0.0.1:3333");
+
 import { Server } from "socket.io";
 
-const io = new Server();
+const ioServer = new Server();
 
 console.log("frrrrrdd")
-io.on("connection", (socket) => {
+ioServer.on("connection", (socket) => {
 
   socket.on("admin", (e) => {
     if (e.time) {
@@ -19,9 +23,11 @@ io.on("connection", (socket) => {
       // console.log(e);
       // console.log(tim);
       setTimeout(() => {
-        io.emit(e.event + "_" + e.user_id, e.data);
+        ioServer.emit(e.event + "_" + e.user_id, e.data);
       }, tim, "data")
 
+    }else{
+      ioServer.emit(e.event + "_" + e.user_id, e.data);
     }
   })
 
@@ -32,7 +38,7 @@ io.on("connection", (socket) => {
   console.log(socket.id);
 });
 
-io.listen(3333)
+ioServer.listen(3333)
 
 
 export const ext = {
@@ -42,5 +48,5 @@ export const ext = {
   fs,
   path, 
   pump,
-  io
+  socket
 }

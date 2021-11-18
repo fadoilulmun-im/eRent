@@ -4,7 +4,7 @@ import './index.css'
 import { eventBus } from "./global"
 
 
-const socket = io("http://127.0.0.1:666", { transports: ['websocket'] });
+const socket = io("http://127.0.0.1:3333", { transports: ['websocket'] });
 socket.on("connect", () => {
     console.log("konek ke soket");
     let time = new Date();
