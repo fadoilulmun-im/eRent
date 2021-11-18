@@ -7,6 +7,7 @@ import { api } from 'web.utils/src/api';
 export default () => {
     const [keyword, setKeyword] = useState('');
     const [items, setItems] = useState<any>([]);
+    const [newItems, setNewItems] = useState<any>([]);
 
     const search = (e) => {
         if (e.code == 'Enter') {
@@ -19,6 +20,12 @@ export default () => {
                 setItems(e.data);
             }
         })
+        api('/api/barang/new').then((e) => {
+            if (e.status == 'SUCCESS') {
+                setNewItems(e.data);
+            }
+        })
+
     }, [])
 
 
@@ -44,19 +51,7 @@ export default () => {
             </div>
             <div className="flex flex-col space-y-4 items-start justify-start w-full">
                 <div className="text-xl font-semibold text-coolGray-900 px-6">
-                    New Arrival
-                </div>
-                <div className="grid grid-cols-2 gap-3 w-full px-6">
-
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                </div>
-            </div>
-            <div className="flex flex-col space-y-4 items-start justify-start w-full">
-                <div className="text-xl font-semibold text-coolGray-900 px-6">
-                    Recommend for you
+                    Best Seller
                 </div>
                 <div className="grid grid-cols-2 gap-3 w-full px-6">
                     {items.map((x, i) => (
@@ -68,6 +63,21 @@ export default () => {
                     <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} /> */}
                 </div>
             </div>
+            <div className="flex flex-col space-y-4 items-start justify-start w-full">
+                <div className="text-xl font-semibold text-coolGray-900 px-6">
+                    New Arrival
+                </div>
+                <div className="grid grid-cols-2 gap-3 w-full px-6">
+                    {newItems.map((x, i) => (
+                        <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
+                    ))}
+                    {/* <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
+                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
+                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
+                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} /> */}
+                </div>
+            </div>
+
         </div>
     )
 }
