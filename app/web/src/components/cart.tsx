@@ -106,7 +106,7 @@ export default () => {
                     </div>
                 </div>
                 {/* <SaveCancel /> */}
-                <PriceBox btnClick={()=>{ location.href='/m/checkout-mobile'}} total_item={price.qty} total_harga={price.price} btn_title="Checkout" />
+                <PriceBox btn_disable={cart.length>0?false:true} btnClick={()=>{ location.href='/m/checkout-mobile'}} total_item={price.qty} total_harga={price.price} btn_title="Checkout" />
             </div>
         </>
     )

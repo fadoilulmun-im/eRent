@@ -60,6 +60,7 @@ export default {
   myOrder: () => [import("./components/myOrder"), { c: "", s: "", h: "" }],
   orderDetail: () => [import("./components/orderDetail"), { c: "", s: "", h: "" }],
   notification: () => [import("./components/notification"), { c: "", s: "", h: "" }],
+  trackOrder: () => [import("./components/trackOrder"), { c: "", s: "", h: "" }],
 
   
   "payment-nav": () => [

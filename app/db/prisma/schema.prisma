@@ -34,6 +34,7 @@ model customer {
   alamat_utama                         Int?
   alamat_alamatTocustomer_alamat_utama alamat?           @relation("alamatTocustomer_alamat_utama", fields: [alamat_utama], references: [id])
   alamat                               alamat[]
+  notif                                notif[]
   token_reset_pass                     token_reset_pass?
   transaksi                            transaksi[]
 }
@@ -170,5 +171,6 @@ model notif {
   id_customer Int
   title       String   @db.VarChar(50)
   desc        String   @db.VarChar(100)
-  created_at  DateTime @default(now()) @db.Timestamp(6)
+  created_at  DateTime @db.Timestamp(6)
+  customer    customer @relation(fields: [id_customer], references: [id])
 }

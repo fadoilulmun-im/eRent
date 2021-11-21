@@ -15,10 +15,10 @@ export default (props) => {
                         Rp {props.total_harga ? numberWithCommas(props.total_harga) : 0}
                     </div>
                 </div>
-                <div className="flex items-center justify-end px-6 py-2 bg-blue-700 rounded">
+                <div className={(props.btn_disable?"bg-gray-300":"bg-blue-700 ")+" flex items-center justify-end px-6 py-2 rounded"}>
                     <button
                         onClick={() => {
-                            props.btnClick();
+                            !props.btn_disable&&props.btnClick();
                         }}
                         className="text-base font-medium leading-relaxed text-center text-white"
                     >
