@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require("path");
 const pump = require("pump");
+const nowLocal = require("./function")
 
 // socket untuk client di api (ilul)
 import { io } from "socket.io-client";
@@ -13,7 +14,6 @@ import { Server } from "socket.io";
 
 const ioServer = new Server();
 
-console.log("frrrrrdd")
 ioServer.on("connection", (socket) => {
 
   socket.on("admin", (e) => {
@@ -24,18 +24,20 @@ ioServer.on("connection", (socket) => {
       // console.log(tim);
       setTimeout(() => {
         ioServer.emit(e.event + "_" + e.user_id, e.data);
+        // console.log('with time:', e.data);
       }, tim, "data")
 
     }else{
       ioServer.emit(e.event + "_" + e.user_id, e.data);
     }
+    console.log(e);
   })
 
   socket.on("cobak",(e)=>{
     console.log("dapat data dari client ",e)
   })
 
-  console.log(socket.id);
+  // console.log(socket.id);
 });
 
 ioServer.listen(3333)
@@ -48,5 +50,6 @@ export const ext = {
   fs,
   path, 
   pump,
-  socket
+  socket,
+  nowLocal
 }
