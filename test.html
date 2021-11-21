@@ -19,7 +19,7 @@
 </body>
 <script>
 
-    const socket = io("http://127.0.0.1:3333", { transports: ['websocket'] });
+    const socket = io("http://127.0.0.1:666", { transports: ['websocket'] });
 
     socket.on("notif_5", (e) => {
         console.log("oleh data")
@@ -29,8 +29,8 @@
     $(".btn").on("click", () => {
         console.log("click")
         let time = new Date()
-        time.setHours(12, 57, 0, 0);
-        socket.emit("admin", { user_id: 1, time: time.getTime(), event: "notif", data:{message:$(".inp").val()}})
+        time.setHours(15, 14, 0, 0);
+        socket.emit("admin", { user_id: 5, time: time.getTime(), event: "notif", data:{message:$(".inp").val()}})
         //socket.emit("cobak","ini adalah data");
         
     })

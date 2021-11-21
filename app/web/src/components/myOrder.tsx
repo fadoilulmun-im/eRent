@@ -84,7 +84,7 @@ export default () => {
             api(`/api/customer/${user.id}/orders${statusSwitch == 0?"":"?status="+statusSwitch}`).then((e)=>{
                 if(e.status == 'SUCCESS'){
                     setOrders(e.data);
-                    console.log(e.data)
+                    console.log(e)
                 }
             })
         }
