@@ -83,11 +83,13 @@ export default () => {
 
     const [paymentPop, setPaymentPop] = useState(false);
 
-    const allPayment = [
-        { name: "BankA", cost: 1000 },
-        { name: "BankB", cost: 2000 },
-        { name: "BankC", cost: 2000 }
-    ]
+
+    const [allPayment,setAllPayment] = useState<any>([]);
+    // [
+    //     { name: "BankA", cost: 1000 },
+    //     { name: "BankB", cost: 2000 },
+    //     { name: "BankC", cost: 2000 }
+    // ]
     const [paymentSwitch, setPaymentSwitch] = useState(0);
 
 
@@ -126,6 +128,11 @@ export default () => {
         } else {
             location.href = '/m/'
         }
+
+        api('/api/list-bank').then((e)=>{
+            setAllPayment(e.data);
+        })
+
     }, [])
     useEffect(() => {
         count(cart, delList);
@@ -272,7 +279,7 @@ export default () => {
                     {addrs ? (<Address data={addrs} onEdit={() => { location.href = '/m/my-address-mobile' }} />) : (
                         <span onClick={() => { location.href = '/m/my-address-mobile' }} className="flex justify-center items-center"> select address first </span>
                     )}
-                    <SelectBox header="Payment Method" icon={<img style={{ width: '3rem' }} src="/fimgs/262_242.x3.png" />} title={allPayment[paymentSwitch].name} onEdit={() => { setPaymentPop(true) }} />
+                    <SelectBox header="Payment Method" icon={<img style={{ width: '3rem' }} src="/fimgs/262_242.x3.png" />} title={allPayment.length > 0?allPayment[paymentSwitch].nama:"none"} onEdit={() => { setPaymentPop(true) }} />
                     <SelectBox header="Choose Shipping" icon={allShipping[shippingSwitch].icon} title={allShipping[shippingSwitch].name} onEdit={() => { setShippingPop(true) }} />
 
 
@@ -304,7 +311,7 @@ export default () => {
                                     Admin Cost
                                 </div>
                                 <div className="text-sm leading-snug text-right text-coolGray-900">
-                                    Rp{numberWithCommas(allPayment[paymentSwitch].cost)}
+                                    Rp{allPayment.length>0?numberWithCommas(allPayment[paymentSwitch].biaya_admin):"0"}
                                 </div>
                             </div>
                         </div>
@@ -313,7 +320,7 @@ export default () => {
 
                     {/* <Address data={x} /> */}
                 </div>
-                <PriceBox btnClick={() => { checkoutE() }} total_item={price.qty} total_harga={price.price + (allPayment[paymentSwitch].cost) + (allShipping[shippingSwitch].cost)} btn_title="Checkout" />
+                <PriceBox btnClick={() => { checkoutE() }} total_item={price.qty} total_harga={price.price + (allPayment.length>0?allPayment[paymentSwitch].biaya_admin:0) + (allShipping[shippingSwitch].cost)} btn_title="Checkout" />
             </div>
 
 
@@ -335,11 +342,11 @@ export default () => {
                                 Transfer Bank
                             </div>
                             {allPayment.map((x, i) => (
-                                <PaymentItem key={i} title={x.name} gray={paymentSwitch == i} onClick={() => { setPaymentSwitch(i) }} />
+                                <PaymentItem key={i} title={x.nama} gray={paymentSwitch == i} onClick={() => { setPaymentSwitch(i) }} />
                             ))}
 
                         </div>
-                        <BottomBox total_harga={allPayment[paymentSwitch].cost} btnClick={() => { setPaymentPop(false) }} />
+                        <BottomBox total_harga={allPayment.length>0?allPayment[paymentSwitch].biaya_admin:"0"} btnClick={() => { setPaymentPop(false) }} />
                     </div>
                 </div>
             </Popup>

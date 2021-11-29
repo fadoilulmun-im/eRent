@@ -1,6 +1,6 @@
-import { Button } from 'framework7-react';
+// import { Button } from 'framework7-react';
 import { api } from "web.utils/src/api";
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 export default () => {
 
@@ -17,12 +17,16 @@ export default () => {
 
 
     const logout = () => {
-        api('http://localhost:3200/api/logout').then((e) => {
-            if (e.status == 'SUCCESS') {
-                localStorage.removeItem('user');
-                location.reload();
-            }
-        });
+        // alert("I am an alert box!");
+        if (confirm("Are you sure you want to logout?")) {
+            api('/api/logout').then((e) => {
+                if (e.status == 'SUCCESS') {
+                    localStorage.removeItem('user');
+                    location.reload();
+                }
+            });
+          }
+
     }
     return (
         <div className="flex self-stretch flex-col  flex-grow space-y-5 items-start justify-start h-full overflow-y-auto"
@@ -117,9 +121,9 @@ export default () => {
                     <svg style={{ width: '1.6rem', height: '1.6rem' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#111827" d="M14.83,11.29,10.59,7.05a1,1,0,0,0-1.42,0,1,1,0,0,0,0,1.41L12.71,12,9.17,15.54a1,1,0,0,0,0,1.41,1,1,0,0,0,.71.29,1,1,0,0,0,.71-.29l4.24-4.24A1,1,0,0,0,14.83,11.29Z" /></svg>
                 </button>
             </div>
-            <div className="px-6">
-                <button onClick={() => { logout() }} className="text-base text-red-600 ">Log Out</button>
-            </div>
+
+            <button onClick={() => { logout() }} className=" flex justify-start text-base text-red-600 px-6">Log Out</button>
+            
         </div>
     )
 }

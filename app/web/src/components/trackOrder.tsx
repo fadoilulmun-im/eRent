@@ -3,7 +3,7 @@ import { useState,useEffect } from "react";
 import Loding from "./loding";
 import Tab from "./Tab";
 import { api } from "web.utils/src/api";
-import {padLeadingZeros} from '../global';
+import {padLeadingZeros,getDayName,getMonthName} from '../global';
 
 
 const DeliveryStatus = (props) => {
@@ -18,7 +18,7 @@ const DeliveryStatus = (props) => {
                     <span className={(props.active ? "text-blue-700 " : "") + " font-semibold"}>
                         {props.title?props.title:"Notitle"}
                     </span>
-                    <span className="text-gray-100">{props.time?props.time:"NoTime"}</span>
+                    <span className="text-gray-400">{props.time?props.time:"NoTime"}</span>
                 </div>
                 <span className={props.active ? "text-gray-500" : "text-gray-200"}>{props.desc?props.desc:"Nodecs"}</span>
             </div>
@@ -29,16 +29,9 @@ const DeliveryStatus = (props) => {
 export default (props) => {
     const [loding, setLoding] = useState(true);
     const [statuses,setStatuses] = useState<any>([]);
-    const [trackOrderId,setTrackOrderId] = useState(null);
+    const [trackOrderId,setTrackOrderId] = useState("");
 
-    const getDayName = (id)=>{
-        const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-        return weekdays[id];
-    }
-    const getMonthName = (id)=>{
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        return monthNames[id];
-    }   
+
     useEffect(()=>{
         if(props.id){
         api(`/api/transaksi/${props.id}/track-order`).then((e)=>{
@@ -51,7 +44,7 @@ export default (props) => {
                         active:i==0?true:false,
                         title:`System: ${getDayName(nd.getDay())}, ${nd.getDate()} ${getMonthName(nd.getMonth())} ${nd.getFullYear()}`,
                         desc: x.track_template.desc,
-                        time: padLeadingZeros(nd.getHours(),2)+":"+padLeadingZeros(nd.getMinutes())+ampm
+                        time: padLeadingZeros(nd.getHours(),2)+":"+padLeadingZeros(nd.getMinutes(),2)+ampm
                     }
                     data.push(out);
                 });

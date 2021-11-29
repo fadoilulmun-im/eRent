@@ -1,4 +1,12 @@
 <>
-  <effect meta={{}} run={async () => {}} />
+  <effect
+    meta={{}}
+    run={async () => {
+      console.log(user);
+      if (user.role != "customer") {
+        localStorage.removeItem("user");
+      }
+    }}
+  />
   {children}
 </>

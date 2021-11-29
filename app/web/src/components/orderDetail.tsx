@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { api } from 'web.utils/src/api';
 import PriceBox from './comp/priceBox';
 import { Page, Popup } from 'framework7-react';
-import { numberWithCommas, padLeadingZeros,fileUpload } from "../global";
+import { numberWithCommas, padLeadingZeros, fileUpload } from "../global";
 import { motion } from "framer-motion";
 import Address from "./comp/address";
 import SelectBox from "./comp/selectBox";
@@ -33,8 +33,11 @@ const Item = (props) => {
 
 const PendingPage = (props) => {
     const file = useRef<HTMLInputElement>(null);
-    const [fileName,setFileName] = useState("No file choosen.")
-    const [fileData,setFileData] = useState(null)
+    const [fileName, setFileName] = useState("No file choosen.")
+    const [fileData, setFileData] = useState(null)
+
+    const [loding,setLoding] = useState(false);
+
     const getFileName = (e) => {
         if (e?.target) {
             setFileName(e.target.files[0].name)
@@ -42,9 +45,12 @@ const PendingPage = (props) => {
             console.log(e.target.files[0].name)
         }
     }
-    const upload = ()=>{
-        fileUpload(fileData,`/api/transaksi/${props.data.id}/upload-bukti`).then((e)=>{
+    const upload = () => {
+        setLoding(true);
+        fileUpload(fileData, `/api/transaksi/${props.data.id}/upload-bukti`).then((e) => {
             console.log(e);
+            location.reload();
+
         })
     }
     return (
@@ -85,7 +91,7 @@ const PendingPage = (props) => {
                 <div className="flex space-x-2 items-center justify-start px-6 ">
                     <div className="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
                         <button
-                        style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                            style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
                             onClick={() => {
                                 file.current?.click();
                             }}
@@ -104,7 +110,7 @@ const PendingPage = (props) => {
                     can recognize your payment.
                 </div>
             </div>
-            <SaveCancel title={"Send"} onSave={()=>{props.data?upload():""}} />
+            <SaveCancel title={loding?"Loding.":"Send"} onSave={() => { props.data ? upload() : "" }} />
         </div>
     )
 }
@@ -144,6 +150,9 @@ export default (props) => {
                     setTransaction(e.data)
                     console.log(e)
                     setLoding(false)
+                    if (e.data.status.id == 8) {
+                        setDetailPop(true);
+                    }
                 }
             })
         }
@@ -159,7 +168,26 @@ export default (props) => {
         }
         return ttl;
     }
-
+    const goTo = () => {
+        if (transaction.status.id == 8) {
+            //cancel order
+            api(`/api/cancel-order/${transaction.id}`).then((e) => {
+                if (e.status == 'SUCCESS') {
+                    location.href = "/m/"; //sementara 
+                }
+            })
+        } else {
+            //to track order
+            location.href = "/m/track-order-mobile/" + transaction.id;
+        }
+    }
+    const seeDetail = ()=>{
+        if(transaction.status.id == 8){
+            setDetailPop(true);
+        }else{
+            location.href = "/m/track-order-mobile/" + transaction.id;
+        }
+    }
     return (
         <>
             <Loding state={loding} />
@@ -171,7 +199,7 @@ export default (props) => {
                     </div>
                     <div className="px-6 flex justify-between w-full">
                         <span className="text-blue-200 italic">{transaction.status ? transaction.status.nama : "nan"}</span>
-                        <span className="text-coolGray-300 text-xs font-bold" onClick={() => { setDetailPop(true) }}>See detail</span>
+                        <span className="text-coolGray-300 text-xs font-bold" onClick={seeDetail}>See detail</span>
                     </div>
                     <div className="px-6 w-full space-y-4">
                         <div className="text-base font-bold leading-relaxed text-coolGray-900">
@@ -255,7 +283,7 @@ export default (props) => {
 
                 </div>
 
-                <PriceBox btnClick={() => { }} total_item={transaction.detail_transaksi ? countItem() : 0} total_harga={transaction ? transaction.total_harga : 0} btn_title={transaction.status ? (transaction.status.id == 8 ? "Cancel Order" : "Track Order") : "Oke"} />
+                <PriceBox btnClick={() => { goTo() }} total_item={transaction.detail_transaksi ? countItem() : 0} total_harga={transaction ? transaction.total_harga : 0} btn_title={transaction.status ? (transaction.status.id == 8 ? "Cancel Order" : "Track Order") : "Oke"} />
             </div>
 
             <Popup onPopupClose={() => { setDetailPop(false) }} opened={detailPop} className="demo-popup-swipe" swipeToClose>

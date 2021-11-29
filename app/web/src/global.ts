@@ -65,3 +65,12 @@ export const padLeadingZeros = (num, size)=>{
   while (s.length < size) s = "0" + s;
   return s;
 }
+
+export const getDayName = (id)=>{
+  const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  return weekdays[id];
+}
+export const getMonthName = (id)=>{
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return monthNames[id];
+}   

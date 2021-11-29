@@ -1,29 +1,4 @@
-<>
-  <effect meta={{}} run={async () => {}} />
-  <>
-    <loding state={meta.is_loding} />
-    <div
-      class={
-        "flex-col items-start justify-start h-screen w-full bg-white " +
-        (meta.is_loding ? "hidden" : "flex")
-      }
-    >
-      {/*notif and chart button*/}
-      <top-naviagation mode={2} />
-      <div
-        class="flex self-stretch flex-grow flex-col items-start justify-start overflow-auto space-y-4"
-        style="padding-bottom:3rem"
-      >
-        <span class="px-6 font-bold text-2xl">Track Order #868907</span>
-        <span class="px-6 text-lg">Delivery Status</span>
-        <div class="px-6 w-full flex flex-col space-y-4">
-          <delivery-status active={true} />
-          <delivery-status />
-          <delivery-status />
-          <delivery-status />
-          <div class="text-gray-200"></div>
-        </div>
-      </div>
-    </div>
-  </>
-</>
+<div class={"flex-col items-start justify-start h-screen w-full bg-white "}>
+  {/*<notification />*/}
+  <trackOrder id={params.id} />
+</div>

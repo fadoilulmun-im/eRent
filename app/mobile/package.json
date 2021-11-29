@@ -8,9 +8,9 @@
   ],
   "scripts": {
     "capacitor": "npx cap copy && npx cap sync",
-    "gradlew": "cd android && ./gradlew clean",
-    "build:signed": "cd android && ./gradlew assembleRelease",
-    "build:debug": "cd android && ./gradlew assembleDebug --warning-mode all",
+    "gradlew": "cd android && gradlew clean",
+    "build:signed": "cd android && gradlew assembleRelease",
+    "build:debug": "cd android && gradlew assembleDebug --warning-mode all",
     "install:debug": "adb install -r android/app/build/outputs/apk/debug/app-debug.apk",
     "install:signed": "adb install -r android/app/build/outputs/apk/release/app-release.apk"
   },

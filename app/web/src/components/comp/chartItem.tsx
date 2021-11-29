@@ -9,7 +9,7 @@ export default (props) => {
             height: 0,
             opacity: 0,
         }).then((e) => {
-            console.log("dell item");
+            // console.log("dell item");
             props.del();
         });
     }

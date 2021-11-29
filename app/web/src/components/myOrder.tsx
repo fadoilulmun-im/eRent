@@ -59,7 +59,7 @@ const OrderItem = (props) => {
 export default () => {
     const [user, setUser] = useState<any>({});
 
-    const [loding, setLoding] = useState(false);
+    const [loding, setLoding] = useState(true);
     const [statusSwitch, setStatusSwitch] = useState(0);
     const status = [
         "All Orders", "Cancelled",
@@ -85,6 +85,7 @@ export default () => {
                 if(e.status == 'SUCCESS'){
                     setOrders(e.data);
                     console.log(e)
+                    setLoding(false);
                 }
             })
         }
@@ -115,7 +116,9 @@ export default () => {
                         items={x.detail_transaksi.length}
                         status = {status[Number(x.status_transaksi)]}
                         />
-                    )):"kosong"}
+                    )):(
+                        <span className="flex items-center justify-center p-5">Empty</span>
+                    )}
                             
 
                 </div>

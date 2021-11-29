@@ -7,7 +7,7 @@ import Home from "./home";
 import Product from "./product";
 import Profile from "./profile";
 import Login from "./login";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import { eventBus } from "../global"
 import Notif from "./notif";
 import Loding from "./loding";
@@ -97,6 +97,15 @@ export default ({ children, content }) => {
       eventBus.dispatch('bottom', {});
     }
   }
+  const blur = () => {
+    if ("activeElement" in document) {
+
+      // document.activeElement!.blur();
+      (document.activeElement as HTMLElement).blur();
+
+    }
+  }
+
   return (
     <Page >
       <Notif />
@@ -107,24 +116,17 @@ export default ({ children, content }) => {
         </div>
         <div className=" flex-grow overflow-y-auto" >
 
-          <Swiper style={{ height: '100%' }} onSwiper={setSwiper} onSlideChange={(e) => { setState(e.activeIndex) }} >
+          <Swiper style={{ height: '100%' }} onSwiper={setSwiper} onSlideChange={(e) => { setState(e.activeIndex); blur() }} >
             <SwiperSlide style={{ height: '100%' }}>
-              <motion.div style={{ height: '100%' }} animate={{ opacity: state == 0 ? 1 : 0 }}>
-                <Home />
-              </motion.div>
+              <Home />
             </SwiperSlide>
             <SwiperSlide style={{ height: '100%' }}>
-              <motion.div style={{ height: '100%' }} animate={{ opacity: state == 1 ? 1 : 0 }}>
-                <Product />
-
-              </motion.div>
+              <Product />
             </SwiperSlide>
             <SwiperSlide style={{ height: '100%' }}>
-              <motion.div style={{ height: '100%' }} animate={{ opacity: state == 2 ? 1 : 0 }}>
 
-                {localStorage.getItem('user') ? <Profile /> : <Login />}
+              {localStorage.getItem('user') ? <Profile /> : <Login />}
 
-              </motion.div>
             </SwiperSlide>
           </Swiper>
         </div>
