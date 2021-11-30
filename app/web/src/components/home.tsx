@@ -1,16 +1,16 @@
 
 import ItemBox from './comp/ItemBox';
-import { Page, Navbar, BlockTitle, Swiper, SwiperSlide, Block, } from 'framework7-react';
+// import { Page, Navbar, BlockTitle, Swiper, SwiperSlide, Block, } from 'framework7-react';
 import { useState, useEffect } from 'react';
 import { api } from 'web.utils/src/api';
 
-export default () => {
+export default (props) => {
     const [keyword, setKeyword] = useState('');
     const [items, setItems] = useState<any>([]);
     const [newItems, setNewItems] = useState<any>([]);
 
     const search = (e) => {
-        if (e.code == 'Enter') {
+        if (e.code == 'Enter' || e.code == '') {
             location.href = "/m/search-mobile/" + keyword
         }
     }
@@ -23,6 +23,7 @@ export default () => {
         api('/api/barang/new').then((e) => {
             if (e.status == 'SUCCESS') {
                 setNewItems(e.data);
+                // props.onDone()
             }
         })
 

@@ -20,6 +20,8 @@ export default () => {
 
     const [loding,setLoding] = useState(true);
 
+    const [canCheckout,setCanCheckout] = useState(true);
+
     useEffect(() => {
         const u = localStorage.getItem('user');
         if (u) {
@@ -27,7 +29,7 @@ export default () => {
             setUser(uu);
             api(`/api/customer/${uu.id}/cart`).then((e) => {
                 if (e.status == 'SUCCESS') {
-                    console.log(e.data);
+                    // console.log(e.data);
                     setCart(e.data);
                     count(e.data, delList);
                 }
@@ -49,7 +51,7 @@ export default () => {
             }
         })
         setPrice({ price: total, qty: qty });
-        console.log(total);
+        // console.log(total);
     }
     const updateQty = (dt) => {
         api(`/api/customer/${user.id}/update-cart/${dt.id}`, {
@@ -67,7 +69,7 @@ export default () => {
         updateQty(dt[idx]);
     }
     const sub = (idx) => {
-        console.log(cart);
+        // console.log(cart);
         let dt = [...cart] as any;
         if (dt[idx]['quantity'] > 1) {
             dt[idx]['quantity'] -= 1;
@@ -76,9 +78,10 @@ export default () => {
             count(dt, delList);
             updateQty(dt[idx]);
         }
+        // console.log(cart.length);
     }
     const del = (idx) => {
-        console.log(cart[idx]);
+        // console.log(cart[idx]);
         //setCart(cart.filter((x:any,i) => x.barang.id != (cart[idx] as any).barang.id))
         let t: any = [...delList];
         t.push(idx);
@@ -89,8 +92,9 @@ export default () => {
         api(
             `/api/customer/${user.id}/delete-cart/${cart[idx].id}`
         ).then((e) => {
-            console.log(e);
+            console.log(cart.length);
         });
+        console.log(delList,"dl",cart)
     }
     return (
         <>
@@ -106,7 +110,7 @@ export default () => {
                     </div>
                 </div>
                 {/* <SaveCancel /> */}
-                <PriceBox btn_disable={cart.length>0?false:true} btnClick={()=>{ location.href='/m/checkout-mobile'}} total_item={price.qty} total_harga={price.price} btn_title="Checkout" />
+                <PriceBox btn_disable={cart.length>delList.length?false:true} btnClick={()=>{ location.href='/m/checkout-mobile'}} total_item={price.qty} total_harga={price.price} btn_title="Checkout" />
             </div>
         </>
     )

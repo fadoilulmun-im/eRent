@@ -4,10 +4,11 @@ import { eventBus } from "../global"
 import { useState, useEffect } from 'react';
 import { api } from 'web.utils/src/api';
 import Filter from './comp/filter';
+
 export default () => {
     const [barangs, setBarangs] = useState([]);
     const [pageN, setPageN] = useState(0);
-    const [loding, setLoding] = useState(true);
+    // const [loding, setLoding] = useState(true);
     const [keyword, setKeyword] = useState('');
     const [category, setCategory] = useState(null);
 
@@ -29,7 +30,8 @@ export default () => {
     }
 
     const onSearch = (e) => {
-        if (e.code == 'Enter') {
+        // alert(e.code);
+        if (e.code == 'Enter' || e.code == '') {
             getBarang(keyword, 0, category);
         }
     }

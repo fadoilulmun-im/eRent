@@ -8,6 +8,7 @@ import { Page } from 'framework7-react';
 import Notif from "./notif"
 import Loding from "./loding"
 import { motion } from "framer-motion"
+import ItemBox from './comp/ItemBox';
 
 
 
@@ -31,8 +32,8 @@ const RentNow = (props) => {
           </motion.button>
         </div>
         <div className="flex items-center justify-end px-6 py-2 bg-blue-700 rounded">
-          <button className="text-base font-medium leading-relaxed text-center text-white">
-            Rent Now
+          <button onClick={props.onRentNow} className="text-base font-medium leading-relaxed text-center text-white">
+            {props.isLoding?"Loding..":"Rent Now"}
           </button>
         </div>
       </div>
@@ -44,19 +45,29 @@ export default ({ id }) => {
   const [barang, setBarang] = useState({});
   const [loding, setLoding] = useState(true);
   const [user, setUser] = useState(null);
+
+  const [otherItems,setOtherItems] = useState<any>([]);
+
+  const [rentNowLoding,setRentNowLoding] = useState(false);
+
   useEffect(() => {
     api(`/api/barang/show/${id ? id : 1}`).then((e) => {
       console.log(e);
       setBarang(e.data);
+      if(e.data.kategori_barang){
+        api(`/api/barang?perPage=${4}&category=${e.data.kategori_barang}`).then((e) => {
+          console.log('ada',e);
+          setOtherItems(e.data);
+        });
+      }
       setLoding(false);
+
     });
     let uu = localStorage.getItem('user')
     if (uu) {
       setUser(JSON.parse(uu))
     }
-    // api("/api/barang?perPage=" + 4).then((e) => {
-    //   console.log(e);
-    // });
+
   }, [])
   const add = () => {
     console.log(user);
@@ -65,6 +76,20 @@ export default ({ id }) => {
       api(`/api/customer/${user['id']}/add-cart`, { id_barang: id, quantity: 1 }).then((e) => {
         eventBus.dispatch("cart", { type: 0 })
         console.log(e);
+      })
+    } else {
+      eventBus.dispatch("notif", { message: "you must login first" })
+    }
+  }
+  const rentNow = () =>{
+    if (user) {
+
+      api(`/api/customer/${user['id']}/add-cart`, { id_barang: id, quantity: 1 }).then((e) => {
+        // eventBus.dispatch("cart", { type: 0 })
+        if(e.status == "SUCCESS"){
+          location.href = '/m/cart-mobile'
+        }
+
       })
     } else {
       eventBus.dispatch("notif", { message: "you must login first" })
@@ -108,12 +133,12 @@ export default ({ id }) => {
             </div>
 
             {/* option */}
-            <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
+            {/* <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
               <div className="text-base font-bold leading-relaxed text-coolGray-900">
                 Options
               </div>
               <OptionItem items={["pink", "blue", "yellow"]} />
-            </div>
+            </div> */}
             {/* */}
 
             <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
@@ -133,19 +158,14 @@ export default ({ id }) => {
                 Related Product
               </div>
               <div className="grid grid-cols-2 gap-3 w-full">
-                {/* {meta.barangs.map((x, i) => (
-                  <box-item2
-                    title={x.nama_barang}
-                    harga={x.harga_barang}
-                    img={"/fimgs/232_297.x1.svg"}
-                    id={x.id}
-                  />
-                ))} */}
+                {otherItems.map((x, i) => (
+                  <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
+                ))}
               </div>
             </div>
           </div>
         </div>
-        <RentNow onAdd={() => { add() }} />
+        <RentNow isLoding={rentNowLoding} onAdd={() => { add() }} onRentNow={()=>{rentNow();setRentNowLoding(true)}} />
         {/* <rent-now
           id={params.id}
           onSucess={(e) => {
