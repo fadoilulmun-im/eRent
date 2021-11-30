@@ -1,0 +1,278 @@
+<>
+  <effect
+    meta={{
+      nama_barang: "",
+      merk_barang: "",
+      detail_barang: "",
+      stok_barang: "",
+      harga_barang: "",
+      gambar_barang: "",
+      kategori_barang: "",
+      created_ad: "",
+      stok_barang: "",
+      kategori: [],
+
+      validation() {
+        let msg =
+          this.username === "" || this.username === null
+            ? "Username cant be empty!"
+            : this.email === "" || this.email === null
+            ? "Email cant be empty!"
+            : this.name === "" || this.name === null
+            ? "Name cant be empty!"
+            : this.phone === "" || this.phone === null
+            ? "Phone cant be empty!"
+            : this.role === "" || this.role === null
+            ? "Role cant be empty!"
+            : this.password === "" || this.password === null
+            ? "Password cant be empty!"
+            : false; // console.log(msg);
+
+        return msg;
+      },
+
+      async onChange(key, e) {
+        let value = e.target.value;
+        runInAction(() => (this[key] = value));
+        console.log(key + " : " + value);
+      },
+
+      async onChange(key, e) {
+        let value = "";
+
+        if (key === "role") {
+          value = e;
+        } else {
+          value = e.target.value;
+        }
+
+        runInAction(() => (this[key] = value));
+        console.log(key + " : " + value);
+      },
+
+      async submit() {
+        let error_msg = this.validation();
+
+        if (error_msg) {
+          alert(error_msg);
+        } else {
+          let kategori = api("/api/barang-test", {
+            barang: {
+              nama_barang: this.nama_barang,
+              merk_barang: this.merk_barang,
+              detail_barang: this.detail_barang,
+              stok_barang: parseInt(this.stok_barang),
+              harga_barang: parseInt(this.harga_barang),
+              gambar_barang: this.gambar_barang,
+              kategori_barang: parseInt(this.id),
+              created_ad: new Date(),
+            },
+            e: "Create",
+          }).then((res) => {
+            console.log(res);
+            navigate("/barang-list");
+          });
+        }
+      },
+
+      // async upload(file) {
+      //   const formData = _FormData();
+
+      //   formData.append("path", "book_cover");
+      //   formData.append("file", file);
+      //   const response = await fetch("/api/upload", {
+      //     method: "POST",
+      //     body: formData,
+      //   });
+      //   return await response.json();
+      // },
+    }}
+    run={async () => {
+      meta.action = {
+        inpChange: (e) => {
+          runInAction(() => {
+            meta[e.target.name] = e.target.value;
+            console.log(e.target.name); //check email di sini
+          });
+        },
+      };
+
+      await api("/api/kategori-test", {
+        kategori: "",
+        e: "ReadAll",
+      }).then((res) => {
+        if (res.res !== "Failure" || res === null) {
+          meta.kategoris = res.kategori;
+        }
+      });
+      console.log(meta.kategoris);
+
+      if (user.role !== "super") {
+        navigate("/w-login");
+      }
+    }}
+  />
+  <>
+    <div class="flex flex-1 self-stretch flex-col items-start justify-start bg-coolGray-100">
+      <div class="flex self-stretch items-start justify-start">
+        <div class="flex flex-1 flex-col space-y-10 items-start justify-start">
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start px-9 pb-10 relative overflow-y-auto">
+            <div class="flex self-stretch space-x-4 items-center justify-start">
+              <div class="text-3xl font-bold text-coolGray-900">
+                Add Products
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Product Name
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.nama_barang}
+                  name="nama_barang"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="Lenovo Ideapad 320"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Category Product
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <select
+                  class="flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  defaultValue="Pilih Kategori"
+                  value={meta.kategori_barang}
+                  onChange={(e) => {
+                    meta.onChange("kategori_barang", e);
+                  }}
+                >
+                  <option
+                    value={"Pilih Kategori"}
+                    hidden={true}
+                    class={`flex self-stretch flex-col items-start justify-start`}
+                    style="color: black"
+                  >
+                    {"Pilih Kategori"}
+                  </option>
+                  {meta.kategoris.map((numList, i) => {
+                    return (
+                      <option
+                        value={numList.id}
+                        class={`flex self-stretch flex-col items-start justify-start`}
+                        style="color: black"
+                      >
+                        {numList.nama}
+                      </option>
+                    );
+                  })}
+                  {"Pilih Kategori"}
+                </select>
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Description
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <textarea
+                  rows="5"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                  name="detail_barang"
+                  type="text"
+                  placeholder="Masukkan Detail Barang"
+                  style={`color: black;
+      outline: none;`}
+                  value={meta.detail_barang}
+                  onChange={(e) => {
+                    meta.onChange("detail_barang", e);
+                  }}
+                />
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Product Image
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                Dropify
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Price
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.harga_barang}
+                  name="harga_barang"
+                  type="number"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="100.000"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Weight (Kg)
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.berat_barang}
+                  name="berat_barang"
+                  type="number"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="1"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Stock
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.stok_barang}
+                  name="stok_barang"
+                  type="number"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="10"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+            <div class="flex space-x-4 items-start justify-end w-full">
+              <div class="flex items-center justify-start px-4 py-2 border rounded border-blue-700">
+                <div class="text-base leading-relaxed text-center text-blue-700">
+                  Discard
+                </div>
+              </div>
+              <div class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
+                <button
+                  class="text-base leading-relaxed text-center text-white"
+                  onClick={meta.submit}
+                >
+                  Add User
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </>
+</>

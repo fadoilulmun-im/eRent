@@ -1,0 +1,277 @@
+<>
+  <effect
+    meta={{
+      id: "",
+      username: "",
+      email: "",
+      name: "",
+      role: "",
+      phone: "",
+      password: "",
+
+      validation() {
+        let msg =
+          this.username === "" || this.username === null
+            ? "Username cant be empty!"
+            : this.email === "" || this.email === null
+            ? "Email cant be empty!"
+            : this.name === "" || this.name === null
+            ? "Name cant be empty!"
+            : this.phone === "" || this.phone === null
+            ? "Phone cant be empty!"
+            : this.role === "" || this.role === null
+            ? "Role cant be empty!"
+            : this.password === "" || this.password === null
+            ? "Password cant be empty!"
+            : false; // console.log(msg);
+
+        return msg;
+      },
+
+      async onChange(key, e) {
+        let value = "";
+
+        if (key === "role") {
+          value = e;
+        } else {
+          value = e.target.value;
+        }
+
+        runInAction(() => (this[key] = value));
+        console.log(key + " : " + value);
+      },
+
+      async submit() {
+        let admin = {};
+        let error_msg = this.validation();
+
+        if (error_msg) {
+          alert(error_msg);
+        } else {
+          let admins;
+
+          admins = {
+            id: this.id,
+            username: this.username,
+            email: this.email,
+            nama: this.name,
+            no_hp: this.phone,
+            password: this.password,
+            role: this.role,
+          };
+
+          var conf = confirm("Confirm your data?");
+
+          if (conf) {
+            api("/api/admin-test", {
+              admin: { ...admins },
+              e: "Update",
+            }).then((res) => {
+              if (res === null) {
+                alert("Database Update Failed!");
+              } else {
+                console.log(res);
+                navigate("/admin-list");
+              }
+            });
+          }
+        }
+      },
+    }}
+    run={async () => {
+      meta.action = {
+        inpChange: (e) => {
+          runInAction(() => {
+            meta[e.target.name] = e.target.value;
+            console.log(e.target.name); //check email di sini
+          });
+        },
+      };
+
+      api("/api/admin-test", {
+        admin: {
+          id: parseInt(params.id),
+        },
+        e: "ReadById",
+      }).then((res) => {
+        // console.log(res)
+        if (res.admin !== null) {
+          runInAction(() => {
+            meta.id = res.admin.id;
+            meta.username = res.admin.username;
+            meta.email = res.admin.email;
+            meta.name = res.admin.nama;
+            meta.role = res.admin.role;
+            meta.phone = res.admin.no_hp;
+            meta.password = res.admin.password;
+          });
+        } else {
+          navigate("/admin-list");
+        }
+      });
+
+      if (user.role !== "super") {
+        navigate("/w-login");
+      }
+    }}
+  />
+  <>
+    <div class="flex flex-1 self-stretch flex-col items-start justify-start bg-coolGray-100">
+      <div class="flex self-stretch items-start justify-start">
+        <div class="flex flex-1 flex-col space-y-10 items-start justify-start">
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start px-9 pb-10 relative overflow-y-auto">
+            <div class="flex self-stretch space-x-4 items-center justify-start">
+              <div class="text-3xl font-bold text-coolGray-900">Edit User</div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Username
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.username}
+                  name="username"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="Andromedia"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Email
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.email}
+                  name="email"
+                  type="email"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="Admin@andromedia.co.id"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Name
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.name}
+                  name="name"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="Andromedia"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Role
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <div class="flex space-x-2 items-center justify-start">
+                  <div class="flex items-start justify-start">
+                    <input
+                      class={`bg-white border rounded-full border-coolGray-400`}
+                      type="radio"
+                      name="role"
+                      style={"input :checked {background-color:#feca57;}"}
+                      onChange={(e) => {
+                        meta.onChange("role", true);
+                      }}
+                      checked={meta.role !== null ? meta.role : null}
+                    />
+                  </div>
+                  <div class="flex items-start justify-start">
+                    <div class="text-base font-medium leading-normal text-gray-600">
+                      Super Admin
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-1 space-x-2 items-center justify-start ml-3">
+                  <div class="flex items-start justify-start">
+                    <input
+                      class={`bg-white border rounded-full border-coolGray-400`}
+                      type="radio"
+                      name="role"
+                      onChange={(e) => {
+                        meta.onChange("role", false);
+                      }}
+                      checked={meta.role !== null ? !meta.role : null}
+                    />
+                  </div>
+                  <div class="flex flex-1 items-start justify-start">
+                    <div class="text-base font-medium leading-normal text-gray-600">
+                      Admin
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Phone Number
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.phone}
+                  name="phone"
+                  type="number"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="Phone Number"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                New Password
+              </div>
+              <div class="flex items-center justify-start px-4 py-2 border rounded border-blue-700">
+                <button class="text-base leading-relaxed text-center text-blue-700">
+                  Set New Password
+                </button>
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.password}
+                  name="password"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="Password"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+            <div class="flex space-x-4 items-start justify-end w-full">
+              <div class="flex items-center justify-start px-4 py-2 border rounded border-blue-700">
+                <div class="text-base leading-relaxed text-center text-blue-700">
+                  Discard
+                </div>
+              </div>
+              <div class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
+                <button
+                  class="text-base leading-relaxed text-center text-white"
+                  onClick={meta.submit}
+                >
+                  Edit User
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </>
+</>
