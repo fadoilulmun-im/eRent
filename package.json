@@ -36,6 +36,7 @@
   "dependencies": {
     "@playwright/test": "^1.14.1",
     "autoprefixer": "^10.2.5",
+    "dropify": "^0.2.2",
     "execa": "^5.0.0",
     "formidable": "^1.2.2",
     "fs-extra": "^9.1.0",
