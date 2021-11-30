@@ -9,7 +9,9 @@ const  {main} = require('../../db/src/main/index');
 
 // socket untuk client di api (ilul)
 import { io } from "socket.io-client";
-const socket = io("http://127.0.0.1:3333");
+// const socket = io("http://127.0.0.1:3333"); // for local
+const socket = io("http://e.plansys.co:3333"); // for host
+
 
 import { Server } from "socket.io";
 
