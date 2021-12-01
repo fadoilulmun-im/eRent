@@ -7,9 +7,9 @@
       changeProfile: (open) => {},
       changeManagement: (open) => {},
       changeMasterData: (open) => {},
-      barang: [],
+      transaksi: [],
       searching: "",
-      nama_kategori: "",
+      nama_customer: [],
       entries: 5,
       last_entries: 5,
       first_entries: 0,
@@ -26,7 +26,7 @@
             this.first_entries = 0;
             this.page = 1;
             this.last_entries = parseInt(value);
-            this.sum_page = Math.ceil(this.barang.length / this.entries);
+            this.sum_page = Math.ceil(this.transaksi.length / this.entries);
             this.page_array = Array.apply(null, {
               length: this.sum_page,
             }).map(Number.call, Number);
@@ -34,18 +34,18 @@
         } else if (key === "searching") {
           runInAction(() => {
             this[key] = value;
-            api("/api/barang-test", {
-              barang: {
-                nama_barang: value,
+            api("/api/transaksi-test", {
+              transaksi: {
+                status_transaksi: value,
               },
               e: "Searching",
             }).then((res) => {
               runInAction(() => {
-                this.barang = res.barang;
+                this.transaksi = res.transaksi;
                 this.first_entries = 0;
                 this.page = 1;
                 this.last_entries = parseInt(this.entries);
-                this.sum_page = Math.ceil(this.barang.length / this.entries); // meta.page_array = new Array(meta.sum_page);
+                this.sum_page = Math.ceil(this.transaksi.length / this.entries); // meta.page_array = new Array(meta.sum_page);
 
                 this.page_array = Array.apply(null, {
                   length: this.sum_page,
@@ -81,79 +81,53 @@
         }
       },
 
-      // async editAdmin(id) {
-      //   // navigate("/w-master-genre/edit/" + id);
-      // },
-
-      async deleteBarang(id) {
+      async deleteTransaksi(id) {
         console.log(id);
         const confirmDel = confirm("Confirm delete?");
 
         if (confirmDel) {
-          await api("/api/barang-test", {
-            barang: {
+          await api("/api/transaksi-test", {
+            transaksi: {
               id: id,
             },
             e: "Delete",
           }).then((res) => {
             if (res.res === "Failure") {
-              alert("Can't delete Barang, because related with another data");
+              alert(
+                "Can't delete transaksi, because related with another data"
+              );
             } else {
-              navigate("/barang-list");
+              navigate("/order-list");
             }
           });
         }
       },
     }}
     run={async () => {
-      meta.action = {
-        changeMasterData: (open) => {
-          meta.showMasterData = open;
-          let img = document.getElementById("chevron-master");
-
-          if (open == true) {
-            img.setAttribute("style", "transform: rotate(0deg);");
-          } else {
-            img.setAttribute("style", "transform: rotate(180deg);");
-          }
-        },
-        changeManagement: (open) => {
-          meta.showManagement = open;
-          let img = document.getElementById("chevron-management");
-
-          if (open == true) {
-            img.setAttribute("style", "transform: rotate(0deg);");
-          } else {
-            img.setAttribute("style", "transform: rotate(180deg);");
-          }
-        },
-        changeProfile: (open) => {
-          meta.showProfile = open;
-        },
-      };
-      var barang = "";
+      var transaksi = "";
 
       if (user.role !== "super") {
         navigate("/w-login");
       }
 
-      await api("/api/barang-test", {
-        barang: " ",
-        e: "ReadAllData",
+      await api("/api/transaksi-test", {
+        transaksi: " ",
+        e: "ReadAll",
       }).then((res) => {
-        barang = res.barang;
+        transaksi = res.transaksi;
       });
       runInAction(() => {
-        meta.barang = barang;
-        // meta.nama_kategori = barang.kategori.nama;
-        meta.sum_page = Math.ceil(meta.barang.length / meta.entries); // meta.page_array = new Array(meta.sum_page);
+        meta.transaksi = transaksi;
+        meta.namacustomer = transaksi.customer.nama_customer;
+        console.log(meta.namacustomer);
+        meta.sum_page = Math.ceil(meta.transaksi.length / meta.entries); // meta.page_array = new Array(meta.sum_page);
 
         meta.page_array = Array.apply(null, {
           length: meta.sum_page,
         }).map(Number.call, Number);
       }); // console.log(meta.page_array);
 
-      console.log(meta.barang);
+      console.log(meta.transaksi);
     }}
   />
 
@@ -162,9 +136,7 @@
       <div class="flex flex-1 flex-col space-y-5 items-start justify-start pb-10 bg-coolGray-50 shadow border border-coolGray-300 p-5">
         <div class="flex self-stretch space-x-2.5 items-start justify-start">
           <div class="flex flex-1 items-start justify-start">
-            <div class="text-2xl font-bold leading-9 text-gray-900">
-              Products
-            </div>
+            <div class="text-2xl font-bold leading-9 text-gray-900">Orders</div>
           </div>
           <div
             class={`w-full flex space-x-4 items-center justify-start px-4 py-2 bg-gray-100 rounded-md`}
@@ -178,7 +150,7 @@
             <input
               class={"w-full"}
               type="text"
-              placeholder="Search Nama Barang"
+              placeholder="Search Status Transaksi"
               style={`color: black;
                         background:transparent; 
                         outline: none;`}
@@ -238,12 +210,12 @@
             class={`flex space-x-1 items-start justify-start px-4 py-2 bg-blue-700 shadow rounded`}
             style={`style={'margin-left: 10px;'}`}
             onClick={() => {
-              navigate("/barang-add");
+              navigate("/order-add");
             }}
           >
             <div class={`flex self-stretch items-start justify-start`}>
               <div class={`text-base font-bold leading-normal text-white`}>
-                Add New Product
+                Add New Orders
               </div>
             </div>
           </button>
@@ -266,35 +238,28 @@
                   class={`flex flex-1 self-stretch items-center justify-start`}
                 >
                   <div class="text-base font-bold leading-normal text-white px-3">
-                    Image
+                    Order
                   </div>
                 </th>
                 <th
                   class={`flex flex-1 self-stretch items-center justify-start`}
                 >
                   <div class="text-base font-bold leading-normal text-white px-3">
-                    Name
+                    Date
                   </div>
                 </th>
                 <th
                   class={`flex flex-1 self-stretch items-center justify-start`}
                 >
                   <div class="text-base font-bold leading-normal text-white px-3">
-                    Stock
+                    Status
                   </div>
                 </th>
                 <th
                   class={`flex flex-1 self-stretch items-center justify-start`}
                 >
                   <div class="text-base font-bold leading-normal text-white px-3">
-                    Price
-                  </div>
-                </th>
-                <th
-                  class={`flex flex-1 self-stretch items-center justify-start`}
-                >
-                  <div class="text-base font-bold leading-normal text-white px-3">
-                    Categories
+                    Total
                   </div>
                 </th>
                 <th
@@ -308,7 +273,7 @@
               </tr>
             </thead>
             <tbody class="flex self-stretch flex-col items-start justify-start">
-              {meta.barang
+              {meta.transaksi
                 .slice(meta.first_entries, meta.last_entries)
                 .map((numList, i) => {
                   var odd = (i + 1) % 2;
@@ -332,18 +297,7 @@
                         class={`flex flex-1 self-stretch items-center justify-start`}
                       >
                         <div class={`text-base leading-normal px-3`}>
-                          <img
-                            src={
-                              numList.gambar_barang
-                                ? numList.gambar_barang
-                                : "/fimgs/No-Image-Placeholder.x1.png"
-                            }
-                            alt="Product"
-                            // onError={(e) => {
-                            //   e.target.onerror = null;
-                            //   e.target.src = "/fimgs/3201_185125.x1.png";
-                            // }}
-                          />
+                          #{numList.id || "-"} {numList.id_customer || " "}
                         </div>
                       </td>
                       <td
@@ -351,8 +305,15 @@
                         style={""}
                       >
                         <div class={`text-base leading-normal px-3`}>
-                          {numList.nama_barang || "-"}{" "}
-                          {numList.merk_barang || " "}
+                          {numList.tanggal_pemesanan
+                            ? new Date(
+                                numList.tanggal_pemesanan
+                              ).toLocaleDateString("en-GB", {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              })
+                            : "Date not specified"}
                         </div>
                       </td>
                       <td
@@ -360,21 +321,14 @@
                         style={""}
                       >
                         <div class={`text-base leading-normal px-3`}>
-                          {numList.stok_barang || "-"}
+                          {numList.status_transaksi || "-"}
                         </div>
                       </td>
                       <td
                         class={`flex flex-1 self-stretch items-center justify-start`}
                       >
                         <div class={`text-base leading-normal px-3`}>
-                          {numList.harga_barang || "-"}
-                        </div>
-                      </td>
-                      <td
-                        class={`flex flex-1 self-stretch items-center justify-start`}
-                      >
-                        <div class={`text-base leading-normal px-3`}>
-                          {numList.kategori_barang || "-"}
+                          Rp {numberWithCommas(numList.total_harga) || "-"}
                         </div>
                       </td>
                       <td
@@ -385,7 +339,7 @@
                           class={`flex self-stretch items-center justify-center rounded`}
                           style={`cursor: pointer`}
                           onClick={() => {
-                            meta.editBarang(numList.id);
+                            navigate("/order-detail/" + numList.id);
                           }}
                         >
                           <img
@@ -398,14 +352,14 @@
                           class={`flex self-stretch items-center justify-center rounded`}
                           style={`cursor: pointer ; margin-left: 10px !important;`}
                           onClick={() => {
-                            meta.deleteBarang(numList.id);
+                            meta.deleteTransaksi(numList.id);
                           }}
                         />
                       </td>
                     </tr>
                   );
                 })}
-              {meta.barang.length === 0 && (
+              {meta.transaksi.length === 0 && (
                 <tr
                   class={`w-full flex self-stretch items-center justify-center px-4 py-3 rounded`}
                   style={""}
@@ -422,10 +376,10 @@
               <div
                 class={`text-base leading-normal text-orange-900`}
               >{`Showing ${meta.first_entries + 1} to ${
-                meta.last_entries <= meta.barang.length
+                meta.last_entries <= meta.transaksi.length
                   ? meta.last_entries
-                  : meta.barang.length
-              } of ${meta.barang.length} entries`}</div>
+                  : meta.transaksi.length
+              } of ${meta.transaksi.length} entries`}</div>
             </div>
             <div class="flex space-x-2 items-start justify-start">
               <div
