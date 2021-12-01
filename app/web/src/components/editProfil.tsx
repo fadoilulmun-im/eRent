@@ -57,7 +57,7 @@ export default () => {
         setStx(true);
         if (image.view !== '') {
             fileUpload(image.view, `/api/customer/${user.id}/upload-foto`).then((e) => {
-                console.log(e);
+                // console.log(e);
             });
         }
         if ((user.password != '') && (user.rePassword != '')) {
