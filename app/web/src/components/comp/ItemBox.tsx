@@ -1,4 +1,5 @@
 import { motion } from "framer-motion"
+import {numberWithCommas} from "../../global";
 
 export default (props) => {
   return (
@@ -18,7 +19,7 @@ export default (props) => {
           {props.title}
         </div>
         <div className="text-sm font-bold leading-snug text-coolGray-900">
-          Rp {props.harga ? props.harga : "kosong"}
+          Rp {props.harga ? numberWithCommas(props.harga) : "kosong"}
         </div>
       </div>
     </motion.div>)
