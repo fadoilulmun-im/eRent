@@ -49,20 +49,36 @@ export default {
   ],
   "rent-now": () => [import("./components/rent-now"), { c: "", s: "", h: "" }],
   loding: () => [import("./components/loding"), { c: "", s: "", h: "" }],
-  test: () => [import("./components/test"), { c: "", s: "", h: "" }],
+  index: () => [import("./components/index"), { c: "", s: "", h: "" }],
   search: () => [import("./components/search"), { c: "", s: "", h: "" }],
-  detailProduct: () => [import("./components/detailProduct"), { c: "", s: "", h: "" }],
-  editProfil: () => [import("./components/editProfil"), { c: "", s: "", h: "" }],
-  newAddress: () => [import("./components/newAddress"), { c: "", s: "", h: "" }],
+  detailProduct: () => [
+    import("./components/detailProduct"),
+    { c: "", s: "", h: "" },
+  ],
+  editProfil: () => [
+    import("./components/editProfil"),
+    { c: "", s: "", h: "" },
+  ],
+  newAddress: () => [
+    import("./components/newAddress"),
+    { c: "", s: "", h: "" },
+  ],
   myAddress: () => [import("./components/myAddress"), { c: "", s: "", h: "" }],
   cart: () => [import("./components/cart"), { c: "", s: "", h: "" }],
   checkout: () => [import("./components/checkout"), { c: "", s: "", h: "" }],
   myOrder: () => [import("./components/myOrder"), { c: "", s: "", h: "" }],
-  orderDetail: () => [import("./components/orderDetail"), { c: "", s: "", h: "" }],
-  notification: () => [import("./components/notification"), { c: "", s: "", h: "" }],
-  trackOrder: () => [import("./components/trackOrder"), { c: "", s: "", h: "" }],
-
-  
+  orderDetail: () => [
+    import("./components/orderDetail"),
+    { c: "", s: "", h: "" },
+  ],
+  notification: () => [
+    import("./components/notification"),
+    { c: "", s: "", h: "" },
+  ],
+  trackOrder: () => [
+    import("./components/trackOrder"),
+    { c: "", s: "", h: "" },
+  ],
   "payment-nav": () => [
     import("./components/payment-nav"),
     { c: "", s: "", h: "" },
@@ -76,10 +92,6 @@ export default {
     { c: "", s: "", h: "" },
   ],
   address: () => [import("./components/comp/address"), { c: "", s: "", h: "" }],
-  // "save-cancel": () => [
-  //   import("./components/saveCancel"),
-  //   { c: "", s: "", h: "" },
-  // ],
   "delivery-status": () => [
     import("./components/delivery-status"),
     { c: "", s: "", h: "" },
@@ -92,4 +104,5 @@ export default {
     import("./components/order-history"),
     { c: "", s: "", h: "" },
   ],
+  test: () => [import("./components/test"), { c: "", s: "", h: "" }],
 };
