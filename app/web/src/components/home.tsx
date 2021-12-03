@@ -3,6 +3,7 @@ import ItemBox from './comp/ItemBox';
 // import { Page, Navbar, BlockTitle, Swiper, SwiperSlide, Block, } from 'framework7-react';
 import { useState, useEffect } from 'react';
 import { api } from 'web.utils/src/api';
+import Skeleton from './comp/skeleton';
 
 export default (props) => {
     const [keyword, setKeyword] = useState('');
@@ -15,7 +16,7 @@ export default (props) => {
         }
     }
     useEffect(() => {
-        api('/api/barang/favorit').then((e) => {
+        api('/api/barang/favorit?take=4').then((e) => {
             if (e.status == 'SUCCESS') {
                 setItems(e.data);
             }
@@ -55,9 +56,18 @@ export default (props) => {
                     Best Seller
                 </div>
                 <div className="grid grid-cols-2 gap-3 w-full px-6">
-                    {items.map((x, i) => (
-                        <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
-                    ))}
+
+                    {items.length > 0 ?
+                        items.map((x, i) => (
+                            <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
+                        )) : Array.from({ length: 4 }, (item, index) => (
+                            <div key={index} className="flex flex-col rounded overflow-hidden overflow-hidde">
+                                <Skeleton style={{ minHeight: '7rem' }} />
+                                <div className="bg-white px-4 py-3 space-y-1">
+                                    <Skeleton style={{ minHeight: '1rem', width: '100%' }} />
+                                    <Skeleton style={{ minHeight: '1rem', width: '80%' }} />
+                                </div>
+                            </div>))}
                     {/* <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
                     <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
                     <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
@@ -69,9 +79,17 @@ export default (props) => {
                     New Arrival
                 </div>
                 <div className="grid grid-cols-2 gap-3 w-full px-6">
-                    {newItems.map((x, i) => (
-                        <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
-                    ))}
+                    {items.length > 0 ?
+                        newItems.map((x, i) => (
+                            <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
+                        )) : Array.from({ length: 4 }, (item, index) => (
+                            <div key={index} className="flex flex-col rounded overflow-hidden overflow-hidde">
+                                <Skeleton style={{ minHeight: '7rem' }} />
+                                <div className="bg-white px-4 py-3 space-y-1">
+                                    <Skeleton style={{ minHeight: '1rem', width: '100%' }} />
+                                    <Skeleton style={{ minHeight: '1rem', width: '80%' }} />
+                                </div>
+                            </div>))}
                     {/* <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
                     <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
                     <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />

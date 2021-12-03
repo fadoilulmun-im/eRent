@@ -8,10 +8,10 @@ export default (props) => {
     onClick={() => {
       console.log("click");
       location.href="/m/product-detail-mobile/"+props.id
-    }} whileTap={{ scale: 0.95 }} className="flex flex-col rounded overflow-hidden overflow-hidde">
+    }} whileTap={{ scale: 0.95 }} 
+    className="flex flex-col rounded overflow-hidden overflow-hidde">
       <div className="bg-gray-100 p-4 " style={{ minHeight: '5rem' }}>
         <img src={props.img} />
-
       </div>
       <div className="bg-white px-4 py-3 space-y-1">
         <div className="text-xs font-medium leading-tight text-coolGray-900">
