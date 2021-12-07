@@ -16,7 +16,7 @@ model admin {
   nama      String?     @db.VarChar(150)
   no_hp     String?     @db.VarChar(50)
   email     String      @db.VarChar(200)
-  role      Boolean?
+  role      Int         @default(1) @db.SmallInt
   transaksi transaksi[]
 
   @@unique([username, email], name: "admin_username_email_key")
@@ -50,6 +50,7 @@ model barang {
   gambar_barang    String?            @db.VarChar(255)
   created_at       DateTime?          @default(now()) @db.Timestamp(6)
   kategori_barang  Int?
+  berat_barang     Int?
   kategori         kategori?          @relation(fields: [kategori_barang], references: [id])
   detail_transaksi detail_transaksi[]
   option           option[]
