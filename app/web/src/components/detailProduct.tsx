@@ -86,6 +86,7 @@ export default ({ id }) => {
       api(`/api/customer/${user['id']}/add-cart`, { id_barang: id, quantity: 1 }).then((e) => {
         // eventBus.dispatch("cart", { type: 0 })
         if(e.status == "SUCCESS"){
+          eventBus.dispatch("cart", { type: 0 })
           location.href = '/m/cart-mobile'
         }
 
