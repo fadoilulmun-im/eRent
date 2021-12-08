@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { api } from 'web.utils/src/api';
 import Filter from './comp/filter';
 import StatusPill from './comp/statusPill';
+import Skeleton from './comp/skeleton';
 
 export default () => {
     const [barangs, setBarangs] = useState([]);
@@ -94,9 +95,16 @@ export default () => {
 
             <div className="flex flex-col space-y-4 items-start justify-start w-full">
                 <div className="grid grid-cols-2 gap-3 w-full px-6">
-                    {barangs.map((x: any, i) => (
+                    {barangs.length>0?barangs.map((x: any, i) => (
                         <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
-                    ))}
+                    )):Array.from({ length: 4 }, (item, index) => (
+                        <div key={index} className="flex flex-col rounded overflow-hidden overflow-hidde">
+                            <Skeleton style={{ minHeight: '7rem' }} />
+                            <div className="bg-white px-4 py-3 space-y-1">
+                                <Skeleton style={{ minHeight: '1rem', width: '100%' }} />
+                                <Skeleton style={{ minHeight: '1rem', width: '80%' }} />
+                            </div>
+                        </div>))}
                 </div>
                 <div className="flex justify-center w-full">
                     {canShowMore?

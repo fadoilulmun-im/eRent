@@ -62,8 +62,9 @@ export default () => {
                     let u = localStorage.getItem('user');
                     if(u){
                         let uu = JSON.parse(u);
+                        
                         uu.foto = e.path;
-                        localStorage.setItem('user',uu);
+                        localStorage.setItem('user',JSON.stringify(uu));
                     }
                 }
                 

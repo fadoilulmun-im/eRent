@@ -4,7 +4,6 @@ import ItemBox from './comp/ItemBox';
 import { useState, useEffect } from 'react';
 import { api } from 'web.utils/src/api';
 import Skeleton from './comp/skeleton';
-import { Page, Swiper, SwiperSlide, } from 'framework7-react';
 
 export default (props) => {
     const [keyword, setKeyword] = useState('');
@@ -60,9 +59,9 @@ export default (props) => {
                     <span className={' pl-3'} />
                     {items.length > 0 ?
                         items.map((x, i) => (
-                            <ItemBox style={{ minWidth: '200px' }} key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
+                            <ItemBox style={{ minWidth: '180px' }} key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
                         )) : Array.from({ length: 4 }, (item, index) => (
-                            <div style={{ minWidth: '200px' }} key={index} className="flex flex-col rounded overflow-hidden overflow-hidde">
+                            <div style={{ minWidth: '180px' }} key={index} className="flex flex-col rounded overflow-hidden overflow-hidde">
                                 <Skeleton style={{ minHeight: '7rem' }} />
                                 <div className="bg-white px-4 py-3 space-y-1">
                                     <Skeleton style={{ minHeight: '1rem', width: '100%' }} />
@@ -89,10 +88,7 @@ export default (props) => {
                                     <Skeleton style={{ minHeight: '1rem', width: '80%' }} />
                                 </div>
                             </div>))}
-                    {/* <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} /> */}
+                   
                 </div>
             </div>
 

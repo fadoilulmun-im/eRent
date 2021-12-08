@@ -14,7 +14,7 @@ export default () => {
             api(`/api/customer/${u.id}/cart`).then((e) => {
                 if(e.data.length > 0){
                     eventBus.dispatch('isCart',e.data.length);
-                    localStorage.setItem('cart',e.data.length);
+                    localStorage.setItem('cart',''+e.data.length);
                 }
             })
             console.log(u)
