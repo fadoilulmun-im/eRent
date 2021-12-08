@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { Page, Swiper, SwiperSlide, Block, Sheet, PageContent } from 'framework7-react';
+import { Page, Swiper, SwiperSlide,} from 'framework7-react';
 import { useState, useEffect } from "react";
 import Tab from "./Tab";
 import Home from "./home";
@@ -9,7 +9,6 @@ import Profile from "./profile";
 import Login from "./login";
 // import { motion } from "framer-motion";
 import { eventBus } from "../global"
-import Notif from "./notif";
 import Loding from "./loding";
 
 
@@ -108,7 +107,6 @@ export default ({ children, content }) => {
 
   return (
     <Page >
-      <Notif />
       <Loding state={loding} />
       <div className={"h-screen bg-white flex-col " + (loding ? "hidden" : "flex")}>
         <div className="">

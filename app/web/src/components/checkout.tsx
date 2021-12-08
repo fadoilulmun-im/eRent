@@ -113,6 +113,10 @@ export default () => {
                     console.log(e);
                     setCart(e.data);
                     count(e.data, delList);
+
+                    if(e.data.length < 1){
+                        location.href='/m/';
+                    }
                 }
                 setLoding(false);
             })
@@ -281,7 +285,10 @@ export default () => {
                     )}
                     <SelectBox header="Payment Method" icon={<img style={{ width: '3rem' }} src="/fimgs/262_242.x3.png" />} title={allPayment.length > 0?allPayment[paymentSwitch].nama:"none"} onEdit={() => { setPaymentPop(true) }} />
                     <SelectBox header="Choose Shipping" icon={allShipping[shippingSwitch].icon} title={allShipping[shippingSwitch].name} onEdit={() => { setShippingPop(true) }} />
-
+                    <SelectBox header="Return Method" icon={allShipping[0].icon} title={allShipping[0].name} />
+                    <div className='px-6'>
+                    only erent pickup are available currently for returning products
+                    </div>
 
                     <div className="flex self-stretch flex-col space-y-4 items-start justify-start px-6">
                         <div className="flex items-center justify-start">

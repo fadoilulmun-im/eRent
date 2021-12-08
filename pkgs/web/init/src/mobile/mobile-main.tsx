@@ -12,7 +12,7 @@ import { MobileWrapper } from './mobile-wrapper'
 
 declare const window: BaseWindow
 
-export const MobileMain = () => {
+export const MobileMain = (props) => {
   const _ = useRef({
     url: location.pathname,
     ready: false,
@@ -93,8 +93,10 @@ export const MobileMain = () => {
   return (
     <>
       {window.is_dev && <DevBar />}
+      
       <MobileWrapper>
         <App {..._.current.f7params}>
+        
           <View
             animate={true}
             stackPages={true}
@@ -211,6 +213,7 @@ export const MobileMain = () => {
               }
             }}
           >
+            {props.children}
             {meta.stack.map((e, idx) => {
               if (e === null) return null
               const Content = e.comp
@@ -237,6 +240,9 @@ export const MobileMain = () => {
                 </Page>
               )
             })}
+
+            
+      
           </View>
         </App>
       </MobileWrapper>

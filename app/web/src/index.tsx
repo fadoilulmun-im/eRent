@@ -2,6 +2,7 @@ import { initApp } from 'web.init/src/initApp'
 import { io } from "socket.io-client";
 import './index.css'
 import { eventBus } from "./global"
+import Notif from './components/notif';
 
 
 const socket = io("http://e.plansys.co:3333", { transports: ['websocket'] });
@@ -23,4 +24,4 @@ if (u) {
 }
 
 
-initApp()
+initApp(<Notif/>)

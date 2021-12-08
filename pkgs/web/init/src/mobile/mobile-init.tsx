@@ -7,9 +7,9 @@ import type { BaseWindow } from '../window'
 
 declare const window: BaseWindow
 
-export const mobileInit = async () => {
+export const mobileInit = async (comp) => {
   await injectCSS('/f7.css')
   await injectCSS(window.is_dev ? '/index.css' : '/main.css')
   Framework7.use(Framework7React)
-  render(<MobileMain />, document.getElementById('root'))
+  render(<MobileMain>{comp}</MobileMain>, document.getElementById('root'))
 }
