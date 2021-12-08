@@ -5,7 +5,9 @@ import { eventBus } from "./global"
 import Notif from './components/notif';
 
 
-const socket = io("http://e.plansys.co:3333", { transports: ['websocket'] });
+const socket = io("http://127.0.0.1:3333", { transports: ['websocket'] }); // for local
+// const socket = io("http://e.plansys.co:3333", { transports: ['websocket'] }); // for host
+
 socket.on("connect", () => {
     console.log("konek ke soket");
 });
