@@ -5,14 +5,32 @@ export default (props) => {
     const bell = useAnimation();
     const cart = useAnimation();
 
+    const [isCart,setIsCart] = useState(0);
+
     useEffect(() => {
         eventBus.on('bell', () => {
             bell.start({ rotateZ: [20, -15, 10, -5, 0] })
         })
         eventBus.on('cart', (e) => {
+            setIsCart(isCart+1);
+            localStorage.setItem('cart',''+(isCart+1));
             cart.start({ x: [5, -5, 3, -2, 0] })
         })
-    });
+
+        eventBus.on('subCart',()=>{
+            setIsCart(0);
+            localStorage.removeItem('cart');
+        })
+
+        eventBus.on('isCart', (e) => {
+            setIsCart(e);
+        })
+        let crt = localStorage.getItem('cart');
+        if(crt){
+            setIsCart(parseInt(crt));
+        }
+
+    },[]);
 
     return (
         <div
@@ -73,10 +91,10 @@ export default (props) => {
                     className="flex items-center"
                 >
                     <img src="/fimgs/157_606.x1.svg" />
-                    <div
+                    {isCart > 0?<div
                         style={{ width: '0.5rem', height: '0.5rem', transform: 'translate(15px,-5px)' }}
-                        className=" absolute bg-blue-700 rounded-full"
-                    />
+                        className=" absolute bg-blue-700 rounded-full text-white"
+                    />:''}
                 </motion.button>
             </div>
 

@@ -72,7 +72,6 @@ export default ({ id }) => {
   const add = () => {
     console.log(user);
     if (user) {
-
       api(`/api/customer/${user['id']}/add-cart`, { id_barang: id, quantity: 1 }).then((e) => {
         eventBus.dispatch("cart", { type: 0 })
         console.log(e);
@@ -107,7 +106,7 @@ export default ({ id }) => {
         {/*notif and chart button*/}
         {/* <top-naviagation mode={3} /> */}
         <Tab mode={3} />
-        <div className="flex self-stretch flex-col items-start justify-start overflow-auto">
+        <div className="flex self-stretch flex-col h-full items-start justify-start overflow-auto">
           <img
             src="/fimgs/232_297.x1.svg"
             className="flex self-stretch flex-col items-start justify-start px-4 py-3 bg-gray-100"
@@ -141,6 +140,15 @@ export default ({ id }) => {
             </div> */}
             {/* */}
 
+            <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
+              <div className="text-base font-bold leading-relaxed text-coolGray-900">
+                Detail Product
+              </div>
+              <div className=" font-medium leading-snug text-coolGray-900 flex justify-between w-full">
+                <span>Wight</span>
+                <span>2 Kg</span>
+              </div>
+            </div>
             <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
               <div className="text-base font-bold leading-relaxed text-coolGray-900">
                 About
