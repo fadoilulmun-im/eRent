@@ -5,7 +5,6 @@ import OptionItem from "./optionItem"
 import { api } from "web.utils/src/api"
 import { numberWithCommas } from '../global'
 import { Page } from 'framework7-react';
-import Notif from "./notif"
 import Loding from "./loding"
 import { motion } from "framer-motion"
 import ItemBox from './comp/ItemBox';
@@ -33,7 +32,7 @@ const RentNow = (props) => {
         </div>
         <div className="flex items-center justify-end px-6 py-2 bg-blue-700 rounded">
           <button onClick={props.onRentNow} className="text-base font-medium leading-relaxed text-center text-white">
-            {props.isLoding?"Loding..":"Rent Now"}
+            {props.isLoding ? "Loding.." : "Rent Now"}
           </button>
         </div>
       </div>
@@ -46,17 +45,17 @@ export default ({ id }) => {
   const [loding, setLoding] = useState(true);
   const [user, setUser] = useState(null);
 
-  const [otherItems,setOtherItems] = useState<any>([]);
+  const [otherItems, setOtherItems] = useState<any>([]);
 
-  const [rentNowLoding,setRentNowLoding] = useState(false);
+  const [rentNowLoding, setRentNowLoding] = useState(false);
 
   useEffect(() => {
     api(`/api/barang/show/${id ? id : 1}`).then((e) => {
       console.log(e);
       setBarang(e.data);
-      if(e.data.kategori_barang){
+      if (e.data.kategori_barang) {
         api(`/api/barang?perPage=${4}&category=${e.data.kategori_barang}`).then((e) => {
-          console.log('ada',e);
+          console.log('ada', e);
           setOtherItems(e.data);
         });
       }
@@ -80,12 +79,12 @@ export default ({ id }) => {
       eventBus.dispatch("notif", { message: "you must login first" })
     }
   }
-  const rentNow = () =>{
+  const rentNow = () => {
     if (user) {
 
       api(`/api/customer/${user['id']}/add-cart`, { id_barang: id, quantity: 1 }).then((e) => {
         // eventBus.dispatch("cart", { type: 0 })
-        if(e.status == "SUCCESS"){
+        if (e.status == "SUCCESS") {
           eventBus.dispatch("cart", { type: 0 })
           location.href = '/m/cart-mobile'
         }
@@ -98,7 +97,7 @@ export default ({ id }) => {
   return (
     <Page >
       <Loding />
-      <Notif />
+
       <div
         className={
           `flex-col items-start justify-start h-screen w-full bg-white ${loding ? 'hidden' : 'flex'}`
@@ -174,7 +173,7 @@ export default ({ id }) => {
             </div>
           </div>
         </div>
-        <RentNow isLoding={rentNowLoding} onAdd={() => { add() }} onRentNow={()=>{rentNow();setRentNowLoding(true)}} />
+        <RentNow isLoding={rentNowLoding} onAdd={() => { add() }} onRentNow={() => { rentNow(); setRentNowLoding(true) }} />
         {/* <rent-now
           id={params.id}
           onSucess={(e) => {

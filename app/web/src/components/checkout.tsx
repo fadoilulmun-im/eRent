@@ -101,6 +101,8 @@ export default () => {
     ]
     const [shippingSwitch, setShippingSwitch] = useState(0);
 
+    const [canCheckout,setCanCheckout] = useState(true);
+
     useEffect(() => {
         // const u = localStorage.getItem('user');
         let uu = localStorage.getItem('user')
@@ -128,6 +130,9 @@ export default () => {
                         setAddrs(e.data);
                     }
                 })
+                setCanCheckout(true);
+            }else{
+                setCanCheckout(false);
             }
         } else {
             location.href = '/m/'
@@ -327,7 +332,7 @@ export default () => {
 
                     {/* <Address data={x} /> */}
                 </div>
-                <PriceBox btnClick={() => { checkoutE() }} total_item={price.qty} total_harga={price.price + (allPayment.length>0?allPayment[paymentSwitch].biaya_admin:0) + (allShipping[shippingSwitch].cost)} btn_title="Checkout" />
+                <PriceBox btn_disable={canCheckout} btnClick={() => { checkoutE() }} total_item={price.qty} total_harga={price.price + (allPayment.length>0?allPayment[paymentSwitch].biaya_admin:0) + (allShipping[shippingSwitch].cost)} btn_title="Checkout" />
             </div>
 
 

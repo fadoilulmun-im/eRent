@@ -122,7 +122,7 @@ export default ({ children, content }) => {
             <SwiperSlide style={{ height: '100%' }}>
               <Product />
             </SwiperSlide>
-            <SwiperSlide style={{ height: '100%' }}>
+            <SwiperSlide style={{ height: '100%',overflowY:'scroll' }}>
 
               {localStorage.getItem('user') ? <Profile /> : <Login />}
 

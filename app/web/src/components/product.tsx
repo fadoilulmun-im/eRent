@@ -14,16 +14,19 @@ export default () => {
     const [keyword, setKeyword] = useState('');
     const [category, setCategory] = useState(0);
 
+    const [empty, setEmpty] = useState(true);
     // const [statusSwitch, setStatusSwitch] = useState(0);
-    const [canShowMore,setCanShowMore] = useState(true);
+    const [canShowMore, setCanShowMore] = useState(false);
 
     const status = ["All", "Monitor", "Laptop", "Keyboard", "Mouse", "Projector", "Camera"];
 
     useEffect(() => {
         getBarang(keyword, 0, null);
     }, [])
+
     const getBarang = (key, n, cat, add: boolean = false) => {
         console.log(cat);
+        setEmpty(false);
         api(`/api/barang?search=${key}&page=${n}&category=${cat ? cat : ''}`).then((e) => {
             console.log(e);
             if (add) {
@@ -31,10 +34,16 @@ export default () => {
             } else {
                 setBarangs(e.data)
             }
-            if(e.data.length < 10){
+            if (e.data.length < 10) {
                 setCanShowMore(false)
-            }else{
+            } else {
                 setCanShowMore(true)
+            }
+
+            if (e.data.length > 0) {
+                setEmpty(false);
+            } else {
+                setEmpty(true);
             }
         }).catch((e) => {
             console.log(e);
@@ -51,6 +60,10 @@ export default () => {
         getBarang(keyword, pageN + 1, category, true);
         setPageN(pageN + 1);
 
+
+    }
+
+    const renderItems = () => {
 
     }
     return (
@@ -94,22 +107,26 @@ export default () => {
             </div>
 
             <div className="flex flex-col space-y-4 items-start justify-start w-full">
-                <div className="grid grid-cols-2 gap-3 w-full px-6">
-                    {barangs.length>0?barangs.map((x: any, i) => (
-                        <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
-                    )):Array.from({ length: 4 }, (item, index) => (
-                        <div key={index} className="flex flex-col rounded overflow-hidden overflow-hidde">
-                            <Skeleton style={{ minHeight: '7rem' }} />
-                            <div className="bg-white px-4 py-3 space-y-1">
-                                <Skeleton style={{ minHeight: '1rem', width: '100%' }} />
-                                <Skeleton style={{ minHeight: '1rem', width: '80%' }} />
-                            </div>
-                        </div>))}
-                </div>
+                {empty ? (<div className='w-full flex justify-center'>Empty</div>) : (<div className="grid grid-cols-2 gap-3 w-full px-6">
+                    {barangs.length > 0 ?
+
+                        barangs.map((x: any, i) => (
+                            <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
+                        ))
+
+                        : Array.from({ length: 4 }, (item, index) => (
+                            <div key={index} className="flex flex-col rounded overflow-hidden overflow-hidde">
+                                <Skeleton style={{ minHeight: '7rem' }} />
+                                <div className="bg-white px-4 py-3 space-y-1">
+                                    <Skeleton style={{ minHeight: '1rem', width: '100%' }} />
+                                    <Skeleton style={{ minHeight: '1rem', width: '80%' }} />
+                                </div>
+                            </div>))}
+                </div>)}
                 <div className="flex justify-center w-full">
-                    {canShowMore?
-                    <span onClick={() =>{showMore()}} className=" font-semibold py-3 px-5 text-gray-500 bg-gray-100 rounded-full">Show more</span>
-                    :<span className="font-semibold text-gray-500">you’ve reached the end.</span>
+                    {empty?"":(canShowMore ?
+                        <span onClick={() => { showMore() }} className=" font-semibold py-3 px-5 text-gray-500 bg-gray-100 rounded-full">Show more</span>
+                        : <span className="font-semibold text-gray-500">you’ve reached the end.</span>)
                     }
 
                 </div>

@@ -55,7 +55,7 @@ export default () => {
         "Completed","On Return",
         "Arrived","On The Way",
         "Packed","Waiting for Confirmation",
-        "Pending"]
+        "Pending","payment verified"]
     
     const [orders,setOrders] = useState<any>([]);
     useEffect(()=>{

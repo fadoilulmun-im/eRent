@@ -198,8 +198,8 @@ export default (props) => {
                         Order ID #{padLeadingZeros(transaction.id, 6)}
                     </div>
                     <div className="px-6 flex justify-between w-full">
-                        <span className="text-blue-200 italic">{transaction.status ? transaction.status.nama : "nan"}</span>
-                        <span className="text-coolGray-300 text-xs font-bold" onClick={seeDetail}>See detail</span>
+                        <span className="text-blue-500 italic">{transaction.status ? transaction.status.nama : "nan"}</span>
+                        <span className="text-coolGray-500 text-xs font-bold" onClick={seeDetail}>See detail</span>
                     </div>
                     <div className="px-6 w-full space-y-4">
                         <div className="text-base font-bold leading-relaxed text-coolGray-900">
