@@ -2,6 +2,7 @@ import { initApp } from 'web.init/src/initApp'
 import { io } from "socket.io-client";
 import './index.css'
 import { eventBus } from "./global"
+import Notif from './components/notif';
 
 
 const socket = io("http://127.0.0.1:3333", { transports: ['websocket'] }); // for local
@@ -25,4 +26,4 @@ if (u) {
 }
 
 
-initApp()
+initApp(<Notif/>)

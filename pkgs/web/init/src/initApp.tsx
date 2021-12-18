@@ -7,8 +7,8 @@ import { webInit } from './web/web-init'
 import type { BaseWindow } from './window'
 
 declare const window: BaseWindow
-
-export const initApp = async (opt?: { Root?: any; notFoundURL?: string }) => {
+//opt?: { Root?: any; notFoundURL?: string }
+export const initApp = async (comp) => {
   await detectPlatform() // window.platform
   await defineWindow() // window.*  
   await defineCMS() // window.cms_* 
@@ -20,6 +20,6 @@ export const initApp = async (opt?: { Root?: any; notFoundURL?: string }) => {
   if (window.platform === 'web') {
     webInit()
   } else if (window.platform === 'mobile') {
-    mobileInit()
+    mobileInit(comp)
   }
 }

@@ -30,7 +30,7 @@ export default () => {
     }
 
     return (
-        <div className="flex items-start justify-start px-6 bg-white">
+        <div className="flex items-start justify-start px-6 bg-white pb-3">
             <div className="flex flex-1 flex-col space-y-6 items-start justify-start">
                 <img
                     src="/fimgs/147_59.x1.svg"

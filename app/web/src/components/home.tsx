@@ -55,23 +55,21 @@ export default (props) => {
                 <div className="text-xl font-semibold text-coolGray-900 px-6">
                     Best Seller
                 </div>
-                <div className="grid grid-cols-2 gap-3 w-full px-6">
-
+                <div className=" flex w-full space-x-3 overflow-x-auto items-start ">
+                    <span className={' pl-3'} />
                     {items.length > 0 ?
                         items.map((x, i) => (
-                            <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
+                            <ItemBox style={{ minWidth: '180px' }} key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
                         )) : Array.from({ length: 4 }, (item, index) => (
-                            <div key={index} className="flex flex-col rounded overflow-hidden overflow-hidde">
+                            <div style={{ minWidth: '180px' }} key={index} className="flex flex-col rounded overflow-hidden overflow-hidde">
                                 <Skeleton style={{ minHeight: '7rem' }} />
                                 <div className="bg-white px-4 py-3 space-y-1">
                                     <Skeleton style={{ minHeight: '1rem', width: '100%' }} />
                                     <Skeleton style={{ minHeight: '1rem', width: '80%' }} />
                                 </div>
-                            </div>))}
-                    {/* <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} /> */}
+                            </div>))} 
+                    <span className={' pl-3'} />
+
                 </div>
             </div>
             <div className="flex flex-col space-y-4 items-start justify-start w-full">
@@ -90,10 +88,7 @@ export default (props) => {
                                     <Skeleton style={{ minHeight: '1rem', width: '80%' }} />
                                 </div>
                             </div>))}
-                    {/* <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} />
-                    <ItemBox id={12} title={"hell"} harga={100000} img={'/fimgs/232_297.x1.svg'} /> */}
+                   
                 </div>
             </div>
 

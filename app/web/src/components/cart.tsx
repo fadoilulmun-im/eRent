@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+// import { motion, useAnimation } from 'framer-motion';
 import { api } from 'web.utils/src/api';
 import { numberWithCommas } from '../global';
 import Tab from './Tab';
 import Loding from './loding';
+import { eventBus } from '../global';
 
 import ChartItem from './comp/chartItem';
 import PriceBox from './comp/priceBox';
@@ -70,11 +71,13 @@ export default () => {
     }
     const sub = (idx) => {
         // console.log(cart);
+        
         let dt = [...cart] as any;
         if (dt[idx]['quantity'] > 1) {
             dt[idx]['quantity'] -= 1;
             //console.log(dt);
             setCart(dt);
+            
             count(dt, delList);
             updateQty(dt[idx]);
         }
@@ -93,6 +96,9 @@ export default () => {
             `/api/customer/${user.id}/delete-cart/${cart[idx].id}`
         ).then((e) => {
             console.log(cart.length);
+            if(cart.length>delList.length){
+                eventBus.dispatch('subCart',0);
+            }
         });
         console.log(delList,"dl",cart)
     }

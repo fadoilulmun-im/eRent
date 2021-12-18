@@ -5,7 +5,7 @@ import { Page } from 'framework7-react';
 import { fileUpload } from "../global";
 import { api } from "web.utils/src/api";
 import Loding from "./loding";
-import Notif from "./notif";
+// import Notif from "./notif";
 import { eventBus } from "../global";
 
 export default () => {
@@ -57,7 +57,17 @@ export default () => {
         setStx(true);
         if (image.view !== '') {
             fileUpload(image.view, `/api/customer/${user.id}/upload-foto`).then((e) => {
-                // console.log(e);
+                console.log(e);
+                if(e.status == 'ok'){
+                    let u = localStorage.getItem('user');
+                    if(u){
+                        let uu = JSON.parse(u);
+                        
+                        uu.foto = e.path;
+                        localStorage.setItem('user',JSON.stringify(uu));
+                    }
+                }
+                
             });
         }
         if ((user.password != '') && (user.rePassword != '')) {
@@ -84,12 +94,11 @@ export default () => {
     return (
         <Page>
             <input onChange={handleFile} type='file' ref={fileInp} style={{ display: 'none' }} accept="image/png, image/gif, image/jpeg" />
-            <Notif/>
             <Loding state={loding}/>
             <div className={"h-screen flex-col bg-white "+(loding?'hidden':'flex')}>
                 {/*notif and a chart button*/}
                 {/* <top-naviagation mode={2} /> */}
-                <Tab mode={2} />
+                <Tab mode={2} onBack={()=>{location.href='/m/'}} />
 
                 <div className="flex flex-col h-full px-6 space-y-4 overflow-y-auto">
                     <div className="text-xl font-bold text-coolGray-900">Edit Profile</div>
@@ -203,7 +212,7 @@ export default () => {
                     </div>
                 </div>
 
-                <SaveCancel onSave={() => { stx?'':Save() }} title={stx?'Loding..':'Save'}/>
+                <SaveCancel onCancel={()=>{location.href='/m/'}} onSave={() => { stx?'':Save() }} title={stx?'Loding..':'Save'}/>
                 {/* <button-edit-profile /> */}
 
             </div>
