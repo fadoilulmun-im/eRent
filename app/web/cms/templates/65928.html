@@ -1,0 +1,122 @@
+<>
+  <effect
+    meta={{
+      email: "",
+      password: "",
+      notif_msg: "",
+    }}
+    run={async () => {
+      console.log(user);
+      if (user.role == "super") {
+        location.href = "/admin-list";
+      }
+      meta.action = {
+        emailChange: (e) => {
+          runInAction(() => {
+            meta.email = e.target.value;
+            console.log(meta.email); //check email di sini
+          });
+        },
+        passwordChange: (e) => {
+          runInAction(() => {
+            meta.password = e.target.value;
+            console.log(meta.password); //check password di sini
+          });
+        },
+        login: (e) => {
+          api("/api/admin/login", {
+            email: meta.email,
+            password: meta.password,
+          }).then((e) => {
+            console.log(e);
+            if (e.status == "ERROR") {
+              runInAction(() => {
+                meta.notif_msg = e.message;
+                // meta.action.notifclick();
+              });
+            } else {
+              user.admin = e.data;
+              location.href = "/dashboard-web";
+            }
+            //mengara ke home page
+          });
+        },
+      };
+    }}
+  />
+  <>
+    <notif
+      state={meta.notif_state}
+      click={() => {
+        meta.action.notifclick();
+      }}
+      msg={meta.notif_msg}
+    />
+    <div class="flex flex-1 self-stretch flex-col space-y-6 items-start justify-start px-64 pt-10 pb-36 bg-blue-700">
+      <img
+        src="/fimgs/410_1125.x1.png"
+        class="flex self-stretch flex-col items-center justify-start px-8"
+      />
+      <div class="flex self-stretch flex-col items-start justify-start p-2.5">
+        <div class="flex self-stretch flex-col space-y-5 items-start justify-start p-12 bg-white shadow rounded">
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              Username or Email
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                value={meta.email}
+                onChange={(e) => meta.action.emailChange(e)}
+                placeholder="Your username or email"
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
+            {/* Warning username belum terisi */}
+            {/*<div class="text-sm italic font-italic leading-snug text-red-500">*/}
+            {/*{meta.notif_msg}*/}
+            {/*</div>*/}
+          </div>
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
+            <div class="text-base font-medium leading-relaxed text-coolGray-500">
+              Password
+            </div>
+            <div class="flex self-stretch items-start justify-start">
+              <input
+                value={meta.password}
+                onChange={(e) => meta.action.passwordChange(e)}
+                type="password"
+                placeholder="Password"
+                class={
+                  "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
+                }
+              />
+            </div>
+            {/* Warning password belum terisi */}
+            <div class="text-sm italic font-italic leading-snug text-red-500">
+              {meta.notif_msg}
+            </div>
+          </div>
+          <div class="flex justify-end w-full">
+            <button class="text-base font-medium leading-relaxed text-right text-coolGray-900">
+              Forgot Password?
+            </button>
+          </div>
+          <button
+            onClick={() => {
+              meta.action.login();
+            }}
+            class="flex self-stretch flex-col items-start justify-start"
+          >
+            <div class="flex self-stretch items-center justify-center px-4 py-2 bg-blue-700 rounded">
+              <div class="text-base font-medium leading-relaxed text-center text-white">
+                Sign In
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </>
+</>

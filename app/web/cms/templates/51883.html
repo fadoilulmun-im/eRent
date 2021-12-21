@@ -1,0 +1,171 @@
+<>
+  <effect
+    meta={{
+      isActive(route) {
+        if (route == window.location.pathname) {
+          return "bg-indigo-500 w-full";
+        } else {
+          return null;
+        }
+      },
+    }}
+    run={async () => {}}
+  />
+  <div class="flex flex-1 self-stretch flex-col items-start justify-start bg-coolGray-100">
+    <div class="flex self-stretch items-start justify-start h-full">
+      <div class="flex items-start justify-start h-full">
+        <div class="flex flex-col items-start justify-start px-2 py-8 bg-blue-700 h-full">
+          <div class="flex flex-col space-y-7 items-start justify-start">
+            <a href="/dashboard-web">
+              <img
+                src="/fimgs/412_2473.x1.png"
+                class="flex flex-col items-start justify-start pl-5"
+                style="width: 264px; min-width: 264px; max-width: 264px; height: 20px; min-height: 20px; max-height: 20px;"
+              />
+            </a>
+            <div class="flex flex-col space-y-2 items-start justify-start w-full">
+              <a
+                href="/dashboard-web"
+                class={`${meta.isActive(
+                  "/dashboard-web"
+                )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
+              >
+                <img
+                  src="/fimgs/422_1221.x1.png"
+                  style="width: 18px; min-width: 18px; max-width: 18px; height: 20.02px; min-height: 20.02px; max-height: 20.02px;"
+                />
+                <div class="text-base font-medium leading-relaxed text-coolGray-100">
+                  Dashboard
+                </div>
+              </a>
+              <a
+                href="/barang-list"
+                class={`${meta.isActive("/barang-list")} || ${meta.isActive(
+                  "/barang-add"
+                )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
+              >
+                <img
+                  src="/fimgs/422_1495.x1.png"
+                  style="width: 20px; min-width: 20px; max-width: 20px; height: 20px; min-height: 20px; max-height: 20px;"
+                />
+                <div class="text-base font-medium leading-relaxed text-coolGray-100">
+                  Products
+                </div>
+              </a>
+              <a
+                href="/order-list"
+                class={`${meta.isActive("/order-list")} || ${meta.isActive(
+                  "/order-add"
+                )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
+              >
+                <img
+                  src="/fimgs/422_1837.x1.png"
+                  style="width: 20px; min-width: 20px; max-width: 20px; height: 20.02px; min-height: 20.02px; max-height: 20.02px;"
+                />
+                <div class="text-base font-medium leading-relaxed text-coolGray-100">
+                  Orders
+                </div>
+              </a>
+              <a
+                class={
+                  "flex space-x-4 items-start justify-start px-3 py-2 rounded "
+                }
+              >
+                <img
+                  src="/fimgs/422_2077.x1.png"
+                  style="width: 22px; min-width: 22px; max-width: 22px; height: 22px; min-height: 22px; max-height: 22px;"
+                />
+                <div class="text-base font-medium leading-relaxed text-coolGray-100">
+                  Analytics
+                </div>
+              </a>
+              <a
+                href="/user-list"
+                class={`${meta.isActive(
+                  "/user-list"
+                )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
+              >
+                <img
+                  src="/fimgs/422_2249.x1.png"
+                  style="width: 20px; min-width: 20px; max-width: 20px; height: 20.01px; min-height: 20.01px; max-height: 20.01px;"
+                />
+                <div class="text-base font-medium leading-relaxed text-coolGray-100">
+                  User
+                </div>
+              </a>
+              <a
+                href="/admin-list"
+                class={`${meta.isActive("/admin-list")} || ${meta.isActive(
+                  "/admin-add"
+                )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
+              >
+                <img
+                  src="/fimgs/u_user-check.x1.svg"
+                  style="width: 20px; min-width: 20px; max-width: 20px; height: 20.01px; min-height: 20.01px; max-height: 20.01px;"
+                />
+                <div class="text-base font-medium leading-relaxed text-coolGray-100">
+                  Admin
+                </div>
+              </a>
+              <a
+                href="/action-required-list"
+                class={`${meta.isActive(
+                  "/action-required-list"
+                )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
+              >
+                <img
+                  src="/fimgs/u_comment-alt-verify.x1.svg"
+                  style="width: 20px; min-width: 20px; max-width: 20px; height: 20.01px; min-height: 20.01px; max-height: 20.01px;"
+                />
+                <div class="text-base font-medium leading-relaxed text-coolGray-100">
+                  Action Required
+                </div>
+              </a>
+              <a
+                class={
+                  "flex space-x-4 items-start justify-start px-3 py-2 rounded "
+                }
+              >
+                <img
+                  src="/fimgs/422_2421.x1.png"
+                  style="width: 20px; min-width: 20px; max-width: 20px; height: 20px; min-height: 20px; max-height: 20px;"
+                />
+                <div class="text-base font-medium leading-relaxed text-coolGray-100">
+                  Setting
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-1 self-stretch flex-col space-y-10 items-start justify-start">
+        <div class="flex self-stretch flex-col items-start justify-start bg-coolGray-100">
+          <div class="flex flex-1 self-stretch flex-col items-start justify-start px-5 py-4 bg-coolGray-50 shadow">
+            <div class="flex self-stretch space-x-5 items-center justify-start">
+              <div class="flex flex-1 space-x-3 items-center justify-start">
+                {/*Field Search*/}
+                {/*<div />*/}
+                {/*<div class="text-base leading-relaxed text-coolGray-500">*/}
+                {/*Search*/}
+                {/*</div>*/}
+              </div>
+              <div class="flex flex-1 space-x-4 items-center justify-end">
+                <img
+                  src="/fimgs/425_1343.x1.svg"
+                  class="flex flex-col items-start justify-start bg-coolGray-50"
+                  style="width: 24px; min-width: 24px; max-width: 24px; height: 24px; min-height: 24px; max-height: 24px;"
+                />
+                <img
+                  src="/fimgs/412_2509.x1.png"
+                  class="rounded-full"
+                  style="width: 36px; min-width: 36px; max-width: 36px; height: 36px; min-height: 36px; max-height: 36px;background-image: url('/fimgs/bg-52636d59c23613f8dae671e6f007c8ad50d1d41e');background-size:100% 100%;background-repeat:no-repeat;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        {children}
+      </div>
+    </div>
+  </div>
+</>

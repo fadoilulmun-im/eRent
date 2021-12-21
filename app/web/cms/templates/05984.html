@@ -1,0 +1,474 @@
+<>
+  <effect
+    meta={{
+      showProfile: false,
+      showMasterData: false,
+      showManagement: false,
+      changeProfile: (open) => {},
+      changeManagement: (open) => {},
+      changeMasterData: (open) => {},
+      admin: [],
+      searching: "",
+      entries: 5,
+      last_entries: 5,
+      first_entries: 0,
+      page: 1,
+      sum_page: 0,
+      page_array: [],
+
+      async onChange(key, e) {
+        let value = e.target.value;
+
+        if (key === "entries") {
+          runInAction(() => {
+            this[key] = value;
+            this.first_entries = 0;
+            this.page = 1;
+            this.last_entries = parseInt(value);
+            this.sum_page = Math.ceil(this.admin.length / this.entries);
+            this.page_array = Array.apply(null, {
+              length: this.sum_page,
+            }).map(Number.call, Number);
+          });
+        } else if (key === "searching") {
+          runInAction(() => {
+            this[key] = value;
+            api("/api/admin-test", {
+              admin: {
+                username: value,
+              },
+              e: "Searching",
+            }).then((res) => {
+              runInAction(() => {
+                this.admin = res.admin;
+                this.first_entries = 0;
+                this.page = 1;
+                this.last_entries = parseInt(this.entries);
+                this.sum_page = Math.ceil(this.admin.length / this.entries); // meta.page_array = new Array(meta.sum_page);
+
+                this.page_array = Array.apply(null, {
+                  length: this.sum_page,
+                }).map(Number.call, Number);
+              });
+            });
+          });
+        }
+
+        console.log(key + " : " + this[key]); // console.log("page : " + this.page);
+        // console.log("last_entries : " + this.last_entries);
+      },
+
+      async onClickPage(key, value) {
+        if (value !== this.page && value !== 0 && value <= this.sum_page) {
+          const last_page = this.page;
+          const gap = value - last_page;
+          const res = gap > 0;
+          runInAction(() => {
+            this.page = value;
+
+            if (res) {
+              this.first_entries += parseInt(this.entries) * Math.abs(gap);
+              this.last_entries += parseInt(this.entries) * Math.abs(gap);
+            } else {
+              this.first_entries -= parseInt(this.entries) * Math.abs(gap);
+              this.last_entries -= parseInt(this.entries) * Math.abs(gap);
+            }
+          });
+          console.log(key + " : " + value); // console.log("first_entries : " + this.first_entries);
+          // console.log("last_entries : " + this.last_entries);
+          // console.log("gap : " + res);
+        }
+      },
+
+      // async editAdmin(id) {
+      //   navigate("/admin-edit/" + id);
+      // },
+
+      async deleteAdmin(id) {
+        console.log(id);
+        const confirmDel = confirm("Confirm delete?");
+
+        if (confirmDel) {
+          await api("/api/admin-test", {
+            admin: {
+              id: id,
+            },
+            e: "Delete",
+          }).then((res) => {
+            if (res.res === "Failure") {
+              alert("Can't delete Admin, because related with another data");
+            } else {
+              navigate("/admin-list");
+            }
+          });
+        }
+      },
+    }}
+    run={async () => {
+      meta.action = {
+        changeMasterData: (open) => {
+          meta.showMasterData = open;
+          let img = document.getElementById("chevron-master");
+
+          if (open == true) {
+            img.setAttribute("style", "transform: rotate(0deg);");
+          } else {
+            img.setAttribute("style", "transform: rotate(180deg);");
+          }
+        },
+        changeManagement: (open) => {
+          meta.showManagement = open;
+          let img = document.getElementById("chevron-management");
+
+          if (open == true) {
+            img.setAttribute("style", "transform: rotate(0deg);");
+          } else {
+            img.setAttribute("style", "transform: rotate(180deg);");
+          }
+        },
+        changeProfile: (open) => {
+          meta.showProfile = open;
+        },
+      };
+      var admin = "";
+
+      // if (user.role !== "super") {
+      //   navigate("/w-login");
+      // }
+
+      await api("/api/admin-test", {
+        admin: " ",
+        e: "ReadAll",
+      }).then((res) => {
+        admin = res.admin;
+      });
+      runInAction(() => {
+        meta.admin = admin;
+        meta.sum_page = Math.ceil(meta.admin.length / meta.entries); // meta.page_array = new Array(meta.sum_page);
+
+        meta.page_array = Array.apply(null, {
+          length: meta.sum_page,
+        }).map(Number.call, Number);
+      }); // console.log(meta.page_array);
+
+      console.log(meta.admin);
+    }}
+  />
+
+  <div class="flex self-stretch flex-col space-y-6 items-start justify-start px-9 pb-10 relative overflow-y-auto">
+    <div class="flex self-stretch items-start justify-start">
+      <div class="flex flex-1 flex-col space-y-5 items-start justify-start pb-10 bg-coolGray-50 shadow border border-coolGray-300 p-5">
+        <div class="flex self-stretch space-x-2.5 items-start justify-start">
+          <div class="flex flex-1 items-start justify-start">
+            <div class="text-2xl font-bold leading-9 text-gray-900">Admin</div>
+          </div>
+          <div
+            class={`w-full flex space-x-4 items-center justify-start px-4 py-2 bg-gray-100 rounded-md`}
+            style="width: 300px; min-width: 300px; max-width: 300px; height: 40px; min-height: 40px; max-height: 40px;"
+          >
+            <img
+              src="/fimgs/3384_91179.x1.svg"
+              class="flex items-start justify-start"
+              style="width: 24px; min-width: 24px; max-width: 24px; height: 24px; min-height: 24px; max-height: 24px;"
+            />
+            <input
+              class={"w-full"}
+              type="text"
+              placeholder="Search Username"
+              style={`color: black;
+                        background:transparent; 
+                        outline: none;`}
+              onChange={(e) => {
+                meta.onChange("searching", e);
+              }}
+              value={meta.searching}
+            />
+          </div>
+        </div>
+        <div class="flex self-stretch space-x-2.5 items-start justify-start">
+          <div class="flex flex-1 self-stretch space-x-4 items-center justify-start">
+            <div class="flex items-start justify-start">
+              <div class="text-base leading-normal">Show</div>
+            </div>
+            <div class="flex space-x-2 items-center justify-start">
+              <select
+                class={`flex flex-col space-y-2.5 items-center justify-start px-6 py-1 bg-white border rounded border-gray-500`}
+                style={`width: 95.87px; min-width: 95.87px; max-width: 95.87px;`}
+                value={meta.entries}
+                onChange={(e) => {
+                  meta.onChange("entries", e);
+                }}
+              >
+                <option class={`hidden`} />
+                <option
+                  value="5"
+                  class={`flex flex-1 self-stretch flex-col items-start justify-start bg-white`}
+                >
+                  5
+                </option>
+                <option
+                  value="10"
+                  class="flex flex-1 self-stretch flex-col items-start justify-start bg-white"
+                >
+                  10
+                </option>
+                <option
+                  value="25"
+                  class="flex flex-1 self-stretch flex-col items-start justify-start bg-white"
+                >
+                  25
+                </option>
+                <option
+                  value="50"
+                  class="flex flex-1 self-stretch flex-col items-start justify-start bg-white"
+                >
+                  50
+                </option>
+              </select>
+              <div class="flex items-start justify-start">
+                <div class="text-base leading-normal">entries</div>
+              </div>
+            </div>
+          </div>
+          <button
+            class={`flex space-x-1 items-start justify-start px-4 py-2 bg-blue-700 shadow rounded`}
+            style={`style={'margin-left: 10px;'}`}
+            onClick={() => {
+              navigate("/admin-add");
+            }}
+          >
+            <div class={`flex self-stretch items-start justify-start`}>
+              <div class={`text-base font-bold leading-normal text-white`}>
+                Add New Admin
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <div class="flex self-stretch flex-col space-y-6 items-start justify-start">
+          <table
+            class={`table-autoflex self-stretch flex-col items-start justify-start`}
+          >
+            <thead class="flex self-stretch flex-col items-start justify-start">
+              <tr
+                class={`w-full flex items-center justify-start p-4 bg-blue-700 rounded`}
+              >
+                <th class="flex self-stretch flex-col items-start justify-center">
+                  <div class="text-base font-bold leading-normal text-white">
+                    No
+                  </div>
+                </th>
+                <th
+                  class={`flex flex-1 self-stretch items-center justify-start`}
+                >
+                  <div class="text-base font-bold leading-normal text-white px-3">
+                    Username
+                  </div>
+                </th>
+                <th
+                  class={`flex flex-1 self-stretch items-center justify-start`}
+                >
+                  <div class="text-base font-bold leading-normal text-white px-3">
+                    Name
+                  </div>
+                </th>
+                <th
+                  class={`flex flex-1 self-stretch items-center justify-start`}
+                >
+                  <div class="text-base font-bold leading-normal text-white px-3">
+                    Email
+                  </div>
+                </th>
+                <th
+                  class={`flex flex-1 self-stretch items-center justify-start`}
+                >
+                  <div class="text-base font-bold leading-normal text-white px-3">
+                    Role
+                  </div>
+                </th>
+                <th
+                  class={`flex items-center justify-center`}
+                  style={"margin-right: 15px;"}
+                >
+                  <div class="text-base font-bold leading-normal text-white">
+                    Aksi
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="flex self-stretch flex-col items-start justify-start">
+              {meta.admin
+                .slice(meta.first_entries, meta.last_entries)
+                .map((numList, i) => {
+                  var odd = (i + 1) % 2;
+                  return (
+                    <tr
+                      class={`w-full flex self-stretch items-center justify-start px-4 py-3 bg-white rounded ${
+                        odd === 0 ? "bg-gray-100" : "bg-white"
+                      }`}
+                      style={
+                        ":hover {background-color: rgba(219, 234, 254, var(--tw-bg-opacity));"
+                      }
+                    >
+                      <td
+                        class={`flex self-stretch flex-col items-center justify-start p-3`}
+                      >
+                        <div class={`text-base leading-normal`}>
+                          {meta.first_entries + i + 1}
+                        </div>
+                      </td>
+                      <td
+                        class={`flex flex-1 self-stretch items-center justify-start`}
+                      >
+                        <div class={`text-base leading-normal px-3`}>
+                          {numList.username || "-"}
+                        </div>
+                      </td>
+                      <td
+                        class={`flex flex-1 self-stretch items-center justify-start`}
+                        style={""}
+                      >
+                        <div class={`text-base leading-normal px-3`}>
+                          {numList.nama || "-"}
+                        </div>
+                      </td>
+                      <td
+                        class={`flex flex-1 self-stretch items-center justify-start`}
+                        style={""}
+                      >
+                        <div class={`text-base leading-normal px-3`}>
+                          {numList.email || "-"}
+                        </div>
+                      </td>
+                      <td
+                        class={`flex flex-1 self-stretch items-center justify-start`}
+                      >
+                        <div class={`text-base leading-normal px-3`}>
+                          {numList.role || "-"}
+                        </div>
+                      </td>
+                      <td
+                        class={`flex self-stretch space-x-6 items-center justify-start`}
+                        style={""}
+                      >
+                        <div
+                          class={`flex self-stretch items-center justify-center rounded`}
+                          style={`cursor: pointer`}
+                          onClick={() => {
+                            navigate("/admin-edit/" + numList.id);
+                          }}
+                        >
+                          <img
+                            src="/fimgs/fi_edit.x1.svg"
+                            style="width: 24px; min-width: 24px; max-width: 24px; height: 24px; min-height: 24px; max-height: 24px;"
+                          />
+                        </div>
+                        <img
+                          src="/fimgs/2232_368913.x1.svg"
+                          class={`flex self-stretch items-center justify-center rounded`}
+                          style={`cursor: pointer ; margin-left: 10px !important;`}
+                          onClick={() => {
+                            meta.deleteAdmin(numList.id);
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+              {meta.admin.length === 0 && (
+                <tr
+                  class={`w-full flex self-stretch items-center justify-center px-4 py-3 rounded`}
+                  style={""}
+                >
+                  <div class={`text-base leading-normal text-center`}>
+                    No data found!
+                  </div>
+                </tr>
+              )}
+            </tbody>
+          </table>
+          <div class="flex self-stretch space-x-2.5 items-center justify-start bg-coolGray-50">
+            <div class="flex flex-1 items-start justify-start">
+              <div
+                class={`text-base leading-normal text-orange-900`}
+              >{`Showing ${meta.first_entries + 1} to ${
+                meta.last_entries <= meta.admin.length
+                  ? meta.last_entries
+                  : meta.admin.length
+              } of ${meta.admin.length} entries`}</div>
+            </div>
+            <div class="flex space-x-2 items-start justify-start">
+              <div
+                class={`flex self-stretch flex-col items-center justify-center px-2 bg-coolGray-50 rounded cursor-pointer`}
+                style={`:hover {outline: 2px solid #ababab;`}
+                onClick={() => {
+                  meta.onClickPage("page" + (meta.page - 1), meta.page - 1);
+                }}
+              >
+                <img
+                  src="/fimgs/2986_125623.x1.svg"
+                  style={`width: 18px; min-width: 18px; max-width: 18px; height: 14px; min-height: 14px; max-height: 14px;`}
+                />
+              </div>
+              {meta.page_array.map((numList, i) => {
+                const upper =
+                  meta.page + 2 < meta.page_array.length
+                    ? meta.page + 2
+                    : meta.page_array.length;
+                const under = meta.page - 2 > 0 ? meta.page - 2 : 1;
+
+                if (
+                  (numList + 1 < upper && numList + 1 > under) ||
+                  numList + 1 === 1 ||
+                  numList + 1 === meta.page_array.length
+                ) {
+                  return (
+                    <div class={`flex items-start justify-start`}>
+                      {
+                        <div
+                          class={`flex flex-col items-start justify-start px-2.5 py-1 bg-blue-100 rounded text-white`}
+                          style={`${
+                            "page" + meta.page === "page" + (i + 1)
+                              ? `background: rgba(29, 78, 216, var(--tw-bg-opacity));`
+                              : `:hover {background-color: rgba(191, 219, 254, var(--tw-bg-opacity));}`
+                          }
+                                cursor:pointer;`}
+                          onClick={() => {
+                            meta.onClickPage("page" + (i + 1), i + 1);
+                          }}
+                        >
+                          <div class={`text-base leading-normal`}>
+                            {numList + 1}
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  );
+                } else {
+                  if (numList + 1 === upper || numList + 1 === under)
+                    return "...";
+                }
+              })}
+              <div
+                class={`flex self-stretch flex-col items-center justify-center px-2 bg-coolGray-50 rounded cursor-pointer`}
+                style={`:hover {outline: 2px solid #ababab;`}
+                onClick={() => {
+                  meta.onClickPage("page" + (meta.page + 1), meta.page + 1);
+                }}
+              >
+                <img
+                  src="/fimgs/2986_125629.x1.svg"
+                  style="width: 18px; min-width: 18px; max-width: 18px; height: 14px; min-height: 14px; max-height: 14px;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex self-stretch space-x-6 items-start justify-end">
+      <div />
+      <div />
+    </div>
+  </div>
+</>
