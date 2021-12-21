@@ -8,24 +8,28 @@
       harga_barang: "",
       gambar_barang: "",
       kategori_barang: "",
-      created_ad: "",
-      stok_barang: "",
+      created_at: "",
+      berat_barang: "",
       kategori: [],
 
       validation() {
         let msg =
-          this.username === "" || this.username === null
-            ? "Username cant be empty!"
-            : this.email === "" || this.email === null
-            ? "Email cant be empty!"
-            : this.name === "" || this.name === null
-            ? "Name cant be empty!"
-            : this.phone === "" || this.phone === null
-            ? "Phone cant be empty!"
-            : this.role === "" || this.role === null
-            ? "Role cant be empty!"
-            : this.password === "" || this.password === null
-            ? "Password cant be empty!"
+          this.nama_barang === "" || this.nama_barang === null
+            ? "Product name cant be empty!"
+            : this.merk_barang === "" || this.merk_barang === null
+            ? "Product brand cant be empty!"
+            : this.detail_barang === "" || this.detail_barang === null
+            ? "Product detail cant be empty!"
+            : // : this.gambar_barang === "" || this.gambar_barang === null
+            // ? "Product image cant be empty!"
+            // : this.kategori_barang === "" || this.kategori_barang === null
+            // ? "Category cant be empty!"
+            this.harga_barang === "" || this.harga_barang === null
+            ? "Price cant be empty!"
+            : this.berat_barang === "" || this.berat_barang === null
+            ? "Weight cant be empty!"
+            : this.stok_barang === "" || this.stok_barang === null
+            ? "Stock cant be empty!"
             : false; // console.log(msg);
 
         return msg;
@@ -64,8 +68,9 @@
               stok_barang: parseInt(this.stok_barang),
               harga_barang: parseInt(this.harga_barang),
               gambar_barang: this.gambar_barang,
+              berat_barang: this.berat_barang,
               kategori_barang: parseInt(this.id),
-              created_ad: new Date(),
+              created_at: new Date(),
             },
             e: "Create",
           }).then((res) => {
@@ -107,9 +112,9 @@
       });
       console.log(meta.kategoris);
 
-      if (user.role !== "super") {
-        navigate("/w-login");
-      }
+      // if (user.role !== "super") {
+      //   navigate("/w-login");
+      // }
     }}
   />
   <>
@@ -131,7 +136,23 @@
                   value={meta.nama_barang}
                   name="nama_barang"
                   onChange={(e) => meta.action.inpChange(e)}
-                  placeholder="Lenovo Ideapad 320"
+                  placeholder="Laptop"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Product Brand
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.merk_barang}
+                  name="merk_barang"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="Lenovo"
                   class={
                     "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
                   }
@@ -147,6 +168,7 @@
                   class="flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
                   defaultValue="Pilih Kategori"
                   value={meta.kategori_barang}
+                  name="kategori_barang"
                   onChange={(e) => {
                     meta.onChange("kategori_barang", e);
                   }}
@@ -201,7 +223,13 @@
                 Product Image
               </div>
               <div class="flex self-stretch items-start justify-start">
-                <input type="file" class="dropify" data-height="300" />
+                <input
+                  value={meta.gambar_barang}
+                  type="file"
+                  name="gambar_barang"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  data-height="300"
+                />
               </div>
             </div>
             <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
@@ -266,7 +294,7 @@
                   class="text-base leading-relaxed text-center text-white"
                   onClick={meta.submit}
                 >
-                  Add User
+                  Add Product
                 </button>
               </div>
             </div>
