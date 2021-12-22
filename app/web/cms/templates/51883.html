@@ -12,9 +12,9 @@
     run={async () => {}}
   />
   <div class="flex flex-1 self-stretch flex-col items-start justify-start bg-coolGray-100">
-    <div class="flex self-stretch items-start justify-start h-full">
+    <div class="flex self-stretch items-start justify-start h-full fixed w-screen">
       <div class="flex items-start justify-start h-full">
-        <div class="flex flex-col items-start justify-start px-2 py-8 bg-blue-700 h-full">
+        <div class="flex items-start justify-start px-2 py-8 bg-blue-700 h-full">
           <div class="flex flex-col space-y-7 items-start justify-start">
             <a href="/dashboard-web">
               <img
@@ -67,9 +67,10 @@
                 </div>
               </a>
               <a
-                class={
-                  "flex space-x-4 items-start justify-start px-3 py-2 rounded "
-                }
+                href="/analytics"
+                class={`${meta.isActive(
+                  "/analytics"
+                )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
               >
                 <img
                   src="/fimgs/422_2077.x1.png"

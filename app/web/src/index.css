@@ -52,3 +52,8 @@ body,
   @apply fixed bg-blue-600 rounded text-white flex justify-between items-center transform-all translate-y-10; 
 }
 } */
+
+#content{
+  margin-top: 0;
+  padding-top:calc(2.5rem*(1 - var(--tw-space-y-reverse)));
+}

@@ -1,0 +1,253 @@
+<>
+  <effect meta={{}} run={async () => {}} />
+  <div
+    class="flex self-stretch flex-col space-y-6 items-start justify-start relative overflow-y-auto"
+    id="content"
+  >
+    <div class={`flex self-stretch items-start justify-start`}>
+      <div class="flex flex-1 flex-col items-start justify-start">
+        <div class="flex self-stretch flex-col space-y-6 items-start justify-start px-9 pb-10 relative overflow-y-auto">
+          <div class="text-3xl font-bold text-coolGray-900">Analytics</div>
+          <form class="flex space-x-5 items-end justify-start">
+            <div class="flex flex-col space-y-2">
+              <label
+                class={`text-base font-medium leading-relaxed text-coolGray-500`}
+                for="from"
+              >
+                From
+              </label>
+              <input
+                class={`py-2 px-2.5 rounded`}
+                type="date"
+                id="from"
+                name="from"
+              />
+            </div>
+            <div class="flex flex-col space-y-2">
+              <label
+                class={`text-base font-medium leading-relaxed text-coolGray-500`}
+                for="to"
+              >
+                To
+              </label>
+              <input
+                class={`py-2 px-2.5 rounded`}
+                type="date"
+                id="to"
+                name="to"
+              />
+            </div>
+            <button
+              class="text-base px-4 py-2 bg-blue-700 rounded text-white"
+              type="submit"
+            >
+              Apply
+            </button>
+          </form>
+          <div class="flex self-stretch space-x-6">
+            <div class="p-6 pb-7 flex flex-1 self-stretch flex-col space-y-4 bg-coolGray-50 shadow border border-coolGray-300 rounded">
+              <div class="text-base font-bold leading-relaxed text-coolGray-900 pb-1">
+                Total Sales
+              </div>
+              <div class="flex self-stretch flex-col">
+                <div class="text-3xl text-coolGray-900">Rp40.123.170</div>
+              </div>
+            </div>
+
+            <div class="p-6 pb-7 flex flex-1 self-stretch flex-col space-y-4 bg-coolGray-50 shadow border border-coolGray-300 rounded">
+              <div class="text-base font-bold leading-relaxed text-coolGray-900 pb-1">
+                Net Sales
+              </div>
+              <div class="flex self-stretch flex-col">
+                <div class="text-3xl text-coolGray-900">Rp36.123.170</div>
+              </div>
+            </div>
+
+            <div class="p-6 pb-7 flex flex-1 self-stretch flex-col space-y-4 bg-coolGray-50 shadow border border-coolGray-300 rounded">
+              <div class="text-base font-bold leading-relaxed text-coolGray-900 pb-1">
+                Orders
+              </div>
+              <div class="flex self-stretch flex-col">
+                <div class="text-3xl text-coolGray-900">120</div>
+              </div>
+            </div>
+
+            <div class="p-6 pb-7 flex flex-1 self-stretch flex-col space-y-4 bg-coolGray-50 shadow border border-coolGray-300 rounded">
+              <div class="text-base font-bold leading-relaxed text-coolGray-900 pb-1">
+                Items Rent
+              </div>
+              <div class="flex self-stretch flex-col items-start justify-start">
+                <div class="text-3xl text-coolGray-900">420</div>
+              </div>
+            </div>
+          </div>
+          <div class="flex self-stretch space-x-8">
+            <div class="flex flex-1 flex-col">
+              <div class="flex self-stretch flex-col pt-6 bg-coolGray-50 shadow border border-coolGray-300">
+                <div class="flex self-stretch flex-col space-y-5">
+                  <div class="flex font-bold self-stretch px-6">
+                    Top 10 Erent User: Total Spend
+                  </div>
+                  <div class="w-full">
+                    <table class="flex flex-col space-y-5 pb-8 ">
+                      <thead class="flex self-stretch items-center py-3 px-8 bg-coolGray-50 border rounded-tl rounded-tr border-coolGray-300">
+                        <tr class="flex w-full">
+                          <th class="flex flex-1 font-bold">Name</th>
+                          <th class="flex flex-1 font-bold">Orders</th>
+                          <th class="flex flex-1 font-bold">Total Spend</th>
+                        </tr>
+                      </thead>
+                      <tbody class="flex flex-col space-y-5 self-stretch py-3 px-8">
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">John Doe</td>
+                          <td class="flex flex-1">4</td>
+                          <td class="flex flex-1">Rp3.210.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">John Doe</td>
+                          <td class="flex flex-1">4</td>
+                          <td class="flex flex-1">Rp3.210.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Clarke</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Clarke</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Clarke</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Clarke</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Clarke</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Clarke</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Clarke</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Clarke</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-1 flex-col">
+              <div class="flex self-stretch flex-col pt-6 bg-coolGray-50 shadow border border-coolGray-300">
+                <div class="flex self-stretch flex-col space-y-5">
+                  <div class="flex font-bold self-stretch px-6">
+                    Top 10 Erent Items: Items Sold
+                  </div>
+                  <div class="w-full">
+                    <table class="flex flex-col space-y-5 pb-8 ">
+                      <thead class="flex self-stretch items-center py-3 px-8 bg-coolGray-50 border rounded-tl rounded-tr border-coolGray-300">
+                        <tr class="flex w-full">
+                          <th class="flex flex-1 font-bold">Name</th>
+                          <th class="flex flex-1 font-bold">Item Rent</th>
+                          <th class="flex flex-1 font-bold">Net Sales</th>
+                        </tr>
+                      </thead>
+                      <tbody class="flex flex-col space-y-5 self-stretch py-3 px-8">
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Product 1</td>
+                          <td class="flex flex-1">4</td>
+                          <td class="flex flex-1">Rp3.210.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Product 2</td>
+                          <td class="flex flex-1">4</td>
+                          <td class="flex flex-1">Rp3.210.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Product 3</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Product 4</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Product 5</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Product 6</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Product 7</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Product 8</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Product 9</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+
+                        <tr class="flex w-full">
+                          <td class="flex flex-1">Product 10</td>
+                          <td class="flex flex-1">2</td>
+                          <td class="flex flex-1">Rp3.010.000</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</>
