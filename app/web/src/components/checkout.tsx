@@ -292,7 +292,7 @@ export default () => {
                     <SelectBox header="Choose Shipping" icon={allShipping[shippingSwitch].icon} title={allShipping[shippingSwitch].name} onEdit={() => { setShippingPop(true) }} />
                     <SelectBox header="Return Method" icon={allShipping[0].icon} title={allShipping[0].name} />
                     <div className='px-6'>
-                    only erent pickup are available currently for returning products
+                        only erent pickup are available currently for returning products
                     </div>
 
                     <div className="flex self-stretch flex-col space-y-4 items-start justify-start px-6">
