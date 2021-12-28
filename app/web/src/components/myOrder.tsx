@@ -62,7 +62,7 @@ export default () => {
         let uu = localStorage.getItem('user')
         if (uu) {
             let u = JSON.parse(uu)
-            console.log(u)
+            //console.log(u)
             setUser(u)
         }
     },[])

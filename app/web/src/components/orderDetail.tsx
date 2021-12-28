@@ -109,7 +109,7 @@ const PendingPage = (props) => {
                     can recognize your payment.
                 </div>
             </div>
-            <SaveCancel title={loding ? "Loding." : "Send"} onSave={() => { props.data ? upload() : "" }} />
+            <SaveCancel onCancel={props.pop} title={loding ? "Loding." : "Send"} onSave={() => { props.data ? upload() : "" }} />
         </div>
     )
 }
