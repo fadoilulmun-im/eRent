@@ -73,7 +73,8 @@ export default () => {
             api(`/api/customer/${user.id}/orders${statusSwitch == 0?"":"?status="+statusSwitch}`).then((e)=>{
                 if(e.status == 'SUCCESS'){
                     setOrders(e.data);
-                    console.log(e)
+
+                    
                     setLoding(false);
                 }
             })
@@ -97,14 +98,14 @@ export default () => {
                 <div className="h-full overflow-y-auto space-y-6" style={{ paddingBottom: '2rem' }}>
 
 
-                    {orders.length>0?orders.map((x,i)=>(
+                    {orders.length>0?orders.map((x,i)=>(x.detail_transaksi.length>0?
                         <OrderItem key={i} id={x.id} title={x.detail_transaksi[0].barang.nama_barang} 
                         total_cost={x.total_harga} 
                         one_cost={x.detail_transaksi[0].total_harga}
                         one_qty = {x.detail_transaksi[0].quantity}
                         items={x.detail_transaksi.length}
                         status = {status[Number(x.status_transaksi)]}
-                        />
+                        />:""
                     )):(
                         <span className="flex items-center justify-center p-5">Empty</span>
                     )}

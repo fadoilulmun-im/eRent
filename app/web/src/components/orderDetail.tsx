@@ -35,7 +35,7 @@ const PendingPage = (props) => {
     const [fileName, setFileName] = useState("No file choosen.")
     const [fileData, setFileData] = useState(null)
 
-    const [loding,setLoding] = useState(false);
+    const [loding, setLoding] = useState(false);
 
     const getFileName = (e) => {
         if (e?.target) {
@@ -109,7 +109,7 @@ const PendingPage = (props) => {
                     can recognize your payment.
                 </div>
             </div>
-            <SaveCancel title={loding?"Loding.":"Send"} onSave={() => { props.data ? upload() : "" }} />
+            <SaveCancel title={loding ? "Loding." : "Send"} onSave={() => { props.data ? upload() : "" }} />
         </div>
     )
 }
@@ -180,10 +180,10 @@ export default (props) => {
             location.href = "/m/track-order-mobile/" + transaction.id;
         }
     }
-    const seeDetail = ()=>{
-        if(transaction.status.id == 8){
+    const seeDetail = () => {
+        if (transaction.status.id == 8) {
             setDetailPop(true);
-        }else{
+        } else {
             location.href = "/m/track-order-mobile/" + transaction.id;
         }
     }
@@ -193,13 +193,20 @@ export default (props) => {
             <div className={(loding ? "hidden" : "flex") + " flex-col h-full"}>
                 <Tab mode={2} />
                 <div className="h-full overflow-y-auto space-y-6" style={{ paddingBottom: '2rem' }}>
-                    <div className="text-2xl font-bold text-coolGray-900 px-6">
-                        Order ID #{padLeadingZeros(transaction.id, 6)}
+
+
+
+                    <div className="px-6 flex justify-between w-full items-start">
+                        <div className="flex flex-col space-y-2">
+                            <div className="text-2xl font-bold text-coolGray-900">
+                                Order ID #{padLeadingZeros(transaction.id, 6)}
+                            </div>
+                            <span className="text-blue-500 italic">{transaction.status ? transaction.status.nama : "nan"}</span>
+                        </div>
+                        <span className="text-white items-center rounded px-3 py-3 bg-blue-500 text-xs font-bold" onClick={seeDetail}>See Detail</span>
                     </div>
-                    <div className="px-6 flex justify-between w-full">
-                        <span className="text-blue-500 italic">{transaction.status ? transaction.status.nama : "nan"}</span>
-                        <span className="text-coolGray-500 text-xs font-bold" onClick={seeDetail}>See detail</span>
-                    </div>
+
+
                     <div className="px-6 w-full space-y-4">
                         <div className="text-base font-bold leading-relaxed text-coolGray-900">
                             Rent Date
