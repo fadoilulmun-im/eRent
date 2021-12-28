@@ -36,7 +36,7 @@
             this[key] = value;
             api("/api/transaksi-test", {
               transaksi: {
-                status_transaksi: value,
+                id: value,
               },
               e: "Searching",
             }).then((res) => {
@@ -81,6 +81,10 @@
         }
       },
 
+      async editOrder(id) {
+        navigate("/order-edit/" + id);
+      },
+
       async deleteTransaksi(id) {
         console.log(id);
         const confirmDel = confirm("Confirm delete?");
@@ -118,8 +122,18 @@
       });
       runInAction(() => {
         meta.transaksi = transaksi;
+        let namaCustomer = "";
+        let statusTransaksi = "";
+        transaksi.map((item, idx) => {
+          namaCustomer = item.customer.nama_customer;
+          statusTransaksi = item.status.nama;
+          // console.log(namaCustomer);
+          // console.log(statusTransaksi);
+        });
         meta.namacustomer = transaksi.customer.nama_customer;
-        console.log(meta.namacustomer);
+        meta.statustransaksi = transaksi.status.nama;
+        // console.log(meta.namacustomer);
+        // console.log(meta.statustransaksi);
         meta.sum_page = Math.ceil(meta.transaksi.length / meta.entries); // meta.page_array = new Array(meta.sum_page);
 
         meta.page_array = Array.apply(null, {
@@ -153,7 +167,7 @@
             <input
               class={"w-full"}
               type="text"
-              placeholder="Search Status Transaksi"
+              placeholder="Search ID Transaksi"
               style={`color: black;
                         background:transparent; 
                         outline: none;`}
@@ -209,19 +223,19 @@
               </div>
             </div>
           </div>
-          <button
-            class={`flex space-x-1 items-start justify-start px-4 py-2 bg-blue-700 shadow rounded`}
-            style={`style={'margin-left: 10px;'}`}
-            onClick={() => {
-              navigate("/order-add");
-            }}
-          >
-            <div class={`flex self-stretch items-start justify-start`}>
-              <div class={`text-base font-bold leading-normal text-white`}>
-                Add New Orders
-              </div>
-            </div>
-          </button>
+          {/*<button*/}
+          {/*class={`flex space-x-1 items-start justify-start px-4 py-2 bg-blue-700 shadow rounded`}*/}
+          {/*style={`style={'margin-left: 10px;'}`}*/}
+          {/*onClick={() => {*/}
+          {/*navigate("/order-add");*/}
+          {/*}}*/}
+          {/*>*/}
+          {/*<div class={`flex self-stretch items-start justify-start`}>*/}
+          {/*<div class={`text-base font-bold leading-normal text-white`}>*/}
+          {/*Add New Orders*/}
+          {/*</div>*/}
+          {/*</div>*/}
+          {/*</button>*/}
         </div>
 
         <div class="flex self-stretch flex-col space-y-6 items-start justify-start">
@@ -300,7 +314,10 @@
                         class={`flex flex-1 self-stretch items-center justify-start`}
                       >
                         <div class={`text-base leading-normal px-3`}>
-                          #{numList.id || "-"} {numList.id_customer || " "}
+                          #{numList.id || "-"}{" "}
+                          {numList.customer
+                            ? numList.customer.nama_customer
+                            : " - "}
                         </div>
                       </td>
                       <td
@@ -324,7 +341,7 @@
                         style={""}
                       >
                         <div class={`text-base leading-normal px-3`}>
-                          {numList.status_transaksi || "-"}
+                          {numList.status ? numList.status.nama : " - "}
                         </div>
                       </td>
                       <td
@@ -342,7 +359,7 @@
                           class={`flex self-stretch items-center justify-center rounded`}
                           style={`cursor: pointer`}
                           onClick={() => {
-                            navigate("/order-detail/" + numList.id);
+                            meta.editOrder(numList.id);
                           }}
                         >
                           <img
