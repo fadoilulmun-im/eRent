@@ -7,6 +7,7 @@
       net_sales: 0,
       top_customer: [],
       top_items: [],
+      url: new URL(window.location.href),
     }}
     run={async () => {
       meta.action = {
@@ -20,7 +21,26 @@
       };
 
       runInAction(async () => {
+        // meta.url = new URL(window.location.href);
+        let dari = meta.url.searchParams.get("from")
+          ? meta.url.searchParams.get("from")
+          : "1000-12-12";
+        let to = meta.url.searchParams.get("to")
+          ? meta.url.searchParams.get("to")
+          : new Date();
+
         let orders = await db.transaksi.findMany({
+          where: {
+            AND: {
+              NOT: {
+                tanggal_pemesanan: null,
+              },
+              tanggal_pemesanan: {
+                gte: new Date(dari),
+                lte: new Date(to),
+              },
+            },
+          },
           include: {
             bank: true,
           },
@@ -28,14 +48,26 @@
 
         let orders_completed = await db.transaksi.findMany({
           where: {
-            status_transaksi: 2,
+            AND: {
+              status_transaksi: 2,
+              tanggal_pemesanan: {
+                gte: new Date(dari),
+                lte: new Date(to),
+              },
+            },
           },
         });
 
         let detail_transaksi = await db.detail_transaksi.findMany({
           where: {
             transaksi: {
-              status_transaksi: 2,
+              AND: {
+                status_transaksi: 2,
+                tanggal_pemesanan: {
+                  gte: new Date(dari),
+                  lte: new Date(to),
+                },
+              },
             },
           },
         });
@@ -45,7 +77,13 @@
             nama_customer: true,
             transaksi: {
               where: {
-                status_transaksi: 2,
+                AND: {
+                  status_transaksi: 2,
+                  tanggal_pemesanan: {
+                    gte: new Date(dari),
+                    lte: new Date(to),
+                  },
+                },
               },
               select: {
                 total_harga: true,
@@ -66,7 +104,13 @@
             detail_transaksi: {
               where: {
                 transaksi: {
-                  status_transaksi: 2,
+                  AND: {
+                    status_transaksi: 2,
+                    tanggal_pemesanan: {
+                      gte: new Date(dari),
+                      lte: new Date(to),
+                    },
+                  },
                 },
               },
               select: {
@@ -135,8 +179,6 @@
         meta.total_sales = meta.action.formatRupiah(meta.total_sales);
         meta.total_order = orders_completed.length;
         meta.net_sales = meta.action.formatRupiah(meta.net_sales);
-
-        console.log(meta.top_items);
       });
     }}
   />
