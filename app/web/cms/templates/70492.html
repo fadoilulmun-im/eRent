@@ -4,6 +4,9 @@
       total_order: 0,
       items_rent: 0,
       total_sales: 0,
+      net_sales: 0,
+      top_customer: [],
+      top_items: [],
     }}
     run={async () => {
       meta.action = {
@@ -16,30 +19,125 @@
         },
       };
 
-      let orders = await db.transaksi.findMany({
-        where: {
-          status_transaksi: { notIn: [1, 8, 7] },
-        },
-      });
-
-      let detail_transaksi = await db.detail_transaksi.findMany({
-        where: {
-          transaksi: {
-            status_transaksi: { notIn: [1, 8, 7] },
+      runInAction(async () => {
+        let orders = await db.transaksi.findMany({
+          include: {
+            bank: true,
           },
-        },
-      });
+        });
 
-      detail_transaksi.forEach((item) => {
-        meta.items_rent += item.quantity;
-      });
+        let orders_completed = await db.transaksi.findMany({
+          where: {
+            status_transaksi: 2,
+          },
+        });
 
-      orders.forEach((item) => {
-        meta.total_sales += item.total_harga;
-      });
+        let detail_transaksi = await db.detail_transaksi.findMany({
+          where: {
+            transaksi: {
+              status_transaksi: 2,
+            },
+          },
+        });
 
-      meta.total_sales = meta.action.formatRupiah(meta.total_sales);
-      meta.total_order = orders.length;
+        let customers = await db.customer.findMany({
+          select: {
+            nama_customer: true,
+            transaksi: {
+              where: {
+                status_transaksi: 2,
+              },
+              select: {
+                total_harga: true,
+                biaya_pengiriman: true,
+                kode_unik: true,
+                bank: {
+                  select: {
+                    biaya_admin: true,
+                  },
+                },
+              },
+            },
+          },
+        });
+
+        let barang = await db.barang.findMany({
+          include: {
+            detail_transaksi: {
+              where: {
+                transaksi: {
+                  status_transaksi: 2,
+                },
+              },
+              select: {
+                quantity: true,
+                total_harga: true,
+              },
+            },
+          },
+        });
+
+        barang.forEach((item, index) => {
+          let rent = 0;
+          let sales = 0;
+          meta.top_items[index] = { nama: item.nama_barang };
+          item.detail_transaksi.forEach((i) => {
+            rent += i.quantity;
+            sales += i.total_harga;
+          });
+          meta.top_items[index].rent = rent;
+          meta.top_items[index].sales = sales;
+        });
+
+        customers.forEach((item, index) => {
+          let spend = 0;
+          meta.top_customer[index] = {
+            nama: item.nama_customer,
+            orders: item.transaksi.length,
+          };
+          item.transaksi.forEach((i) => {
+            spend += i.biaya_pengiriman;
+            spend += i.total_harga;
+            spend += i.kode_unik;
+            spend += i.bank.biaya_admin;
+          });
+
+          meta.top_customer[index].spend = spend;
+        });
+
+        detail_transaksi.forEach((item) => {
+          meta.items_rent += item.quantity;
+        });
+
+        orders.forEach((item) => {
+          meta.total_sales += item.total_harga;
+          meta.total_sales += item.biaya_pengiriman;
+          meta.total_sales += item.kode_unik;
+          meta.total_sales += item.bank.biaya_admin;
+        });
+
+        orders_completed.forEach((item) => {
+          meta.net_sales += item.total_harga * (10 / 100);
+          meta.net_sales += item.biaya_pengiriman * (10 / 100);
+          meta.net_sales += item.kode_unik;
+        });
+
+        meta.top_customer.sort((a, b) => {
+          return a.spend - b.spend;
+        });
+        meta.top_customer.reverse();
+
+        meta.top_items.sort((a, b) => {
+          return a.sales - b.sales;
+        });
+        meta.top_items.reverse();
+
+        meta.total_sales = meta.action.formatRupiah(meta.total_sales);
+        meta.total_order = orders_completed.length;
+        meta.net_sales = meta.action.formatRupiah(meta.net_sales);
+
+        console.log(meta.top_items);
+      });
     }}
   />
   <div
@@ -104,7 +202,7 @@
                 Net Sales
               </div>
               <div class="flex self-stretch flex-col">
-                <div class="text-3xl text-coolGray-900">Rp36.123.170</div>
+                <div class="text-3xl text-coolGray-900">{meta.net_sales}</div>
               </div>
             </div>
 
@@ -143,65 +241,17 @@
                         </tr>
                       </thead>
                       <tbody class="flex flex-col space-y-5 self-stretch py-3 px-8">
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">John Doe</td>
-                          <td class="flex flex-1">4</td>
-                          <td class="flex flex-1">Rp3.210.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">John Doe</td>
-                          <td class="flex flex-1">4</td>
-                          <td class="flex flex-1">Rp3.210.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Clarke</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Clarke</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Clarke</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Clarke</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Clarke</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Clarke</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Clarke</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Clarke</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
+                        {meta.top_customer.slice(0, 10).map((item, i) => {
+                          return (
+                            <tr class="flex w-full">
+                              <td class="flex flex-1">{item.nama}</td>
+                              <td class="flex flex-1">{item.orders}</td>
+                              <td class="flex flex-1">
+                                {meta.action.formatRupiah(item.spend)}
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
@@ -221,69 +271,21 @@
                         <tr class="flex w-full">
                           <th class="flex flex-1 font-bold">Name</th>
                           <th class="flex flex-1 font-bold">Item Rent</th>
-                          <th class="flex flex-1 font-bold">Net Sales</th>
+                          <th class="flex flex-1 font-bold">Total Sales</th>
                         </tr>
                       </thead>
                       <tbody class="flex flex-col space-y-5 self-stretch py-3 px-8">
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Product 1</td>
-                          <td class="flex flex-1">4</td>
-                          <td class="flex flex-1">Rp3.210.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Product 2</td>
-                          <td class="flex flex-1">4</td>
-                          <td class="flex flex-1">Rp3.210.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Product 3</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Product 4</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Product 5</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Product 6</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Product 7</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Product 8</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Product 9</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
-
-                        <tr class="flex w-full">
-                          <td class="flex flex-1">Product 10</td>
-                          <td class="flex flex-1">2</td>
-                          <td class="flex flex-1">Rp3.010.000</td>
-                        </tr>
+                        {meta.top_items.slice(0, 10).map((item, i) => {
+                          return (
+                            <tr class="flex w-full">
+                              <td class="flex flex-1">{item.nama}</td>
+                              <td class="flex flex-1">{item.rent}</td>
+                              <td class="flex flex-1">
+                                {meta.action.formatRupiah(item.sales)}
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
