@@ -111,7 +111,7 @@ export default () => {
                     {barangs.length > 0 ?
 
                         barangs.map((x: any, i) => (
-                            <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
+                            <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={x.gambar_barang} />
                         ))
 
                         : Array.from({ length: 4 }, (item, index) => (

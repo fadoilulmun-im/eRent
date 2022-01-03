@@ -8,6 +8,7 @@ import { Page } from 'framework7-react';
 import Loding from "./loding"
 import { motion } from "framer-motion"
 import ItemBox from './comp/ItemBox';
+import Image from './comp/image';
 
 
 
@@ -107,10 +108,9 @@ export default ({ id }) => {
         {/* <top-naviagation mode={3} /> */}
         <Tab mode={3} />
         <div className="flex self-stretch flex-col h-full items-start justify-start overflow-auto">
-          <img
-            src="/fimgs/232_297.x1.svg"
-            className="flex self-stretch flex-col items-start justify-start px-4 py-3 bg-gray-100"
-          />
+          <div style={{minHeight:'15rem'}} className=" overflow-x-hidden flex self-stretch flex-col items-center justify-center px-4 py-3 bg-gray-100">
+            <Image src={barang['gambar_barang']}/>
+          </div>
           <div className="flex self-stretch flex-col space-y-6 items-start justify-start px-6 pt-4">
             <div className="flex self-stretch flex-col space-y-2 items-start justify-start">
               <div className="text-xl text-coolGray-900">
@@ -146,7 +146,7 @@ export default ({ id }) => {
               </div>
               <div className=" font-medium leading-snug text-coolGray-900 flex justify-between w-full">
                 <span>Wight</span>
-                <span>2 Kg</span>
+                <span>{barang['berat_barang'] ? barang['berat_barang'] : "None"} Kg</span>
               </div>
             </div>
             <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
@@ -154,11 +154,7 @@ export default ({ id }) => {
                 About
               </div>
               <div className="text-sm leading-snug text-coolGray-900">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Interdum
-                cursus auctor egestas nibh aliquet lectus. Fermentum imperdiet mi,
-                aliquet vitae. Amet eros vitae consectetur leo. Ante egestas ac in
-                blandit. Ultricies pellentesque in ultrices augue orci
-                scelerisque.
+                {barang['detail_barang'] ? barang['detail_barang'] : "No description"}
               </div>
             </div>
             <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
@@ -167,7 +163,7 @@ export default ({ id }) => {
               </div>
               <div className="grid grid-cols-2 gap-3 w-full">
                 {otherItems.map((x, i) => (
-                  <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
+                  <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={x.gambar_barang} />
                 ))}
               </div>
             </div>
