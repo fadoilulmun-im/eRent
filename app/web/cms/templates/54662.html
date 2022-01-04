@@ -181,17 +181,19 @@
                   >
                     {"Pilih Kategori"}
                   </option>
-                  {meta.kategoris.map((numList, i) => {
-                    return (
-                      <option
-                        value={numList.id}
-                        class={`flex self-stretch flex-col items-start justify-start`}
-                        style="color: black"
-                      >
-                        {numList.nama}
-                      </option>
-                    );
-                  })}
+                  {meta.kategoris
+                    ? meta.kategoris.map((numList, i) => {
+                        return (
+                          <option
+                            value={numList.id}
+                            class={`flex self-stretch flex-col items-start justify-start`}
+                            style="color: black"
+                          >
+                            {numList.nama}
+                          </option>
+                        );
+                      })
+                    : ""}
                   {"Pilih Kategori"}
                 </select>
               </div>
