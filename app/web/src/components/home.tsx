@@ -59,7 +59,7 @@ export default (props) => {
                     <span className={' pl-3'} />
                     {items.length > 0 ?
                         items.map((x, i) => (
-                            <ItemBox style={{ minWidth: '180px' }} key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
+                            <ItemBox style={{ minWidth: '180px' }} key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={x.gambar_barang} />
                         )) : Array.from({ length: 4 }, (item, index) => (
                             <div style={{ minWidth: '180px' }} key={index} className="flex flex-col rounded overflow-hidden overflow-hidde">
                                 <Skeleton style={{ minHeight: '7rem' }} />
@@ -79,7 +79,7 @@ export default (props) => {
                 <div className="grid grid-cols-2 gap-3 w-full px-6">
                     {items.length > 0 ?
                         newItems.map((x, i) => (
-                            <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
+                            <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={x.gambar_barang} />
                         )) : Array.from({ length: 4 }, (item, index) => (
                             <div key={index} className="flex flex-col rounded overflow-hidden overflow-hidde">
                                 <Skeleton style={{ minHeight: '7rem' }} />
