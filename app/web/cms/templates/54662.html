@@ -80,6 +80,32 @@
         }
       },
 
+<<<<<<< Updated upstream
+=======
+      async upload() {
+        // await api("/api/barang-admin/add", {}).then((e) => {});
+        console.log(this.gambar_barang);
+        let brg = {
+          id_kategori: parseInt(this.kategori_barang),
+          nama_barang: this.nama_barang,
+          merk_barang: this.merk_barang,
+          detail_barang: this.detail_barang,
+          stok_barang: this.stok_barang,
+          harga_barang: this.harga_barang,
+        };
+        await api("/api/barang-admin/add", brg).then((e) => {
+          if (e.status === "SUCCESS" && this.gambar_barang) {
+            fileUpload(
+              this.gambar_barang,
+              `/api/barang-admin/${e.data.id}/upload-foto`
+            ).then((ee) => {
+              console.log(ee);
+              navigate("/barang-list");
+            });
+          }
+        });
+      },
+>>>>>>> Stashed changes
       // async upload(file) {
       //   const formData = _FormData();
 
