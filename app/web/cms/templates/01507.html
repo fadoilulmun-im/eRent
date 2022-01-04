@@ -64,9 +64,9 @@
           const last_page = this.page;
           const gap = value - last_page;
           const res = gap > 0;
+          console.log("gap", gap);
           runInAction(() => {
             this.page = value;
-
             if (res) {
               this.first_entries += parseInt(this.entries) * Math.abs(gap);
               this.last_entries += parseInt(this.entries) * Math.abs(gap);
@@ -133,24 +133,24 @@
       };
       var barang = null as any;
 
-      // if (user.role !== "super") {
-      //   navigate("/w-login");
-      // }
-
       await api("/api/barang-test", {
         barang: " ",
         e: "ReadAllData",
       }).then((res) => {
+        console.log(res);
         barang = res.barang;
       });
+
       runInAction(() => {
+        console.log("berubah");
         meta.barang = barang;
         // meta.nama_kategori = barang.kategori.nama;
         let namaKategoriBarang = "";
         barang.map((item, idx) => {
-          namaKategoriBarang = item.kategori.nama;
-          console.log(namaKategoriBarang);
+          namaKategoriBarang = item.kategori ? item.kategori.nama : "";
+          // console.log(namaKategoriBarang);
         });
+
         meta.sum_page = Math.ceil(meta.barang.length / meta.entries); // meta.page_array = new Array(meta.sum_page);
 
         meta.page_array = Array.apply(null, {
@@ -158,7 +158,7 @@
         }).map(Number.call, Number);
       }); // console.log(meta.page_array);
 
-      console.log(meta.barang);
+      // console.log(meta.barang);
     }}
   />
 
@@ -340,18 +340,8 @@
                         class={`flex flex-1 self-stretch items-center justify-start`}
                       >
                         <div class={`text-base leading-normal px-3`}>
-                          <img
-                            src={
-                              numList.gambar_barang
-                                ? numList.gambar_barang
-                                : "/fimgs/No-Image-Placeholder.x1.png"
-                            }
-                            alt="Product"
-                            // onError={(e) => {
-                            //   e.target.onerror = null;
-                            //   e.target.src = "/fimgs/3201_185125.x1.png";
-                            // }}
-                          />
+                          {/*<img src={numList.gambar_barang} />*/}
+                          <image src={numList.gambar_barang || ""} />
                         </div>
                       </td>
                       <td
@@ -368,14 +358,15 @@
                         style={""}
                       >
                         <div class={`text-base leading-normal px-3`}>
-                          {numberWithCommas(numList.stok_barang) || "-"}
+                          {numberWithCommas(numList.stok_barang || "0") || "-"}
                         </div>
                       </td>
                       <td
                         class={`flex flex-1 self-stretch items-center justify-start`}
                       >
                         <div class={`text-base leading-normal px-3`}>
-                          Rp {numberWithCommas(numList.harga_barang) || "-"}
+                          Rp{" "}
+                          {numberWithCommas(numList.harga_barang || "0") || "-"}
                         </div>
                       </td>
                       <td
@@ -414,17 +405,13 @@
                   );
                 })}
               {meta.barang.length === 0 && (
-                <tr
-                  class={`w-full flex self-stretch items-center justify-center px-4 py-3 rounded`}
-                  style={""}
-                >
-                  <div class={`text-base leading-normal text-center`}>
-                    No data found!
-                  </div>
+                <tr className="flex w-full justify-center p-3">
+                  <td>No data found!</td>
                 </tr>
               )}
             </tbody>
           </table>
+
           <div class="flex self-stretch space-x-2.5 items-center justify-start bg-coolGray-50">
             <div class="flex flex-1 items-start justify-start">
               <div

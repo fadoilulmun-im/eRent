@@ -109,7 +109,7 @@ export default ({ id }) => {
         <Tab mode={3} />
         <div className="flex self-stretch flex-col h-full items-start justify-start overflow-auto">
           <div style={{minHeight:'15rem'}} className=" overflow-x-hidden flex self-stretch flex-col items-center justify-center px-4 py-3 bg-gray-100">
-            <Image src={barang['gambar_barang']}/>
+            <span className="p-10"><Image src={barang['gambar_barang']}/></span>
           </div>
           <div className="flex self-stretch flex-col space-y-6 items-start justify-start px-6 pt-4">
             <div className="flex self-stretch flex-col space-y-2 items-start justify-start">

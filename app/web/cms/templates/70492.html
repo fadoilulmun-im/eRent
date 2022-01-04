@@ -8,6 +8,7 @@
       top_customer: [],
       top_items: [],
       url: new URL(window.location.href),
+      form: "2022-08-10",
     }}
     run={async () => {
       meta.action = {
@@ -17,6 +18,10 @@
             currency: "IDR",
             minimumFractionDigits: 0,
           }).format(money);
+        },
+        changeForm: (e) => {
+          // console.log(e.target.value);
+          meta.form = e.target.value;
         },
       };
 
@@ -203,6 +208,10 @@
                 type="date"
                 id="from"
                 name="from"
+                value={meta.form}
+                onChange={(e) => {
+                  meta.action.changeForm(e);
+                }}
               />
             </div>
             <div class="flex flex-col space-y-2">
