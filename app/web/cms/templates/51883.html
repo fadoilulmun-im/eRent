@@ -2,7 +2,7 @@
   <effect
     meta={{
       isActive(route) {
-        if (route == window.location.pathname) {
+        if (route == window.location.pathname.split("-")[0]) {
           return "bg-indigo-500 w-full";
         } else {
           return null;
@@ -27,7 +27,7 @@
               <a
                 href="/dashboard-web"
                 class={`${meta.isActive(
-                  "/dashboard-web"
+                  "/dashboard"
                 )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
               >
                 <img
@@ -40,8 +40,8 @@
               </a>
               <a
                 href="/barang-list"
-                class={`${meta.isActive("/barang-list")} || ${meta.isActive(
-                  "/barang-add"
+                class={`${meta.isActive(
+                  "/barang"
                 )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
               >
                 <img
@@ -54,8 +54,8 @@
               </a>
               <a
                 href="/order-list"
-                class={`${meta.isActive("/order-list")} || ${meta.isActive(
-                  "/order-add"
+                class={`${meta.isActive(
+                  "/order"
                 )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
               >
                 <img
@@ -83,7 +83,7 @@
               <a
                 href="/user-list"
                 class={`${meta.isActive(
-                  "/user-list"
+                  "/user"
                 )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
               >
                 <img
@@ -96,8 +96,8 @@
               </a>
               <a
                 href="/admin-list"
-                class={`${meta.isActive("/admin-list")} || ${meta.isActive(
-                  "/admin-add"
+                class={`${meta.isActive(
+                  "/admin"
                 )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
               >
                 <img
@@ -111,7 +111,7 @@
               <a
                 href="/action-required-list"
                 class={`${meta.isActive(
-                  "/action-required-list"
+                  "/action"
                 )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
               >
                 <img
