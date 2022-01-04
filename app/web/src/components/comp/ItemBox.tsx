@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 import {numberWithCommas} from "../../global";
-
+import Image from "./image";
 export default (props) => {
   return (
     <motion.div
@@ -13,8 +13,9 @@ export default (props) => {
     className="flex flex-col rounded overflow-hidden overflow-hidde"
     style={props.style?props.style:""}
     >
-      <div className="bg-gray-100 p-4 " style={{ minHeight: '5rem' }}>
-        <img src={props.img} />
+      <div className="bg-gray-100 p-4 flex justify-center items-center" style={{ minHeight: '6rem' }}>
+        {/* <img src={props.img} /> */}
+        <Image src={props.img}/>
       </div>
       <div className="bg-white px-4 py-3 space-y-1">
         <div className="text-xs font-medium leading-tight text-coolGray-900">

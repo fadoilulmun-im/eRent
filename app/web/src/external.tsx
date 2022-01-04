@@ -68,6 +68,7 @@ export default {
   checkout: () => [import("./components/checkout"), { c: "", s: "", h: "" }],
   myOrder: () => [import("./components/myOrder"), { c: "", s: "", h: "" }],
   register: () => [import("./components/register"), { c: "", s: "", h: "" }],
+  image: ()=>[import("./components/comp/image"),{ c: "", s: "", h: "" }],
   orderDetail: () => [
     import("./components/orderDetail"),
     { c: "", s: "", h: "" },

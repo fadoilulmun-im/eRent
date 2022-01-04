@@ -85,11 +85,6 @@ export default () => {
 
 
     const [allPayment,setAllPayment] = useState<any>([]);
-    // [
-    //     { name: "BankA", cost: 1000 },
-    //     { name: "BankB", cost: 2000 },
-    //     { name: "BankC", cost: 2000 }
-    // ]
     const [paymentSwitch, setPaymentSwitch] = useState(0);
 
 
@@ -124,15 +119,16 @@ export default () => {
             })
 
             if (u.alamat_utama) {
+                console.log("ada alamat utama",u.alamat_utama);
                 api(`/api/customer/alamat/${u.alamat_utama}`).then((e) => {
                     if (e.status == 'SUCCESS') {
                         console.log(e.data);
                         setAddrs(e.data);
                     }
                 })
-                setCanCheckout(true);
-            }else{
                 setCanCheckout(false);
+            }else{
+                setCanCheckout(true);
             }
         } else {
             location.href = '/m/'
@@ -285,8 +281,8 @@ export default () => {
                             <ChartItem del={() => { del(i) }} sub={() => { sub(i) }} add={() => { add(i) }} key={i} data={x} />
                         ))}
                     </div>
-                    {addrs ? (<Address data={addrs} onEdit={() => { location.href = '/m/my-address-mobile' }} />) : (
-                        <span onClick={() => { location.href = '/m/my-address-mobile' }} className="flex justify-center items-center"> select address first </span>
+                    {user.alamat_utama ? (<Address data={addrs} onEdit={() => { location.href = '/m/my-address-mobile' }} />) : (
+                        <span onClick={() => { location.href = '/m/my-address-mobile' }} className="flex justify-center items-center text-red-500"> select address first </span>
                     )}
                     <SelectBox header="Payment Method" icon={<img style={{ width: '3rem' }} src="/fimgs/262_242.x3.png" />} title={allPayment.length > 0?allPayment[paymentSwitch].nama:"none"} onEdit={() => { setPaymentPop(true) }} />
                     <SelectBox header="Choose Shipping" icon={allShipping[shippingSwitch].icon} title={allShipping[shippingSwitch].name} onEdit={() => { setShippingPop(true) }} />
