@@ -7,8 +7,12 @@
       net_sales: 0,
       top_customer: [],
       top_items: [],
-      url: new URL(window.location.href),
-      form: "2022-08-10",
+      dari: new URL(window.location.href).searchParams.get("dari")
+        ? new URL(window.location.href).searchParams.get("dari")
+        : undefined,
+      ke: new URL(window.location.href).searchParams.get("ke")
+        ? new URL(window.location.href).searchParams.get("ke")
+        : undefined,
     }}
     run={async () => {
       meta.action = {
@@ -19,20 +23,15 @@
             minimumFractionDigits: 0,
           }).format(money);
         },
-        changeForm: (e) => {
-          // console.log(e.target.value);
-          meta.form = e.target.value;
+        changeInp: (e) => {
+          meta[e.target.name] = e.target.value;
         },
       };
 
       runInAction(async () => {
-        // meta.url = new URL(window.location.href);
-        let dari = meta.url.searchParams.get("from")
-          ? meta.url.searchParams.get("from")
-          : "1000-12-12";
-        let to = meta.url.searchParams.get("to")
-          ? meta.url.searchParams.get("to")
-          : new Date();
+        let dari = meta.dari ? meta.dari : "1000-12-12";
+        let to = meta.ke ? meta.ke : new Date();
+        to = new Date(to).setHours(23, 59);
 
         let orders = await db.transaksi.findMany({
           where: {
@@ -207,10 +206,10 @@
                 class={`py-2 px-2.5 rounded`}
                 type="date"
                 id="from"
-                name="from"
-                value={meta.form}
+                name="dari"
+                value={meta.dari}
                 onChange={(e) => {
-                  meta.action.changeForm(e);
+                  meta.action.changeInp(e);
                 }}
               />
             </div>
@@ -225,7 +224,11 @@
                 class={`py-2 px-2.5 rounded`}
                 type="date"
                 id="to"
-                name="to"
+                name="ke"
+                value={meta.ke}
+                onChange={(e) => {
+                  meta.action.changeInp(e);
+                }}
               />
             </div>
             <button
