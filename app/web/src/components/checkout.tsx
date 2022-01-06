@@ -78,13 +78,13 @@ export default () => {
     const [cart, setCart] = useState<any>([]);
     const [delList, setDelList] = useState([]);
 
-    const [addrs, setAddrs] = useState({id:0});
+    const [addrs, setAddrs] = useState({ id: 0 });
 
 
     const [paymentPop, setPaymentPop] = useState(false);
 
 
-    const [allPayment,setAllPayment] = useState<any>([]);
+    const [allPayment, setAllPayment] = useState<any>([]);
     const [paymentSwitch, setPaymentSwitch] = useState(0);
 
 
@@ -96,7 +96,7 @@ export default () => {
     ]
     const [shippingSwitch, setShippingSwitch] = useState(0);
 
-    const [canCheckout,setCanCheckout] = useState(true);
+    const [canCheckout, setCanCheckout] = useState(true);
 
     useEffect(() => {
         // const u = localStorage.getItem('user');
@@ -111,15 +111,15 @@ export default () => {
                     setCart(e.data);
                     count(e.data, delList);
 
-                    if(e.data.length < 1){
-                        location.href='/m/';
+                    if (e.data.length < 1) {
+                        location.href = '/m/';
                     }
                 }
                 setLoding(false);
             })
 
             if (u.alamat_utama) {
-                console.log("ada alamat utama",u.alamat_utama);
+                console.log("ada alamat utama", u.alamat_utama);
                 api(`/api/customer/alamat/${u.alamat_utama}`).then((e) => {
                     if (e.status == 'SUCCESS') {
                         console.log(e.data);
@@ -127,14 +127,24 @@ export default () => {
                     }
                 })
                 setCanCheckout(false);
-            }else{
+            } else {
                 setCanCheckout(true);
             }
         } else {
             location.href = '/m/'
         }
 
-        api('/api/list-bank').then((e)=>{
+        window.addEventListener("pageshow", function (event) {
+            var historyTraversal = event.persisted ||
+                (typeof window.performance != "undefined" &&
+                    window.performance.navigation.type === 2);
+            if (historyTraversal) {
+                // Handle page restore.
+                window.location.reload();
+            }
+        });
+
+        api('/api/list-bank').then((e) => {
             setAllPayment(e.data);
         })
 
@@ -214,7 +224,7 @@ export default () => {
 
     }
 
-    const checkoutE = ()=>{
+    const checkoutE = () => {
         // tanggal_peminjaman,
         // tanggal_pengembalian,
         // id_bank,
@@ -222,20 +232,20 @@ export default () => {
         // id_alamat,
         // biaya_pengiriman,
         api(`/api/checkout/${cart[0].transaksi.id}`,
-        {
-            tanggal_peminjaman:startDate,
-            tanggal_pengembalian:endDate,
-            kirim:shippingSwitch == 0,
-            id_alamat:addrs.id,
-            id_bank:1,
-            biaya_pengiriman:allShipping[shippingSwitch].cost
+            {
+                tanggal_peminjaman: startDate,
+                tanggal_pengembalian: endDate,
+                kirim: shippingSwitch == 0,
+                id_alamat: addrs.id,
+                id_bank: 1,
+                biaya_pengiriman: allShipping[shippingSwitch].cost
 
-        }).then((e)=>{
-            console.log(e);
-            if(e.status == 'SUCCESS'){
-                location.href="/m/order-detail-mobile/"+cart[0].transaksi.id;
-            }
-        })
+            }).then((e) => {
+                console.log(e);
+                if (e.status == 'SUCCESS') {
+                    location.href = "/m/order-detail-mobile/" + cart[0].transaksi.id;
+                }
+            })
         console.log(cart)
     }
 
@@ -284,7 +294,7 @@ export default () => {
                     {user.alamat_utama ? (<Address data={addrs} onEdit={() => { location.href = '/m/my-address-mobile' }} />) : (
                         <span onClick={() => { location.href = '/m/my-address-mobile' }} className="flex justify-center items-center text-red-500"> select address first </span>
                     )}
-                    <SelectBox header="Payment Method" icon={<img style={{ width: '3rem' }} src="/fimgs/262_242.x3.png" />} title={allPayment.length > 0?allPayment[paymentSwitch].nama:"none"} onEdit={() => { setPaymentPop(true) }} />
+                    <SelectBox header="Payment Method" icon={<img style={{ width: '3rem' }} src="/fimgs/262_242.x3.png" />} title={allPayment.length > 0 ? allPayment[paymentSwitch].nama : "none"} onEdit={() => { setPaymentPop(true) }} />
                     <SelectBox header="Choose Shipping" icon={allShipping[shippingSwitch].icon} title={allShipping[shippingSwitch].name} onEdit={() => { setShippingPop(true) }} />
                     <SelectBox header="Return Method" icon={allShipping[0].icon} title={allShipping[0].name} />
                     <div className='px-6'>
@@ -319,7 +329,7 @@ export default () => {
                                     Admin Cost
                                 </div>
                                 <div className="text-sm leading-snug text-right text-coolGray-900">
-                                    Rp{allPayment.length>0?numberWithCommas(allPayment[paymentSwitch].biaya_admin):"0"}
+                                    Rp{allPayment.length > 0 ? numberWithCommas(allPayment[paymentSwitch].biaya_admin) : "0"}
                                 </div>
                             </div>
                         </div>
@@ -328,7 +338,7 @@ export default () => {
 
                     {/* <Address data={x} /> */}
                 </div>
-                <PriceBox btn_disable={canCheckout} btnClick={() => { checkoutE() }} total_item={price.qty} total_harga={price.price + (allPayment.length>0?allPayment[paymentSwitch].biaya_admin:0) + (allShipping[shippingSwitch].cost)} btn_title="Checkout" />
+                <PriceBox btn_disable={canCheckout} btnClick={() => { checkoutE() }} total_item={price.qty} total_harga={price.price + (allPayment.length > 0 ? allPayment[paymentSwitch].biaya_admin : 0) + (allShipping[shippingSwitch].cost)} btn_title="Checkout" />
             </div>
 
 
@@ -354,7 +364,7 @@ export default () => {
                             ))}
 
                         </div>
-                        <BottomBox total_harga={allPayment.length>0?allPayment[paymentSwitch].biaya_admin:"0"} btnClick={() => { setPaymentPop(false) }} />
+                        <BottomBox total_harga={allPayment.length > 0 ? allPayment[paymentSwitch].biaya_admin : "0"} btnClick={() => { setPaymentPop(false) }} />
                     </div>
                 </div>
             </Popup>
