@@ -30,7 +30,7 @@ export default () => {
             setUser(uu);
             api(`/api/customer/${uu.id}/cart`).then((e) => {
                 if (e.status == 'SUCCESS') {
-                    // console.log(e.data);
+                    console.log(e.data);
                     setCart(e.data);
                     count(e.data, delList);
                 }
@@ -44,6 +44,9 @@ export default () => {
         let total = 0;
         let qty = 0;
         dt.forEach((x, i) => {
+            if(x.barang.stok_barang < 1){
+                setCanCheckout(false);
+            }
             if (dls.includes(i as never)) {
                 console.log("no")
             } else {
@@ -64,7 +67,7 @@ export default () => {
     const add = (idx) => {
         let dt = [...cart] as any;
         dt[idx]['quantity'] += 1;
-        //console.log(dt);
+        console.log("stok",dt);
         setCart(dt);
         count(dt, delList);
         updateQty(dt[idx]);
@@ -116,7 +119,7 @@ export default () => {
                     </div>
                 </div>
                 {/* <SaveCancel /> */}
-                <PriceBox btn_disable={cart.length>delList.length?false:true} btnClick={()=>{ location.href='/m/checkout-mobile'}} total_item={price.qty} total_harga={price.price} btn_title="Checkout" />
+                <PriceBox btn_disable={(cart.length>delList.length) && canCheckout?false:true} btnClick={()=>{ location.href='/m/checkout-mobile'}} total_item={price.qty} total_harga={price.price} btn_title="Checkout" />
             </div>
         </>
     )
