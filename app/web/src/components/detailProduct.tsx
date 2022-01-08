@@ -153,7 +153,7 @@ export default ({ id }) => {
               <div className="text-base font-bold leading-relaxed text-coolGray-900">
                 About
               </div>
-              <div className="text-sm leading-snug text-coolGray-900">
+              <div className="text-sm leading-snug text-coolGray-900 whitespace-pre-wrap">
                 {barang['detail_barang'] ? barang['detail_barang'] : "No description"}
               </div>
             </div>

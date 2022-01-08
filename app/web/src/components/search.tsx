@@ -86,7 +86,7 @@ export default (props) => {
                     <div className="flex flex-col space-y-4 items-start justify-start w-full">
                         <div className="grid grid-cols-2 gap-3 w-full px-6">
                             {barangs.map((x: any, i) => (
-                                <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={'/fimgs/232_297.x1.svg'} />
+                                <ItemBox key={i} id={x.id} title={x.nama_barang} harga={x.harga_barang} img={x.gambar_barang} />
                             ))}
                         </div>
                     </div>
