@@ -34,9 +34,6 @@ function datediff(first, second) {
     return Math.round((second - first) / (1000 * 60 * 60 * 24));
 }
 
-
-
-
 const PaymentItem = (props) => {
     return (
         <div onClick={props.onClick} className={(props.gray ? 'bg-gray-100' : '') + " transition-all flex self-stretch space-x-3 items-center justify-start w-full p-5"}>
@@ -62,8 +59,6 @@ const ShipingItem = (props) => {
         </div>
     )
 }
-
-
 
 export default () => {
 
@@ -161,7 +156,12 @@ export default () => {
 
         let total = 0;
         let qty = 0;
+        console.log("count",dt);
         dt.forEach((x, i) => {
+            console.log("stok",x.barang.stok_barang);
+            if(x.barang.stok_barang < 1){
+                setCanCheckout(true);
+            }
             if (dls.includes(i as never)) {
                 console.log("no")
             } else {
