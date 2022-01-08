@@ -4,17 +4,35 @@
       top_customer: [],
       top_items: [],
       activity: [],
+      order_await: "",
+      order_on_hold: "",
+      product_out_stock: "",
     }}
     run={async () => {
       meta.action = {
         displayDate: (param) => {
-          let datetime = param.split("T");
-          let date = new Date(datetime[0]);
-          let hour = datetime[1].split(".")[0];
-          hour = hour.split(":");
-          hour.pop();
+          const months = [
+            "Jan",
+            "Febr",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sept",
+            "Oct",
+            "Nov",
+            "Dec",
+          ];
+          const d = new Date(param);
+          const year = d.getUTCFullYear();
+          const month = months[d.getUTCMonth()];
+          const day = d.getUTCDate();
+          const hour = d.getUTCHours();
+          const minute = d.getUTCMinutes();
 
-          return date.toLocaleDateString() + " " + hour.join(":");
+          return day + " " + month + " " + year + " " + hour + ":" + minute;
         },
       };
 
@@ -39,6 +57,7 @@
 
       let barang = await db.barang.findMany({
         include: {
+          kategori: true,
           detail_transaksi: {
             where: {
               transaksi: {
@@ -55,7 +74,10 @@
       barang.forEach((item, index) => {
         let rent = 0;
         let sales = 0;
-        meta.top_items[index] = { nama: item.nama_barang };
+        meta.top_items[index] = {
+          nama: item.nama_barang,
+          kategori: item.kategori.nama,
+        };
         item.detail_transaksi.forEach((i) => {
           rent += i.quantity;
           sales += i.total_harga;
@@ -105,11 +127,33 @@
 
         meta.top_customer[index].spend = spend;
       });
-
       meta.top_customer.sort((a, b) => {
         return a.spend - b.spend;
       });
       meta.top_customer.reverse();
+
+      const order_await = await db.transaksi.findMany({
+        where: {
+          status_transaksi: { in: [7, 8] },
+        },
+      });
+      meta.order_await = order_await.length;
+
+      const order_on_hold = await db.transaksi.findMany({
+        where: {
+          tanggal_pemesanan: null,
+        },
+      });
+      meta.order_on_hold = order_on_hold.length;
+
+      const product_out_stock = await db.barang.findMany({
+        where: {
+          stok_barang: {
+            lt: 1,
+          },
+        },
+      });
+      meta.product_out_stock = product_out_stock.length;
     }}
   />
   <>
@@ -169,22 +213,6 @@
                       })}
                     </tbody>
                   </table>
-
-                  {/*<div class="flex self-stretch flex-col space-y-4 items-start justify-start pl-5">*/}
-                  {/*{meta.activity.map((item) => {*/}
-                  {/*return (*/}
-                  {/*<div class="flex self-stretch space-x-4 items-start justify-start">*/}
-                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
-                  {/*{meta.action.displayDate(item.created_at)}*/}
-                  {/*</div>*/}
-                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
-                  {/*Orders #{item.transaksi.id}{" "}*/}
-                  {/*{item.track_template.status.nama}*/}
-                  {/*</div>*/}
-                  {/*</div>*/}
-                  {/*);*/}
-                  {/*})}*/}
-                  {/*</div>*/}
                 </div>
                 <div class="flex self-stretch flex-col space-y-5 pb-5 bg-coolGray-50 shadow border border-coolGray-300">
                   <div class="flex self-stretch flex-col p-3 bg-coolGray-50 border rounded-tl rounded-tr border-coolGray-300">
@@ -214,14 +242,14 @@
               </div>
               <div class="flex flex-1 flex-col space-y-7 items-start justify-start">
                 <div class="flex self-stretch flex-col space-y-5 items-start justify-start bg-coolGray-50 shadow border border-coolGray-300">
-                  <div class="flex self-stretch flex-col items-start justify-start p-3 bg-coolGray-50 border rounded-tl rounded-tr border-coolGray-300">
+                  <div class="flex self-stretch flex-col p-3 bg-coolGray-50 border rounded-tl rounded-tr border-coolGray-300">
                     <div class="flex self-stretch space-x-4 items-start justify-start">
                       <div class="text-base font-bold leading-relaxed text-coolGray-900">
                         Analytics
                       </div>
                     </div>
                   </div>
-                  <div class="flex self-stretch flex-col space-y-10 items-start justify-start px-6 pt-5 pb-7">
+                  <div class="flex self-stretch flex-col space-y-10 items-start justify-start px-6  pb-7">
                     <div class="flex space-x-4 items-start justify-start">
                       <div class="flex space-x-2 items-start justify-start">
                         <img src="/fimgs/u_graph-bar.x1.svg" />
@@ -243,7 +271,7 @@
                           </div>
                           <div class="flex flex-col space-y-1 items-start justify-start">
                             <div class="text-base font-medium leading-relaxed">
-                              20 Orders
+                              {meta.order_await} Orders
                             </div>
                             <div class="text-sm leading-snug text-coolGray-500">
                               awaiting processing
@@ -256,7 +284,7 @@
                           </div>
                           <div class="flex flex-col space-y-1 items-start justify-start">
                             <div class="text-base font-medium leading-relaxed">
-                              12 Products
+                              {meta.product_out_stock} Products
                             </div>
                             <div class="text-sm leading-snug text-coolGray-500">
                               out of stock
@@ -270,7 +298,7 @@
                         </div>
                         <div class="flex flex-col space-y-1 items-start justify-start">
                           <div class="text-base font-medium leading-relaxed">
-                            20 Orders
+                            {meta.order_on_hold} Orders
                           </div>
                           <div class="text-sm leading-snug text-coolGray-500">
                             on hold
@@ -281,60 +309,74 @@
                   </div>
                 </div>
 
-                <div class="flex self-stretch flex-col space-y-5 items-start justify-start pb-10 bg-coolGray-50 shadow border border-coolGray-300">
+                <div class="flex self-stretch flex-col space-y-5 pb-5 bg-coolGray-50 shadow border border-coolGray-300">
                   <div class="flex self-stretch flex-col items-start justify-start p-3 bg-coolGray-50 border rounded-tl rounded-tr border-coolGray-300">
                     <div class="flex self-stretch space-x-4 items-start justify-start">
                       <div class="text-base font-bold leading-relaxed text-coolGray-900">
                         #5 ERent Items
                       </div>
-                      <div class="flex space-x-3 items-start justify-start">
-                        <div />
-                        <div />
-                      </div>
                     </div>
                   </div>
-                  <div class="flex self-stretch flex-col space-y-4 items-start justify-start pl-5">
-                    <div class="flex self-stretch space-x-4 items-start justify-start">
-                      <div class="text-base font-medium leading-relaxed text-coolGray-500">
-                        Lenovo Ideapad 320
-                      </div>
-                      <div class="text-base leading-relaxed text-coolGray-900">
-                        Laptop
-                      </div>
-                    </div>
-                    <div class="flex self-stretch space-x-4 items-start justify-start">
-                      <div class="text-base font-medium leading-relaxed text-coolGray-500">
-                        Lenovo Ideapad 320
-                      </div>
-                      <div class="text-base leading-relaxed text-coolGray-900">
-                        Laptop
-                      </div>
-                    </div>
-                    <div class="flex self-stretch space-x-4 items-start justify-start">
-                      <div class="text-base font-medium leading-relaxed text-coolGray-500">
-                        Lenovo Ideapad 320
-                      </div>
-                      <div class="text-base leading-relaxed text-coolGray-900">
-                        Laptop
-                      </div>
-                    </div>
-                    <div class="flex self-stretch space-x-4 items-start justify-start">
-                      <div class="text-base font-medium leading-relaxed text-coolGray-500">
-                        Lenovo Ideapad 320
-                      </div>
-                      <div class="text-base leading-relaxed text-coolGray-900">
-                        Laptop
-                      </div>
-                    </div>
-                    <div class="flex self-stretch space-x-4 items-start justify-start">
-                      <div class="text-base font-medium leading-relaxed text-coolGray-500">
-                        Lenovo Ideapad 320
-                      </div>
-                      <div class="text-base leading-relaxed text-coolGray-900">
-                        Laptop
-                      </div>
-                    </div>
-                  </div>
+
+                  <table>
+                    <tbody class="flex flex-col space-y-4 pl-5">
+                      {meta.top_items.slice(0, 5).map((item) => {
+                        return (
+                          <tr class="flex w-full">
+                            <td class="font-medium text-coolGray-500 flex flex-1">
+                              {item.nama}
+                            </td>
+                            <td class=" text-coolGray-900 flex flex-1">
+                              {item.kategori}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+
+                  {/*<div class="flex self-stretch flex-col space-y-4 items-start justify-start pl-5">*/}
+                  {/*<div class="flex self-stretch space-x-4 items-start justify-start">*/}
+                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
+                  {/*Lenovo Ideapad 320*/}
+                  {/*</div>*/}
+                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
+                  {/*Laptop*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {/*<div class="flex self-stretch space-x-4 items-start justify-start">*/}
+                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
+                  {/*Lenovo Ideapad 320*/}
+                  {/*</div>*/}
+                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
+                  {/*Laptop*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {/*<div class="flex self-stretch space-x-4 items-start justify-start">*/}
+                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
+                  {/*Lenovo Ideapad 320*/}
+                  {/*</div>*/}
+                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
+                  {/*Laptop*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {/*<div class="flex self-stretch space-x-4 items-start justify-start">*/}
+                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
+                  {/*Lenovo Ideapad 320*/}
+                  {/*</div>*/}
+                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
+                  {/*Laptop*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {/*<div class="flex self-stretch space-x-4 items-start justify-start">*/}
+                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
+                  {/*Lenovo Ideapad 320*/}
+                  {/*</div>*/}
+                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
+                  {/*Laptop*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
                 </div>
               </div>
             </div>
