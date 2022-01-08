@@ -22,9 +22,10 @@ export default () => {
 
     useEffect(() => {
         getBarang(keyword, 0, null);
-        api("/api/list-ketegori").then((e)=>{
+        api("/api/list-kategori").then((e)=>{
+            console.log("kategori",e);
             if(e.status == "SUCCESS"){
-                setStatus(e.data);
+                setStatus(["All",...e.data]);
             }
         })
     }, [])
