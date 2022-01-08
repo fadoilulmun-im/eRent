@@ -4,29 +4,36 @@ import { useEffect, useRef, useState } from "react";
 import { api } from 'web.utils/src/api';
 import PriceBox from './comp/priceBox';
 import { Page, Popup } from 'framework7-react';
-import { numberWithCommas,padLeadingZeros} from "../global";
+import { numberWithCommas, padLeadingZeros } from "../global";
 import { motion } from "framer-motion";
 import StatusPill from "./comp/statusPill";
+import Image from './comp/image';
 
 
 const OrderItem = (props) => {
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(props)
-    },[])
+    }, [])
     return (
-        <div onClick={()=>{location.href="/m/order-detail-mobile/"+props.id}} className="flex self-stretch flex-col space-y-4 items-start justify-start">
+        <div onClick={() => { location.href = "/m/order-detail-mobile/" + props.id }} className="flex self-stretch flex-col space-y-4 items-start justify-start">
             <div className="flex self-stretch flex-col space-y-3 items-start justify-start px-6">
                 <div className="flex self-stretch space-x-4 items-center justify-between">
                     <div className="text-base font-bold leading-relaxed text-coolGray-900">
-                        Order ID #{padLeadingZeros(props.id,6)}
+                        Order ID #{padLeadingZeros(props.id, 6)}
                     </div>
                     <div className="text-xs italic font-italic leading-tight text-right text-blue-400">
                         {props.status}
                     </div>
                 </div>
                 <div className="flex self-stretch space-x-3 items-start justify-start">
-                    <img src="/fimgs/377_3018.x1.png" className={`flex self-stretch flex-col items-start justify-start bg-white`} />
+                    <span  className={`flex self-stretch flex-col items-start justify-start bg-gray-100 p-2 rounded w-2`}>
+                        {/* <img src="/fimgs/377_3018.x1.png" /> */}
+                        <Image src={props.img} style={{maxHeight:'3rem',maxWidth:'3rem'}}/>
+
+                    </span>
+
+
                     <div className="flex flex-1 flex-col space-y-0.5 items-start justify-start">
                         <div className="text-base font-medium leading-relaxed text-coolGray-900">
                             {props.title}
@@ -52,36 +59,36 @@ export default () => {
     const [statusSwitch, setStatusSwitch] = useState(0);
     const status = [
         "All Orders", "Cancelled",
-        "Completed","On Return",
-        "Arrived","On The Way",
-        "Packed","Waiting for Confirmation",
-        "Pending","payment verified"]
-    
-    const [orders,setOrders] = useState<any>([]);
-    useEffect(()=>{
+        "Completed", "On Return",
+        "Arrived", "On The Way",
+        "Packed", "Waiting for Confirmation",
+        "Pending", "payment verified"]
+
+    const [orders, setOrders] = useState<any>([]);
+    useEffect(() => {
         let uu = localStorage.getItem('user')
         if (uu) {
             let u = JSON.parse(uu)
             //console.log(u)
             setUser(u)
         }
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        if(user.id){
-            api(`/api/customer/${user.id}/orders${statusSwitch == 0?"":"?status="+statusSwitch}`).then((e)=>{
-                if(e.status == 'SUCCESS'){
+        if (user.id) {
+            api(`/api/customer/${user.id}/orders${statusSwitch == 0 ? "" : "?status=" + statusSwitch}`).then((e) => {
+                if (e.status == 'SUCCESS') {
                     setOrders(e.data);
 
-                    
+
                     setLoding(false);
                 }
             })
         }
 
-    },[user,statusSwitch])
-    
+    }, [user, statusSwitch])
+
     return (
         <>
             <Loding state={loding} />
@@ -98,18 +105,19 @@ export default () => {
                 <div className="h-full overflow-y-auto space-y-6" style={{ paddingBottom: '2rem' }}>
 
 
-                    {orders.length>0?orders.map((x,i)=>(x.detail_transaksi.length>0?
-                        <OrderItem key={i} id={x.id} title={x.detail_transaksi[0].barang.nama_barang} 
-                        total_cost={x.total_harga} 
-                        one_cost={x.detail_transaksi[0].total_harga}
-                        one_qty = {x.detail_transaksi[0].quantity}
-                        items={x.detail_transaksi.length}
-                        status = {status[Number(x.status_transaksi)]}
-                        />:""
-                    )):(
+                    {orders.length > 0 ? orders.map((x, i) => (x.detail_transaksi.length > 0 ?
+                        <OrderItem key={i} id={x.id} title={x.detail_transaksi[0].barang.nama_barang}
+                            total_cost={x.total_harga}
+                            one_cost={x.detail_transaksi[0].total_harga}
+                            one_qty={x.detail_transaksi[0].quantity}
+                            items={x.detail_transaksi.length}
+                            img={x.detail_transaksi[0].barang.gambar_barang}
+                            status={status[Number(x.status_transaksi)]}
+                        /> : ""
+                    )) : (
                         <span className="flex items-center justify-center p-5">Empty</span>
                     )}
-                            
+
 
                 </div>
             </div>

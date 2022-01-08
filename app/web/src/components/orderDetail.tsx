@@ -8,17 +8,19 @@ import { numberWithCommas, padLeadingZeros, fileUpload } from "../global";
 import Address from "./comp/address";
 import SelectBox from "./comp/selectBox";
 import SaveCancel from "./saveCancel";
+import Image from "./comp/image";
 
 const dateFormat = (dt) => {
     const dat = new Date(dt);
-    return dat.getDay() + "/" + dat.getMonth() + "/" + dat.getFullYear()
+    return dat.getDay() + "/" + (dat.getMonth()+1) + "/" + dat.getFullYear()
 }
 
 const Item = (props) => {
     return (
         <div className="flex w-full items-center space-x-3 px-6">
             <span style={{ width: '5rem', height: '5rem' }} className=" overflow-hidden rounded bg-gray-100 flex justify-center items-center p-2">
-                <img src="/fimgs/232_297.x1.svg" />
+                {/* <img src="/fimgs/232_297.x1.svg" /> */}
+                <Image src={props.img}/>
             </span>
             <div className="flex flex-col space-y-2">
                 <span className=" font-semibold text-lg">{props.title}</span>
@@ -68,7 +70,7 @@ const PendingPage = (props) => {
                     </div>
                     <div className="flex justify-between">
                         <span>Total</span>
-                        <span>Rp{props.data.total_harga ? numberWithCommas(props.data.total_harga) : 0}</span>
+                        <span>Rp{props.data.total_harga ? numberWithCommas(props.data.total_harga+props.data.kode_unik) : 0}</span>
                     </div>
                     <div className="flex justify-between">
                         <span>Bank Name</span>
@@ -112,6 +114,12 @@ const PendingPage = (props) => {
             <SaveCancel onCancel={props.pop} title={loding ? "Loding." : "Send"} onSave={() => { props.data ? upload() : "" }} />
         </div>
     )
+}
+
+function datediff(first, second) {
+    // Take the difference between the dates and divide by milliseconds per day.
+    // Round to nearest whole number to deal with DST.
+    return Math.round((second - first) / (1000 * 60 * 60 * 24));
 }
 
 
@@ -165,7 +173,19 @@ export default (props) => {
             });
             console.log(ttl);
         }
+        // console.log();
+        // ttl+=transaction.kode_unik;
         return ttl;
+    }
+    const countPrice =()=>{
+        let days = datediff(new Date(transaction.tanggal_peminjaman), new Date(transaction.tanggal_pengembalian));
+        
+        let price = 0;
+        transaction.detail_transaksi.forEach((x,i)=>{
+            price += x.barang.harga_barang * x.quantity;
+        });
+        
+        return price*days;
     }
     const goTo = () => {
         if (transaction.status.id == 8) {
@@ -231,7 +251,7 @@ export default (props) => {
 
 
                         {transaction.detail_transaksi ? transaction.detail_transaksi.map((x, i) =>
-                            (<Item key={i} title={x.barang.nama_barang} price={x.barang.harga_barang} qty={x.quantity} />)) : "None"}
+                            (<Item key={i} img={x.barang.gambar_barang} title={x.barang.nama_barang} price={x.barang.harga_barang} qty={x.quantity} />)) : "None"}
 
                         {transaction.alamat ? <Address canEdit={true} title="Delivery information" data={transaction.alamat} onEdit={() => { location.href = '/m/my-address-mobile' }} /> : ""}
 
@@ -253,7 +273,7 @@ export default (props) => {
                                         Total Cost
                                     </div>
                                     <div className="text-sm leading-snug text-right text-coolGray-900">
-                                        Rp{numberWithCommas(Number(transaction.total_harga))}
+                                        Rp{numberWithCommas(Number(countPrice()))}
                                     </div>
                                 </div>
                                 <div className="flex self-stretch space-x-4 items-start justify-between">
@@ -289,7 +309,7 @@ export default (props) => {
 
                 </div>
 
-                <PriceBox btnClick={() => { goTo() }} total_item={transaction.detail_transaksi ? countItem() : 0} total_harga={transaction ? transaction.total_harga : 0} btn_title={transaction.status ? (transaction.status.id == 8 ? "Cancel Order" : "Track Order") : "Oke"} />
+                <PriceBox btnClick={() => { goTo() }} total_item={transaction.detail_transaksi ? countItem() : 0} total_harga={transaction ? transaction.total_harga+transaction.kode_unik : 0} btn_title={transaction.status ? (transaction.status.id == 8 ? "Cancel Order" : "Track Order") : "Oke"} />
             </div>
 
             <Popup onPopupClose={() => { setDetailPop(false) }} opened={detailPop} className="demo-popup-swipe" swipeToClose>
