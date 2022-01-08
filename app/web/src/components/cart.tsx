@@ -66,11 +66,14 @@ export default () => {
     }
     const add = (idx) => {
         let dt = [...cart] as any;
-        dt[idx]['quantity'] += 1;
-        console.log("stok",dt);
-        setCart(dt);
-        count(dt, delList);
-        updateQty(dt[idx]);
+        if(dt[idx].barang.stok_barang > dt[idx]['quantity'] ){
+            dt[idx]['quantity'] += 1;
+            // console.log("stok",dt);
+            setCart(dt);
+            count(dt, delList);
+            updateQty(dt[idx]);
+        }
+
     }
     const sub = (idx) => {
         // console.log(cart);
