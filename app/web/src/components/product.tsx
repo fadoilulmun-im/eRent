@@ -18,11 +18,15 @@ export default () => {
     // const [statusSwitch, setStatusSwitch] = useState(0);
     const [canShowMore, setCanShowMore] = useState(false);
 
-    const status = ["All", "Monitor", "Laptop", "Keyboard", "Mouse", "Projector", "Camera"];
+    const [status,setStatus] = useState(["All", "Monitor", "Laptop", "Keyboard", "Mouse", "Projector", "Camera"]);
 
     useEffect(() => {
         getBarang(keyword, 0, null);
-        
+        api("/api/list-ketegori").then((e)=>{
+            if(e.status == "SUCCESS"){
+                setStatus(e.data);
+            }
+        })
     }, [])
 
     const getBarang = (key, n, cat, add: boolean = false) => {
