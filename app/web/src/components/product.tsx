@@ -22,6 +22,7 @@ export default () => {
 
     useEffect(() => {
         getBarang(keyword, 0, null);
+        
     }, [])
 
     const getBarang = (key, n, cat, add: boolean = false) => {

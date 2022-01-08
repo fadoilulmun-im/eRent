@@ -1,8 +1,9 @@
 /** @jsx jsx */
 //import { jsx } from "@emotion/react";
-
+// import { useEffect } from "react"
 
 export default (props) => {
+
   return (
     <div  className={(props.gray? 'bg-gray-100':'')+" transition-all flex self-stretch flex-col space-y-4 items-start justify-start px-6 py-2 "}>
       <div className="flex self-stretch space-x-4 items-center justify-between">
@@ -23,7 +24,7 @@ export default (props) => {
         <div className="text-sm leading-snug text-coolGray-900">
           {props.data.nama != '' ? props.data.nama : "No Name"} - {props.data.no_hp != '' ? props.data.no_hp : "000XXX"}
           <br />
-          Jl. Payung no 26D
+          {props.data.alamat_pengiriman}
           <br />
           {props.data.kota} - {props.data.kecamatan}, {props.data.provinsi}
         </div>
