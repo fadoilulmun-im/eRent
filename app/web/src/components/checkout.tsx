@@ -160,7 +160,7 @@ export default () => {
         dt.forEach((x, i) => {
             console.log("stok",x.barang.stok_barang);
             if(x.barang.stok_barang < 1){
-                setCanCheckout(true);
+                setCanCheckout(false);
             }
             if (dls.includes(i as never)) {
                 console.log("no")
@@ -181,11 +181,13 @@ export default () => {
     }
     const add = (idx) => {
         let dt = [...cart] as any;
-        dt[idx]['quantity'] += 1;
-        //console.log(dt);
-        setCart(dt);
-        count(dt, delList);
-        updateQty(dt[idx]);
+        if(dt[idx].barang.stok_barang > dt[idx]['quantity'] ){
+            dt[idx]['quantity'] += 1;
+            // console.log("stok",dt);
+            setCart(dt);
+            count(dt, delList);
+            updateQty(dt[idx]);
+        }
     }
     const sub = (idx) => {
         console.log(cart);

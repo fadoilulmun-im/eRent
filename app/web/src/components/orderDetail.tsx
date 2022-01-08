@@ -12,7 +12,7 @@ import Image from "./comp/image";
 
 const dateFormat = (dt) => {
     const dat = new Date(dt);
-    return dat.getDay() + "/" + (dat.getMonth()+1) + "/" + dat.getFullYear()
+    return (dat.getDay()+1) + "/" + (dat.getMonth()+1) + "/" + dat.getFullYear()
 }
 
 const Item = (props) => {

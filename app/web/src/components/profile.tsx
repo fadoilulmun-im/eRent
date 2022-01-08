@@ -54,7 +54,7 @@ export default () => {
                         {user['nama_customer'] ? user['nama_customer'] : "No Name"}
                     </div>
                     <div className="text-base leading-relaxed text-coolGray-500">
-                        {user['no_hp'] ? user['no_hp'] : "00000"}
+                        {user['no_hp'] ? user['no_hp'] : "(Phone number not set)"}
                     </div>
                 </div>
             </div>
