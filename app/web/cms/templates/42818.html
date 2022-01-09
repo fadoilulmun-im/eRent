@@ -7,6 +7,7 @@
       order_await: "",
       order_on_hold: "",
       product_out_stock: "",
+      net_sales: 0,
     }}
     run={async () => {
       meta.action = {
@@ -33,6 +34,13 @@
           const minute = d.getUTCMinutes();
 
           return day + " " + month + " " + year + " " + hour + ":" + minute;
+        },
+        formatRupiah: (money: number | bigint) => {
+          return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 0,
+          }).format(money);
         },
       };
 
@@ -154,6 +162,26 @@
         },
       });
       meta.product_out_stock = product_out_stock.length;
+
+      const date = new Date();
+      const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+      const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+      let orders_completed = await db.transaksi.findMany({
+        where: {
+          AND: {
+            status_transaksi: 2,
+            tanggal_pemesanan: {
+              gte: new Date(firstDay),
+              lte: new Date(lastDay),
+            },
+          },
+        },
+      });
+      orders_completed.forEach((item) => {
+        meta.net_sales += item.total_harga * (10 / 100);
+        meta.net_sales += item.biaya_pengiriman * (10 / 100);
+        meta.net_sales += item.kode_unik;
+      });
     }}
   />
   <>
@@ -256,7 +284,7 @@
                       </div>
                       <div class="flex space-x-2 items-start justify-start">
                         <div class="text-base font-medium leading-relaxed">
-                          Rp12,021,376
+                          {meta.action.formatRupiah(meta.net_sales)}
                         </div>
                         <div class="text-base leading-relaxed text-coolGray-500">
                           net sales this month
@@ -334,49 +362,6 @@
                       })}
                     </tbody>
                   </table>
-
-                  {/*<div class="flex self-stretch flex-col space-y-4 items-start justify-start pl-5">*/}
-                  {/*<div class="flex self-stretch space-x-4 items-start justify-start">*/}
-                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
-                  {/*Lenovo Ideapad 320*/}
-                  {/*</div>*/}
-                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
-                  {/*Laptop*/}
-                  {/*</div>*/}
-                  {/*</div>*/}
-                  {/*<div class="flex self-stretch space-x-4 items-start justify-start">*/}
-                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
-                  {/*Lenovo Ideapad 320*/}
-                  {/*</div>*/}
-                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
-                  {/*Laptop*/}
-                  {/*</div>*/}
-                  {/*</div>*/}
-                  {/*<div class="flex self-stretch space-x-4 items-start justify-start">*/}
-                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
-                  {/*Lenovo Ideapad 320*/}
-                  {/*</div>*/}
-                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
-                  {/*Laptop*/}
-                  {/*</div>*/}
-                  {/*</div>*/}
-                  {/*<div class="flex self-stretch space-x-4 items-start justify-start">*/}
-                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
-                  {/*Lenovo Ideapad 320*/}
-                  {/*</div>*/}
-                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
-                  {/*Laptop*/}
-                  {/*</div>*/}
-                  {/*</div>*/}
-                  {/*<div class="flex self-stretch space-x-4 items-start justify-start">*/}
-                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
-                  {/*Lenovo Ideapad 320*/}
-                  {/*</div>*/}
-                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
-                  {/*Laptop*/}
-                  {/*</div>*/}
-                  {/*</div>*/}
-                  {/*</div>*/}
                 </div>
               </div>
             </div>
