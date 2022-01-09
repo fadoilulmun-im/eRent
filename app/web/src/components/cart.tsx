@@ -30,7 +30,10 @@ export default () => {
             setUser(uu);
             api(`/api/customer/${uu.id}/cart`).then((e) => {
                 if (e.status == 'SUCCESS') {
-                    console.log(e.data);
+                    if(e.data.length < 1){
+                        localStorage.removeItem('cart');
+                    }
+                    console.log(e.data.length);
                     setCart(e.data);
                     count(e.data, delList);
                 }

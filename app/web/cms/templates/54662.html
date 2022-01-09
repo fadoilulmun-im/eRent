@@ -99,6 +99,7 @@
           detail_barang: this.detail_barang,
           stok_barang: this.stok_barang,
           harga_barang: this.harga_barang,
+          berat_barang: this.berat_barang,
         };
         await api("/api/barang-admin/add", brg).then((e) => {
           if (e.status === "SUCCESS" && this.gambar_barang) {

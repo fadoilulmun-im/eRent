@@ -27,20 +27,21 @@ const OrderItem = (props) => {
                     </div>
                 </div>
                 <div className="flex self-stretch space-x-3 items-start justify-start">
-                    <span  className={`flex self-stretch flex-col items-start justify-start bg-gray-100 p-2 rounded w-2`}>
+                    <div  className={"bg-gray-100 p-2 rounded"}>
                         {/* <img src="/fimgs/377_3018.x1.png" /> */}
                         <Image src={props.img} style={{maxHeight:'3rem',maxWidth:'3rem'}}/>
 
-                    </span>
+                    </div>
 
 
-                    <div className="flex flex-1 flex-col space-y-0.5 items-start justify-start">
+                    <div className="flex flex-col space-y-0.5 items-start justify-start">
                         <div className="text-base font-medium leading-relaxed text-coolGray-900">
                             {props.title}
                         </div>
                         <div className="text-sm leading-snug text-coolGray-500">Rp{numberWithCommas(props.one_cost)} x{props.one_qty}</div>
                     </div>
                 </div>
+
                 <div className="flex self-stretch space-x-4 items-center justify-between">
                     <div className="text-sm leading-snug text-coolGray-500">{props.items} more items</div>
                     <div className="text-base font-medium leading-relaxed text-right text-coolGray-900">
