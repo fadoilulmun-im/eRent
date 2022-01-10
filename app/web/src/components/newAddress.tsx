@@ -210,7 +210,7 @@ export default (props) => {
             {/* <Tab mode={2} /> */}
             <div className="flex flex-col w-full px-6 space-y-4 overflow-y-auto pb-10">
                 <div className="text-2xl font-bold text-coolGray-900">New Address</div>
-                <Inp name="addressTitle" value={address.addressTitle} title="Address Title" onChange={inpChange} />
+                <Inp name="addressTitle" value={address.addressTitle} title="Address Tittle (ex:office,warehouse)" onChange={inpChange} />
                 <Inp name="name" value={address.name} title="Name" onChange={inpChange} />
                 <Inp name="phoneNumber" value={address.phoneNumber} title="Phone Number" onChange={inpChange} />
                 <Inp name="roadName" value={address.roadName} title="Road Name - House Number" onChange={inpChange} />
@@ -219,10 +219,10 @@ export default (props) => {
                 <InpSe name="city" onChange={inpChange2} value={addidx.city} title="City" items={city} />
                 <InpSe name="subDistrict" onChange={inpChange2} value={addidx.subDistrict} title="Subdistrict" items={subDistrict} />
 
-                <Inp name="postNumber" value={address.postNumber} type={'number'} title="Post Number" onChange={inpChange} />
+                <Inp name="postNumber" value={address.postNumber} type={'number'} title="Post Code" onChange={inpChange} />
                 <Inp name="additional" value={address.additional} title="Additional Details" onChange={inpChange} />
             </div>
-            <SaveCancel onCancel={() => { props.onCancel() }} onSave={() => { stx ? '' : Save() }} title={stx ? 'Loding..' : 'Save'} />
+            <SaveCancel onCancel={() => { props.onCancel() }} onSave={() => { stx ? '' : Save() }} title={stx ? 'Loading..' : 'Save'} />
         </div>
     )
 }

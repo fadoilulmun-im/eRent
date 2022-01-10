@@ -8,7 +8,7 @@ export default (props) => {
     <div  className={(props.gray? 'bg-gray-100':'')+" transition-all flex self-stretch flex-col space-y-4 items-start justify-start px-6 py-2"}>
       <div className="flex self-stretch space-x-4 items-center justify-between">
         <div className="text-base font-semibold leading-relaxed text-coolGray-900">
-          {props.title?props.title:(props.data.kategori_alamat != '' ? props.data.kategori_alamat : "No titel")}
+          {props.title?props.title:(props.data.kategori_alamat != '' ? props.data.kategori_alamat : "Tittle Adress Not Set")}
         </div>
 
 
@@ -22,11 +22,11 @@ export default (props) => {
           <img src="/fimgs/262_233.x1.svg" />
         </div>
         <div className="text-sm leading-snug text-coolGray-900">
-          {props.data.nama != '' ? props.data.nama : "No Name"} - {props.data.no_hp != '' ? props.data.no_hp : "000XXX"}
+          {props.data.nama != '' ? props.data.nama : "Name Not Set"} - {props.data.no_hp != '' ? props.data.no_hp : "Number Not Set"}
           <br />
-          {props.data.alamat_pengiriman}
+          {props.data.alamat_pengiriman != '' ? props.data.alamat_pengiriman : "Address Not Set"}
           <br />
-          {props.data.kota} - {props.data.kecamatan}, {props.data.provinsi}
+          {props.data.kota != '' ? props.data.kota : "City"}, {props.data.kecamatan != '' ? props.data.kecamatan : "Subdistrict"}, {props.data.provinsi != '' ? props.data.provinsi : "and Province Not Set"}
         </div>
       </div>
     </div>

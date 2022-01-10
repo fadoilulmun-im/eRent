@@ -51,7 +51,7 @@ export default () => {
                 </span>
                 <div className="flex flex-1 flex-col space-y-1 items-start justify-start">
                     <div className="text-xl font-bold text-coolGray-900">
-                        {user['nama_customer'] ? user['nama_customer'] : "No Name"}
+                        {user['nama_customer'] ? user['nama_customer'] : "Name Not Set"}
                     </div>
                     <div className="text-base leading-relaxed text-coolGray-500">
                         {user['no_hp'] ? user['no_hp'] : "(Phone number not set)"}
