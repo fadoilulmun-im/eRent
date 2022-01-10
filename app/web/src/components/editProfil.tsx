@@ -212,7 +212,7 @@ export default () => {
                     </div>
                 </div>
 
-                <SaveCancel onCancel={()=>{location.href='/m/'}} onSave={() => { stx?'':Save() }} title={stx?'Loding..':'Save'}/>
+                <SaveCancel onCancel={()=>{location.href='/m/'}} onSave={() => { stx?'':Save() }} title={stx?'Loading..':'Save'}/>
                 {/* <button-edit-profile /> */}
 
             </div>

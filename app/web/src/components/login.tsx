@@ -101,7 +101,7 @@ export default () => {
                         }}
                         className="flex  space-x-2 self-stretch items-center justify-center px-4 py-2 bg-blue-700 rounded text-base font-medium leading-relaxed text-center text-white"
                     >
-                        {loding ? "Loding.." : "Log In"}
+                        {loding ? "Loading.." : "Log In"}
 
                     </button>
                 </div>

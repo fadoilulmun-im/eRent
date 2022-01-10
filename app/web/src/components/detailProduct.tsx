@@ -33,7 +33,7 @@ const RentNow = (props) => {
         </div>
         <div className="flex items-center justify-end px-6 py-2 bg-blue-700 rounded">
           <button onClick={props.onRentNow} className="text-base font-medium leading-relaxed text-center text-white">
-            {props.isLoding ? "Loding.." : "Rent Now"}
+            {props.isLoding ? "Loading.." : "Rent Now"}
           </button>
         </div>
       </div>
