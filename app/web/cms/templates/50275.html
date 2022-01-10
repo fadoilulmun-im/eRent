@@ -6,11 +6,15 @@
       detail_barang: "",
       stok_barang: "",
       harga_barang: "",
-      gambar_barang: "",
-      kategori_barang: "",
+
+      kategori_barang: "1",
       created_at: "",
       berat_barang: "",
       kategori: [],
+
+      gambar_barang: null,
+      nama_gambar_barang: "",
+      gambar_barang_url: "",
 
       validation() {
         let msg =
@@ -36,12 +40,6 @@
       },
 
       async onChange(key, e) {
-        let value = e.target.value;
-        runInAction(() => (this[key] = value));
-        console.log(key + " : " + value);
-      },
-
-      async onChange(key, e) {
         let value = "";
 
         if (key === "role") {
@@ -53,44 +51,62 @@
         runInAction(() => (this[key] = value));
         console.log(key + " : " + value);
       },
+      async onInpGambar(e) {
+        console.log(e.target.files[0]);
+        this.gambar_barang = e.target.files[0];
+        this.nama_gambar_barang = e.target.files[0].name;
+      },
 
-      async submit() {
-        let error_msg = this.validation();
+      // async submit() {
+      //   let error_msg = this.validation();
 
-        if (error_msg) {
-          alert(error_msg);
+      //   if (error_msg) {
+      //     alert(error_msg);
+      //   } else {
+      //     let kategori = api("/api/barang-test", {
+      //       barang: {
+      //         nama_barang: this.nama_barang,
+      //         merk_barang: this.merk_barang,
+      //         detail_barang: this.detail_barang,
+      //         stok_barang: parseInt(this.stok_barang),
+      //         harga_barang: parseInt(this.harga_barang),
+      //         gambar_barang: this.gambar_barang,
+      //         berat_barang: this.berat_barang,
+      //         kategori_barang: parseInt(this.id),
+      //         created_at: new Date(),
+      //       },
+      //       e: "Create",
+      //     }).then((res) => {
+      //       console.log(res);
+      //       navigate("/barang-list");
+      //     });
+      //   }
+      // },
+
+      async upload() {
+        console.log(this.gambar_barang);
+        let error = this.validation();
+        if (error) {
+          alert(error);
         } else {
-          let kategori = api("/api/barang-test", {
-            barang: {
-              nama_barang: this.nama_barang,
-              merk_barang: this.merk_barang,
-              detail_barang: this.detail_barang,
-              stok_barang: parseInt(this.stok_barang),
-              harga_barang: parseInt(this.harga_barang),
-              gambar_barang: this.gambar_barang,
-              berat_barang: this.berat_barang,
-              kategori_barang: parseInt(this.id),
-              created_at: new Date(),
-            },
-            e: "Create",
-          }).then((res) => {
-            console.log(res);
-            navigate("/barang-list");
+          let brg = {
+            id_kategori: parseInt(this.kategori_barang),
+            nama_barang: this.nama_barang,
+            merk_barang: this.merk_barang,
+            detail_barang: this.detail_barang,
+            stok_barang: this.stok_barang,
+            harga_barang: this.harga_barang,
+            berat_barang: this.berat_barang,
+          };
+          console.log(brg);
+          await api(`/api/barang-admin/${params.id}/update`, brg).then((e) => {
+            if (e.status === "SUCCESS") {
+              console.log(e);
+              history.back();
+            }
           });
         }
       },
-
-      // async upload(file) {
-      //   const formData = _FormData();
-
-      //   formData.append("path", "book_cover");
-      //   formData.append("file", file);
-      //   const response = await fetch("/api/upload", {
-      //     method: "POST",
-      //     body: formData,
-      //   });
-      //   return await response.json();
-      // },
     }}
     run={async () => {
       meta.action = {
@@ -107,14 +123,26 @@
         e: "ReadAll",
       }).then((res) => {
         if (res.res !== "Failure" || res === null) {
-          meta.kategoris = res.kategori;
+          meta.kategori = res.kategori;
         }
       });
       console.log(meta.kategoris);
+      //get barang
+      if (params.id) {
+        await api(`/api/barang/show/${params.id}`).then((e) => {
+          if (e.status == "SUCCESS") {
+            meta.nama_barang = e.data.nama_barang;
+            meta.merk_barang = e.data.merk_barang;
+            meta.detail_barang = e.data.detail_barang;
+            meta.stok_barang = e.data.stok_barang;
+            meta.harga_barang = e.data.harga_barang;
 
-      // if (user.role !== "super") {
-      //   navigate("/w-login");
-      // }
+            meta.kategori_barang = e.data.kategori_barang;
+            meta.berat_barang = e.data.berat_barang;
+            meta.gambar_barang_url = e.data.gambar_barang;
+          }
+        });
+      }
     }}
   />
   <>
@@ -184,17 +212,21 @@
                   >
                     {"Pilih Kategori"}
                   </option>
-                  {meta.kategoris.map((numList, i) => {
-                    return (
-                      <option
-                        value={numList.id}
-                        class={`flex self-stretch flex-col items-start justify-start`}
-                        style="color: black"
-                      >
-                        {numList.nama}
-                      </option>
-                    );
-                  })}
+                  {meta.kategori.length > 0 ? (
+                    meta.kategori.map((numList, i) => {
+                      return (
+                        <option
+                          value={numList.id}
+                          class={`flex self-stretch flex-col items-start justify-start`}
+                          style="color: black"
+                        >
+                          {numList.nama}
+                        </option>
+                      );
+                    })
+                  ) : (
+                    <option>None</option>
+                  )}
                   {"Pilih Kategori"}
                 </select>
               </div>
@@ -225,12 +257,15 @@
               <div class="text-base font-medium leading-relaxed text-coolGray-500">
                 Product Image
               </div>
+
               <div class="flex self-stretch items-start justify-start">
+                <div class={" w-1 h-1"}>
+                  <img src={meta.gambar_barang_url} />
+                </div>
                 <input
-                  value={meta.gambar_barang}
                   type="file"
                   name="gambar_barang"
-                  onChange={(e) => meta.action.inpChange(e)}
+                  onChange={meta.onInpGambar}
                   data-height="300"
                 />
               </div>
@@ -295,7 +330,7 @@
               <div class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
                 <button
                   class="text-base leading-relaxed text-center text-white"
-                  onClick={meta.submit}
+                  onClick={meta.upload}
                 >
                   Edit Product
                 </button>
