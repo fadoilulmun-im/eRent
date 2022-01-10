@@ -70,7 +70,6 @@ export default () => {
         let uu = localStorage.getItem('user')
         if (uu) {
             let u = JSON.parse(uu)
-            //console.log(u)
             setUser(u)
         }
     }, [])
@@ -78,11 +77,10 @@ export default () => {
     useEffect(() => {
 
         if (user.id) {
+            console.log("User",user);
             api(`/api/customer/${user.id}/orders${statusSwitch == 0 ? "" : "?status=" + statusSwitch}`).then((e) => {
                 if (e.status == 'SUCCESS') {
                     setOrders(e.data);
-
-
                     setLoding(false);
                 }
             })

@@ -5,7 +5,7 @@
 export default (props) => {
 
   return (
-    <div  className={(props.gray? 'bg-gray-100':'')+" transition-all flex self-stretch flex-col space-y-4 items-start justify-start px-6 py-2 "}>
+    <div  className={(props.gray? 'bg-gray-100':'')+" transition-all flex self-stretch flex-col space-y-4 items-start justify-start px-6 py-2"}>
       <div className="flex self-stretch space-x-4 items-center justify-between">
         <div className="text-base font-semibold leading-relaxed text-coolGray-900">
           {props.title?props.title:(props.data.kategori_alamat != '' ? props.data.kategori_alamat : "No titel")}

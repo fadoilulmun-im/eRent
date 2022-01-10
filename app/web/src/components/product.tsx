@@ -138,7 +138,7 @@ export default () => {
                 </div>
 
             </div>
-            <Filter show={() => { getBarang(keyword, 0, category) }} onSortSwitch={(e) => { }} onCategorySwitch={(e) => { setCategory(e) }} />
+            <Filter category={status} categoryState={category} show={() => { getBarang(keyword, 0, category) }} onSortSwitch={(e) => { }} onCategorySwitch={(e) => { setCategory(e) }} />
         </div>
     )
 }
