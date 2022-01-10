@@ -9,7 +9,7 @@ export default (props) => {
             <div className="flex flex-1 space-x-4 items-center justify-start">
                 <div className="flex flex-1 flex-col space-y-0.5 items-start justify-start">
                     <div className="text-base font-medium leading-relaxed text-coolGray-500">
-                        total: {props.total_item} items
+                        Total: {props.total_item} items
                     </div>
                     <div className="text-xl font-semibold text-coolGray-900">
                         Rp {props.total_harga ? numberWithCommas(props.total_harga) : 0}
