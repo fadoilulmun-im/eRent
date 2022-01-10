@@ -120,7 +120,7 @@ export default () => {
                                     value={form.email}
                                     name="email"
                                     onChange={inpChange}
-                                    placeholder="sales@andromedia.co.id"
+                                    placeholder="yourmail@mail.com"
                                     className={
                                         (formErr.email ? " ring-1 ring-red-500" : "") + " border-gray-100 flex items-center justify-start py-2 px-4 bg-gray-100 border rounded  w-full"
                                     }
@@ -137,7 +137,7 @@ export default () => {
                                     value={form.nama_customer}
                                     name="nama_customer"
                                     onChange={inpChange}
-                                    placeholder="John Doe"
+                                    placeholder="Your Name"
                                     className={
                                         (formErr.nama_customer ? " ring-1 ring-red-500" : "") + " border-gray-100 flex items-center justify-start py-2 px-4 bg-gray-100 border rounded  w-full"
                                     }
@@ -155,7 +155,7 @@ export default () => {
                                     value={form.nama_perusahaan}
                                     onChange={inpChange}
                                     name="nama_perusahaan"
-                                    placeholder="Andromedia"
+                                    placeholder="Your Company Name"
                                     className={
                                         (formErr.nama_perusahaan ? " ring-1 ring-red-500" : "") + " border-gray-100 flex items-center justify-start py-2 px-4 bg-gray-100 border rounded  w-full"
                                     }
