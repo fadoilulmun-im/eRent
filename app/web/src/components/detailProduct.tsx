@@ -145,7 +145,7 @@ export default ({ id }) => {
                 Detail Product
               </div>
               <div className=" font-medium leading-snug text-coolGray-900 flex justify-between w-full">
-                <span>Wight</span>
+                <span>Weight</span>
                 <span>{barang['berat_barang'] ? barang['berat_barang'] : "None"} Kg</span>
               </div>
             </div>
