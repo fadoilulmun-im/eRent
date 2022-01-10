@@ -222,7 +222,7 @@ export default (props) => {
                 <Inp name="postNumber" value={address.postNumber} type={'number'} title="Post Number" onChange={inpChange} />
                 <Inp name="additional" value={address.additional} title="Additional Details" onChange={inpChange} />
             </div>
-            <SaveCancel onCancel={() => { props.onCancel() }} onSave={() => { stx ? '' : Save() }} title={stx ? 'Loding..' : 'Save'} />
+            <SaveCancel onCancel={() => { props.onCancel() }} onSave={() => { stx ? '' : Save() }} title={stx ? 'Loading..' : 'Save'} />
         </div>
     )
 }
