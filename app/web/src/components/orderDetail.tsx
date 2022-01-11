@@ -11,6 +11,7 @@ import SaveCancel from "./saveCancel";
 import Image from "./comp/image";
 
 const dateFormat = (dt) => {
+    console.log("date",dt);
     const dat = new Date(dt);
     return (dat.getDay()+1) + "/" + (dat.getMonth()+1) + "/" + dat.getFullYear()
 }
@@ -246,14 +247,14 @@ export default (props) => {
 
                     <div className="flex self-stretch flex-col space-y-4 items-start justify-start">
                         <div className="text-base font-bold leading-relaxed text-coolGray-900 px-6">
-                            Produc Detail
+                            Product Detail
                         </div>
 
 
                         {transaction.detail_transaksi ? transaction.detail_transaksi.map((x, i) =>
                             (<Item key={i} img={x.barang.gambar_barang} title={x.barang.nama_barang} price={x.barang.harga_barang} qty={x.quantity} />)) : "None"}
 
-                        {transaction.alamat ? <Address canEdit={true} title="Delivery information" data={transaction.alamat} onEdit={() => { location.href = '/m/my-address-mobile' }} /> : ""}
+                        {transaction.alamat ? <Address canEdit={true} title="Delivery Information" data={transaction.alamat} onEdit={() => { location.href = '/m/my-address-mobile' }} /> : ""}
 
                         {transaction.bank ? <SelectBox header="Payment Method" icon={<img style={{ width: '3rem' }} src="/fimgs/262_242.x3.png" />}
                             title={transaction.bank.nama} /> : ""}

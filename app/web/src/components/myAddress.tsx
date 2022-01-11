@@ -18,7 +18,7 @@ const AllAddr = (props) => {
     return (
         <div className="flex self-stretch flex-col  flex-grow items-start justify-start h-full overflow-y-auto">
 
-            <div className="h-full overflow-y-auto flex flex-col space-y-5">
+            <div className="h-full overflow-y-auto flex flex-col space-y-5 w-full">
                 <span className="px-6 font-bold text-2xl">My Address</span>
                 <div className="flex flex-col w-full pb-10 ">
                     {props.addrs.map((x, i) => (

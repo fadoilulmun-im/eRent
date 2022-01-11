@@ -88,7 +88,7 @@ export default () => {
             console.log(e);
             localStorage.setItem('user',JSON.stringify(e.data))
             setStx(false);
-            eventBus.dispatch('notif',{message:'acount updated'})
+            eventBus.dispatch('notif',{message:'Profile Updated'})
         })
     }
     return (
@@ -124,7 +124,7 @@ export default () => {
                                     value={user.name}
                                     name="name"
                                     onChange={(e) => inpChange(e)}
-                                    placeholder="John Doe"
+                                    placeholder="Your Name"
                                     className={
                                         "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
                                     }
@@ -140,7 +140,7 @@ export default () => {
                                     value={user.companyName}
                                     name="companyName"
                                     onChange={(e) => inpChange(e)}
-                                    placeholder="Company"
+                                    placeholder="Your Company Name"
                                     className={
                                         "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
                                     }
@@ -157,7 +157,7 @@ export default () => {
                                     name="email"
                                     value={user.email}
                                     onChange={(e) => inpChange(e)}
-                                    placeholder="sales@andromedia.co.id"
+                                    placeholder="yourmail@mail.com"
                                     className={
                                         "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
                                     }
@@ -174,7 +174,7 @@ export default () => {
                                         value={user.phoneNumber}
                                         name="phoneNumber"
                                         onChange={(e) => inpChange(e)}
-                                        placeholder="0854"
+                                        placeholder="Your Number"
                                         type='number'
                                     />
                                 </div>
@@ -212,7 +212,7 @@ export default () => {
                     </div>
                 </div>
 
-                <SaveCancel onCancel={()=>{location.href='/m/'}} onSave={() => { stx?'':Save() }} title={stx?'Loding..':'Save'}/>
+                <SaveCancel onCancel={()=>{location.href='/m/'}} onSave={() => { stx?'':Save() }} title={stx?'Loading..':'Save'}/>
                 {/* <button-edit-profile /> */}
 
             </div>

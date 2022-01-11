@@ -19,7 +19,7 @@ export default (props) => {
                     onClick={props.btnClick}
                     className="text-base font-medium leading-relaxed text-center text-white"
                 >
-                    Chose This
+                    Choose This
                 </button>
             </div>
         </div>

@@ -50,7 +50,7 @@ export default () => {
                                 name='email'
                                 value={form.email}
                                 onChange={(e) => { inpChange(e) }}
-                                placeholder="ucok@gmail.com"
+                                placeholder="yourmail@mail.com"
                                 className={
                                     "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
                                 }
@@ -101,7 +101,7 @@ export default () => {
                         }}
                         className="flex  space-x-2 self-stretch items-center justify-center px-4 py-2 bg-blue-700 rounded text-base font-medium leading-relaxed text-center text-white"
                     >
-                        {loding ? "Loding.." : "Log In"}
+                        {loding ? "Loading.." : "Log In"}
 
                     </button>
                 </div>

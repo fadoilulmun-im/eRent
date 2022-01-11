@@ -1,5 +1,5 @@
 
-import { Page, Swiper, SwiperSlide, Block, Sheet, PageContent } from 'framework7-react';
+import {Block, Sheet, PageContent } from 'framework7-react';
 import { useState ,useEffect} from 'react';
 import {eventBus} from '../../global';
 import { motion } from "framer-motion";
@@ -8,14 +8,19 @@ export default (props) => {
     const [filterOn, setFilterOn] = useState(false);
     const [sortByState, setSortByState] = useState(0);
     const [categoryState, setCategoryState] = useState(0);
-    const sortby = ["New Product", "Most Expensive", "Cheapest", "A-Z"];
-    const category = ["All","Monitor", "Laptop", "Keyboard","Mouse","Projector","Camera"];
+    //"New Product", "Most Expensive", "Cheapest", 
+    const sortby = ["A-Z"];
+    const [category,setCategory] = useState(["All","Monitor", "Laptop", "Keyboard","Mouse","Projector","Camera"]);
 
     useEffect(()=>{
         eventBus.on('filter', (e) => {
             setFilterOn(true);
           });
     })
+    useEffect(()=>{
+        setCategory(props.category);
+        setCategoryState(props.categoryState);
+    },[props.category,props.categoryState])
     return (
         <Sheet
             swipeToClose

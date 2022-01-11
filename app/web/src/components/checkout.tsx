@@ -245,6 +245,7 @@ export default () => {
             }).then((e) => {
                 console.log(e);
                 if (e.status == 'SUCCESS') {
+                    localStorage.removeItem('cart');
                     location.href = "/m/order-detail-mobile/" + cart[0].transaksi.id;
                 }
             })
