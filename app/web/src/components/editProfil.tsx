@@ -88,7 +88,7 @@ export default () => {
             console.log(e);
             localStorage.setItem('user',JSON.stringify(e.data))
             setStx(false);
-            eventBus.dispatch('notif',{message:'acount updated'})
+            eventBus.dispatch('notif',{message:'Profile Updated'})
         })
     }
     return (
