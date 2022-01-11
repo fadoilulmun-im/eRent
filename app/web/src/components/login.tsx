@@ -50,7 +50,7 @@ export default () => {
                                 name='email'
                                 value={form.email}
                                 onChange={(e) => { inpChange(e) }}
-                                placeholder="ucok@gmail.com"
+                                placeholder="yourmail@mail.com"
                                 className={
                                     "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
                                 }
