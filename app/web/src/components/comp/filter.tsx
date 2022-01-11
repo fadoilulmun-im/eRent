@@ -8,7 +8,8 @@ export default (props) => {
     const [filterOn, setFilterOn] = useState(false);
     const [sortByState, setSortByState] = useState(0);
     const [categoryState, setCategoryState] = useState(0);
-    const sortby = ["New Product", "Most Expensive", "Cheapest", "A-Z"];
+    //"New Product", "Most Expensive", "Cheapest", 
+    const sortby = ["A-Z"];
     const [category,setCategory] = useState(["All","Monitor", "Laptop", "Keyboard","Mouse","Projector","Camera"]);
 
     useEffect(()=>{
