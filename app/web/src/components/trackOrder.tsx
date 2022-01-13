@@ -35,7 +35,7 @@ export default (props) => {
     useEffect(()=>{
         if(props.id){
         api(`/api/transaksi/${props.id}/track-order`).then((e)=>{
-            if(e){
+            if(e.status == 'SUCCESS'){
                 console.log("e",e);
                 let data = new Array();
                 e.data.forEach((x,i) => {
