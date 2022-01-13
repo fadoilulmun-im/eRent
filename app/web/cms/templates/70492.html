@@ -53,7 +53,7 @@
         let orders_completed = await db.transaksi.findMany({
           where: {
             AND: {
-              status_transaksi: 2,
+              status_transaksi: 8,
               tanggal_pemesanan: {
                 gte: new Date(dari),
                 lte: new Date(to),
@@ -66,7 +66,7 @@
           where: {
             transaksi: {
               AND: {
-                status_transaksi: 2,
+                status_transaksi: 8,
                 tanggal_pemesanan: {
                   gte: new Date(dari),
                   lte: new Date(to),
@@ -82,7 +82,7 @@
             transaksi: {
               where: {
                 AND: {
-                  status_transaksi: 2,
+                  status_transaksi: 8,
                   tanggal_pemesanan: {
                     gte: new Date(dari),
                     lte: new Date(to),
@@ -109,7 +109,7 @@
               where: {
                 transaksi: {
                   AND: {
-                    status_transaksi: 2,
+                    status_transaksi: 8,
                     tanggal_pemesanan: {
                       gte: new Date(dari),
                       lte: new Date(to),
