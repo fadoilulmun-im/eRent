@@ -233,7 +233,7 @@ export default () => {
                     <div className={`flex self-stretch items-center justify-center px-6`}>
                         <div className="[class]">
                             Already have account?{" "}
-                            <a href="" className="text-blue-500">
+                            <a onClick={()=>{location.href="/m/?lg=login"}} className="text-blue-500">
                                 Sign In
                             </a>
                         </div>

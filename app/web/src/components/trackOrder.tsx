@@ -35,16 +35,18 @@ export default (props) => {
     useEffect(()=>{
         if(props.id){
         api(`/api/transaksi/${props.id}/track-order`).then((e)=>{
-            if(e){
+            if(e.status == 'SUCCESS'){
+                console.log("e",e);
                 let data = new Array();
                 e.data.forEach((x,i) => {
-                    let nd  = new Date(x.created_at);
+                    let nd  = new Date(x.created_at.split('.')[0]);
+                    console.log("dt",nd,"=",x.created_at);
                     var ampm = nd.getHours( ) >= 12 ? ' PM' : ' AM';
                     let out = {
                         active:i==0?true:false,
                         title:`System: ${getDayName(nd.getDay())}, ${nd.getDate()} ${getMonthName(nd.getMonth())} ${nd.getFullYear()}`,
                         desc: x.track_template.desc,
-                        time: padLeadingZeros(nd.getHours(),2)+":"+padLeadingZeros(nd.getMinutes(),2)+ampm
+                        time: padLeadingZeros((nd.getHours()% 12) || 12,2)+":"+padLeadingZeros(nd.getMinutes(),2)+ampm
                     }
                     data.push(out);
                 });

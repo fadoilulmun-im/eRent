@@ -4,8 +4,10 @@ import Image from "./image";
 import { useEffect } from 'react';
 export default (props) => {
     const anim = useAnimation();
+
+
     useEffect(() => {
-        console.log(props.data.barang.gambar_barang);
+        console.log("gam");
     })
 
     const del = () => {
