@@ -65,7 +65,7 @@ export default () => {
         }
     }
     const showMore = () => {
-        getBarang(keyword, pageN + 1, category, true);
+        getBarang(keyword, pageN + 1, category,sortByItem[sortBy].qry, true);
         setPageN(pageN + 1);
 
 

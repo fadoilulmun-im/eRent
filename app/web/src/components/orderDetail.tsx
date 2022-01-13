@@ -202,7 +202,7 @@ export default (props) => {
         }
     }
     const seeDetail = () => {
-        if (transaction.status.id == 8) {
+        if (transaction.status.id == 1) {
             setDetailPop(true);
         } else {
             location.href = "/m/track-order-mobile/" + transaction.id;
