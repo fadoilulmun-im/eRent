@@ -158,7 +158,7 @@ export default (props) => {
                     setTransaction(e.data)
                     console.log(e)
                     setLoding(false)
-                    if (e.data.status.id == 8) {
+                    if (e.data.status.id == 1) {
                         setDetailPop(true);
                     }
                 }
@@ -189,7 +189,7 @@ export default (props) => {
         return price*days;
     }
     const goTo = () => {
-        if (transaction.status.id == 8) {
+        if (transaction.status.id == 1) {
             //cancel order
             api(`/api/cancel-order/${transaction.id}`).then((e) => {
                 if (e.status == 'SUCCESS') {
@@ -310,7 +310,7 @@ export default (props) => {
 
                 </div>
 
-                <PriceBox btnClick={() => { goTo() }} total_item={transaction.detail_transaksi ? countItem() : 0} total_harga={transaction ? transaction.total_harga+transaction.kode_unik : 0} btn_title={transaction.status ? (transaction.status.id == 8 ? "Cancel Order" : "Track Order") : "Oke"} />
+                <PriceBox btnClick={() => { goTo() }} total_item={transaction.detail_transaksi ? countItem() : 0} total_harga={transaction ? transaction.total_harga+transaction.kode_unik : 0} btn_title={transaction.status ? (transaction.status.id == 1 ? "Cancel Order" : "Track Order") : "Oke"} />
             </div>
 
             <Popup onPopupClose={() => { setDetailPop(false) }} opened={detailPop} className="demo-popup-swipe" swipeToClose>

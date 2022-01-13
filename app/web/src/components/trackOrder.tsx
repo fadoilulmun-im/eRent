@@ -39,6 +39,7 @@ export default (props) => {
                 let data = new Array();
                 e.data.forEach((x,i) => {
                     let nd  = new Date(x.created_at);
+                    console.log("dt",nd);
                     var ampm = nd.getHours( ) >= 12 ? ' PM' : ' AM';
                     let out = {
                         active:i==0?true:false,
