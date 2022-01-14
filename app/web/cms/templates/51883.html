@@ -167,6 +167,7 @@
           style="
     margin-top: 80px !important;
     margin-right: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
 "
         >
           <div class="flex self-stretch space-x-4 items-center justify-start px-6">
@@ -175,9 +176,11 @@
               class="rounded-full"
               style="width: 36px; min-width: 36px; max-width: 36px; height: 36px; min-height: 36px; max-height: 36px;background-image: url('/fimgs/bg-52636d59c23613f8dae671e6f007c8ad50d1d41e');background-size:100% 100%;background-repeat:no-repeat;"
             />
-            <div class="text-2xl font-semibold text-coolGray-900">Admin</div>
+            <div class="text-2xl font-semibold text-coolGray-900">
+              {user.admin.username}
+            </div>
             <div class="text-base leading-relaxed text-coolGray-500">
-              admin@andromedia.co.id
+              {user.admin.email}
             </div>
           </div>
           <div
@@ -191,6 +194,20 @@
                 }}
               >
                 Edit Profile
+              </a>
+            </div>
+          </div>
+          <div
+            class="flex self-stretch items-start justify-start px-6 pt-4"
+            style="margin-top: 0px !important"
+          >
+            <div class="text-base leading-relaxed text-coolGray-900">
+              <a
+                onClick={() => {
+                  location.href = "/change-password-user/" + user.admin.id;
+                }}
+              >
+                Change Password
               </a>
             </div>
           </div>
