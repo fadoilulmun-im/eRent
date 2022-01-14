@@ -120,18 +120,21 @@
       }).then((res) => {
         transaksi = res.transaksi;
       });
+
       runInAction(() => {
         meta.transaksi = transaksi;
         let namaCustomer = "";
         let statusTransaksi = "";
         transaksi.map((item, idx) => {
+          // console.log("item customer", item.customer);
           namaCustomer = item.customer.nama_customer;
+
           statusTransaksi = item.status.nama;
-          // console.log(namaCustomer);
+
           // console.log(statusTransaksi);
         });
-        meta.namacustomer = transaksi.customer.nama_customer;
-        meta.statustransaksi = transaksi.status.nama;
+        // meta.namacustomer = transaksi.customer.nama_customer;
+        // meta.statustransaksi = transaksi.status.nama;
         // console.log(meta.namacustomer);
         // console.log(meta.statustransaksi);
         meta.sum_page = Math.ceil(meta.transaksi.length / meta.entries); // meta.page_array = new Array(meta.sum_page);
