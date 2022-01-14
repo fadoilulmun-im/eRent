@@ -1,6 +1,7 @@
 <>
   <effect
     meta={{
+      showProfileModal: 1,
       isActive(route) {
         if (route == window.location.pathname.split("-")[0]) {
           return "bg-indigo-500 w-full";
@@ -9,7 +10,19 @@
         }
       },
     }}
-    run={async () => {}}
+    run={async () => {
+      meta.action = {
+        changeSwitchModal: (e) => {
+          runInAction(() => {
+            if (e == 1) {
+              meta.showProfileModal = 0;
+            } else {
+              meta.showProfileModal = 1;
+            }
+          });
+        },
+      };
+    }}
   />
   <div class="flex flex-1 self-stretch flex-col items-start justify-start bg-coolGray-100">
     <div class="flex self-stretch items-start justify-start h-full fixed w-screen">
@@ -122,33 +135,6 @@
                   Action Required
                 </div>
               </a>
-              <a
-                class={
-                  "flex space-x-4 items-start justify-start px-3 py-2 rounded "
-                }
-              >
-                <img
-                  src="/fimgs/422_2421.x1.png"
-                  style="width: 20px; min-width: 20px; max-width: 20px; height: 20px; min-height: 20px; max-height: 20px;"
-                />
-                <div class="text-base font-medium leading-relaxed text-coolGray-100">
-                  Setting
-                </div>
-              </a>
-              <a
-                // href="/api/logout"
-                class={
-                  "flex space-x-4 items-start justify-start px-3 py-2 rounded "
-                }
-              >
-                <img
-                  src="/fimgs/422_2421.x1.png"
-                  style="width: 20px; min-width: 20px; max-width: 20px; height: 20px; min-height: 20px; max-height: 20px;"
-                />
-                <div class="text-base font-medium leading-relaxed text-coolGray-100">
-                  Logout
-                </div>
-              </a>
             </div>
           </div>
         </div>
@@ -157,25 +143,73 @@
         <div class="flex self-stretch flex-col items-start justify-start bg-coolGray-100">
           <div class="flex flex-1 self-stretch flex-col items-start justify-start px-5 py-4 bg-coolGray-50 shadow">
             <div class="flex self-stretch space-x-5 items-center justify-start">
-              <div class="flex flex-1 space-x-3 items-center justify-start">
-                {/*Field Search*/}
-                {/*<div />*/}
-                {/*<div class="text-base leading-relaxed text-coolGray-500">*/}
-                {/*Search*/}
-                {/*</div>*/}
-              </div>
               <div class="flex flex-1 space-x-4 items-center justify-end">
-                <img
-                  src="/fimgs/425_1343.x1.svg"
-                  class="flex flex-col items-start justify-start bg-coolGray-50"
-                  style="width: 24px; min-width: 24px; max-width: 24px; height: 24px; min-height: 24px; max-height: 24px;"
-                />
-                <img
-                  src="/fimgs/412_2509.x1.png"
-                  class="rounded-full"
-                  style="width: 36px; min-width: 36px; max-width: 36px; height: 36px; min-height: 36px; max-height: 36px;background-image: url('/fimgs/bg-52636d59c23613f8dae671e6f007c8ad50d1d41e');background-size:100% 100%;background-repeat:no-repeat;"
-                />
+                <a
+                  onClick={(e) =>
+                    meta.action.changeSwitchModal(meta.showProfileModal)
+                  }
+                >
+                  <img
+                    src="/fimgs/412_2509.x1.png"
+                    class="rounded-full"
+                    style="width: 36px; min-width: 36px; max-width: 36px; height: 36px; min-height: 36px; max-height: 36px;background-image: url('/fimgs/bg-52636d59c23613f8dae671e6f007c8ad50d1d41e');background-size:100% 100%;background-repeat:no-repeat;"
+                  />
+                </a>
               </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class={
+            "flex flex-col space-y-4 items-start justify-start py-6 bg-white rounded absolute right-0 z-50 " +
+            (meta.showProfileModal == 1 ? "hidden" : "")
+          }
+          style="
+    margin-top: 80px !important;
+    margin-right: 20px;
+"
+        >
+          <div class="flex self-stretch space-x-4 items-center justify-start px-6">
+            <img
+              src="/fimgs/412_2509.x1.png"
+              class="rounded-full"
+              style="width: 36px; min-width: 36px; max-width: 36px; height: 36px; min-height: 36px; max-height: 36px;background-image: url('/fimgs/bg-52636d59c23613f8dae671e6f007c8ad50d1d41e');background-size:100% 100%;background-repeat:no-repeat;"
+            />
+            <div class="text-2xl font-semibold text-coolGray-900">Admin</div>
+            <div class="text-base leading-relaxed text-coolGray-500">
+              admin@andromedia.co.id
+            </div>
+          </div>
+          <div
+            class="flex self-stretch items-start justify-start px-6 pt-4"
+            style="margin-top: 0px !important"
+          >
+            <div class="text-base leading-relaxed text-coolGray-900">
+              <a
+                onClick={() => {
+                  location.href = "/admin-edit/" + user.admin.id;
+                }}
+              >
+                Edit Profile
+              </a>
+            </div>
+          </div>
+          <div
+            class="flex self-stretch items-start justify-start px-6 pt-4"
+            style="margin-top: 0px !important"
+          >
+            <div class="text-base leading-relaxed text-coolGray-900">
+              <a
+                onClick={() => {
+                  api("/api/logout").then((e) => {
+                    if (e.status == "SUCCESS") {
+                      location.href = "/w-login";
+                    }
+                  });
+                }}
+              >
+                Logout
+              </a>
             </div>
           </div>
         </div>
