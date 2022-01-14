@@ -54,6 +54,7 @@
       async onInpGambar(e) {
         console.log(e.target.files[0]);
         this.gambar_barang = e.target.files[0];
+        this.gambar_barang_url = URL.createObjectURL(e.target.files[0]);
         this.nama_gambar_barang = e.target.files[0].name;
       },
 
@@ -102,7 +103,15 @@
           await api(`/api/barang-admin/${params.id}/update`, brg).then((e) => {
             if (e.status === "SUCCESS") {
               console.log(e);
-              history.back();
+              if (this.gambar_barang) {
+                fileUpload(
+                  this.gambar_barang,
+                  `/api/barang-admin/${e.data.id}/upload-foto`
+                ).then((ee) => {
+                  console.log(ee);
+                });
+              }
+              navigate("/barang-list");
             }
           });
         }
@@ -258,15 +267,41 @@
                 Product Image
               </div>
 
-              <div class="flex self-stretch items-start justify-start">
-                <div class={" w-1 h-1"}>
-                  <img src={meta.gambar_barang_url} />
+              <div class="flex self-stretch items-start justify-start space-x-5">
+                <div
+                  style={"width:7rem;height:7rem"}
+                  class="rounded overflow-hidden flex items-center justify-center bg-gray-200"
+                >
+                  <image src={meta.gambar_barang_url} />
                 </div>
+                <button
+                  onClick={() => {
+                    document.getElementById("img_inp").click();
+                    console.log();
+                  }}
+                  style={"height:7rem;width:7rem"}
+                  class="flex justify-center items-center"
+                >
+                  <svg
+                    width={"4rem"}
+                    height={"4rem"}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="#D1D5DB"
+                      d="M19,10a1,1,0,0,0-1,1v3.38L16.52,12.9a2.79,2.79,0,0,0-3.93,0l-.7.71L9.41,11.12a2.79,2.79,0,0,0-3.93,0L4,12.61V7A1,1,0,0,1,5,6h8a1,1,0,0,0,0-2H5A3,3,0,0,0,2,7V19.22A2.79,2.79,0,0,0,4.78,22H17.22a2.88,2.88,0,0,0,.8-.12h0a2.74,2.74,0,0,0,2-2.65V11A1,1,0,0,0,19,10ZM5,20a1,1,0,0,1-1-1V15.43l2.89-2.89a.78.78,0,0,1,1.1,0L15.46,20Zm13-1a1,1,0,0,1-.18.54L13.3,15l.71-.7a.77.77,0,0,1,1.1,0L18,17.21ZM21,4H20V3a1,1,0,0,0-2,0V4H17a1,1,0,0,0,0,2h1V7a1,1,0,0,0,2,0V6h1a1,1,0,0,0,0-2Z"
+                    />
+                  </svg>
+                </button>
                 <input
+                  hidden
+                  id="img_inp"
                   type="file"
                   name="gambar_barang"
                   onChange={meta.onInpGambar}
                   data-height="300"
+                  accept="image/png, image/gif, image/jpeg"
                 />
               </div>
             </div>
