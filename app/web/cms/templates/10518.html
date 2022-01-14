@@ -362,9 +362,11 @@
                       >
                         <div class={`text-base leading-normal px-3`}>
                           <a
-                            href={numList.surat_ket_pt}
+                            onClick={() => {
+                              location.href = numList.surat_ket_pt;
+                            }}
+                            // href={numList.surat_ket_pt}
                             class="text-blue-500"
-                            target="_blank"
                           >
                             Download
                           </a>
