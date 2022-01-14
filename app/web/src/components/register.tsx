@@ -98,7 +98,7 @@ export default () => {
     return (
         <>
             <Loding state={loding} />
-            <input ref={file} type="file" onChange={getFileName} hidden accept="image/png, image/gif, image/jpeg" />
+            <input ref={file} type="file" onChange={getFileName} hidden accept="application/pdf"/>
             <div className={(loding ? "hidden" : "flex") + " flex-col h-full"}>
                 <Tab mode={2} />
                 <div className="h-full overflow-y-auto space-y-4 pb-4">
