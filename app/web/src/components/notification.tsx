@@ -33,7 +33,9 @@ export default () => {
             setUser(uu);
             api(`/api/customer/${uu.id}/notif/showall`).then((e)=>{
                 let p = e.data.map((x,i)=>{
-                    let dt = new Date(x.created_at);
+                    let dt = new Date(x.created_at.split('.')[0]);
+                    console.log(x.created_at);
+                    console.log(dt);
                     return {"desc":x.desc,"title":x.title,"date":dt.getDate()+" "+getMonthName(dt.getMonth())};
                 })
                 setLoding(false);
