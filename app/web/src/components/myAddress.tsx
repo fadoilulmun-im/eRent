@@ -66,6 +66,7 @@ export default () => {
 
     const getAllAddr = (uid) => {
         api(`/api/customer/${uid}/list-alamat`).then((e) => {
+            console.log(e);
             setAllAddr(e.data);
 
             if(user.alamat_utama){
