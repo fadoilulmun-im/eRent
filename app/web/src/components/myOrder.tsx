@@ -59,11 +59,17 @@ export default () => {
     const [loding, setLoding] = useState(true);
     const [statusSwitch, setStatusSwitch] = useState(0);
     const status = [
-        "All Orders", "Cancelled",
-        "Completed", "On Return",
-        "Arrived", "On The Way",
-        "Packed", "Waiting for Confirmation",
-        "Pending", "Payment Verified"]
+        "All Orders", 
+        "Pending", 
+        "Waiting for Confirmation", 
+        "Payment Verified",
+        "Packed",
+        "On The Way",
+        "Arrived", 
+        "On Return",
+        "Completed", 
+        "Cancelled",
+    ]
 
     const [orders, setOrders] = useState<any>([]);
     useEffect(() => {

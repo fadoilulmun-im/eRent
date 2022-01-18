@@ -69,7 +69,7 @@
           detail_transaksi: {
             where: {
               transaksi: {
-                status_transaksi: 2,
+                status_transaksi: 8,
               },
             },
             select: {
@@ -104,7 +104,7 @@
           nama_perusahaan: true,
           transaksi: {
             where: {
-              status_transaksi: 2,
+              status_transaksi: 8,
             },
             select: {
               total_harga: true,
@@ -142,7 +142,7 @@
 
       const order_await = await db.transaksi.findMany({
         where: {
-          status_transaksi: { in: [7, 8] },
+          status_transaksi: { in: [1, 2] },
         },
       });
       meta.order_await = order_await.length;
@@ -169,7 +169,7 @@
       let orders_completed = await db.transaksi.findMany({
         where: {
           AND: {
-            status_transaksi: 2,
+            status_transaksi: 8,
             tanggal_pemesanan: {
               gte: new Date(firstDay),
               lte: new Date(lastDay),
@@ -213,15 +213,7 @@
 
             <div class="flex self-stretch space-x-8 items-start justify-start">
               <div class="flex flex-1 flex-col space-y-7 items-start justify-start">
-                <div class="flex self-stretch flex-col space-y-5 items-start justify-start pb-5 bg-coolGray-50 shadow border border-coolGray-300">
-                  <div class="flex self-stretch flex-col items-start justify-start p-3 bg-coolGray-50 border rounded-tl rounded-tr border-coolGray-300">
-                    <div class="flex self-stretch space-x-4 items-start justify-start">
-                      <div class="text-base font-bold leading-relaxed text-coolGray-900">
-                        Activity
-                      </div>
-                    </div>
-                  </div>
-
+                <windowBox title={"Activity"}>
                   <table class="w-full">
                     <tbody class="flex flex-col space-y-4 px-5">
                       {meta.activity.map((item) => {
@@ -241,16 +233,9 @@
                       })}
                     </tbody>
                   </table>
-                </div>
-                <div class="flex self-stretch flex-col space-y-5 pb-5 bg-coolGray-50 shadow border border-coolGray-300">
-                  <div class="flex self-stretch flex-col p-3 bg-coolGray-50 border rounded-tl rounded-tr border-coolGray-300">
-                    <div class="flex self-stretch space-x-2">
-                      <div class="text-base font-bold leading-relaxed text-coolGray-900">
-                        #5 ERent Customer
-                      </div>
-                    </div>
-                  </div>
-                  <table>
+                </windowBox>
+                <windowBox title={"#5 ERent Customer"}>
+                  <table class="w-full">
                     <tbody class="flex flex-col space-y-4 pl-5">
                       {meta.top_customer.slice(0, 5).map((item) => {
                         return (
@@ -266,17 +251,13 @@
                       })}
                     </tbody>
                   </table>
-                </div>
+                </windowBox>
               </div>
+
+              {/*split*/}
+
               <div class="flex flex-1 flex-col space-y-7 items-start justify-start">
-                <div class="flex self-stretch flex-col space-y-5 items-start justify-start bg-coolGray-50 shadow border border-coolGray-300">
-                  <div class="flex self-stretch flex-col p-3 bg-coolGray-50 border rounded-tl rounded-tr border-coolGray-300">
-                    <div class="flex self-stretch space-x-4 items-start justify-start">
-                      <div class="text-base font-bold leading-relaxed text-coolGray-900">
-                        Analytics
-                      </div>
-                    </div>
-                  </div>
+                <windowBox title={"Analytics"}>
                   <div class="flex self-stretch flex-col space-y-10 items-start justify-start px-6  pb-7">
                     <div class="flex space-x-4 items-start justify-start">
                       <div class="flex space-x-2 items-start justify-start">
@@ -335,18 +316,9 @@
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <div class="flex self-stretch flex-col space-y-5 pb-5 bg-coolGray-50 shadow border border-coolGray-300">
-                  <div class="flex self-stretch flex-col items-start justify-start p-3 bg-coolGray-50 border rounded-tl rounded-tr border-coolGray-300">
-                    <div class="flex self-stretch space-x-4 items-start justify-start">
-                      <div class="text-base font-bold leading-relaxed text-coolGray-900">
-                        #5 ERent Items
-                      </div>
-                    </div>
-                  </div>
-
-                  <table>
+                </windowBox>
+                <windowBox title={"#5 ERent Items"}>
+                  <table class={"w-full"}>
                     <tbody class="flex flex-col space-y-4 pl-5">
                       {meta.top_items.slice(0, 5).map((item) => {
                         return (
@@ -362,7 +334,7 @@
                       })}
                     </tbody>
                   </table>
-                </div>
+                </windowBox>
               </div>
             </div>
           </div>

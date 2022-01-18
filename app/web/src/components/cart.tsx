@@ -120,7 +120,7 @@ export default () => {
                     <div className="text-3xl font-bold text-coolGray-900 px-6">Cart</div>
                     <div className={"flex flex-col px-6"}>
                         {cart.map((x, i) => (
-                            <ChartItem del={() => { del(i) }} sub={() => { sub(i) }} add={() => { add(i) }} key={i} data={x} />
+                            x.barang && <ChartItem del={() => { del(i) }} sub={() => { sub(i) }} add={() => { add(i) }} key={i} data={x} />
                         ))}
                     </div>
                 </div>

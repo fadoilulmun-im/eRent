@@ -12,28 +12,57 @@ export default (props) => {
     const [pageN, setPageN] = useState(0);
     const [loding, setLoding] = useState(true);
     const [keyword, setKeyword] = useState('');
-    const [category,setCategory] = useState(null);
+
+    const [empty, setEmpty] = useState(true);
+    const [canShowMore, setCanShowMore] = useState(false);
+
+    const sortByItem = [{name:"A-Z", qry:"nama_barang ASC"},{name:"New Product",qry:"created_at DESC"}, {name:"Most Expensive",qry:"harga_barang DESC"}, {name:"Cheapest",qry:"harga_barang ASC"}];
+    const [sortBy, setSortBy] = useState(0);
+
+    const [categoryItem,setCategoryItem] = useState(["All", "Monitor", "Laptop", "Keyboard", "Mouse", "Projector", "Camera"]);
+    const [category, setCategory] = useState(0);
 
     useEffect(() => {
         setKeyword(props.keyword);
-        setLoding(false);
-        getBarang(props.keyword, 0,null);
+
+        getBarang(props.keyword, 0,category,sortByItem[sortBy].qry);
+        api("/api/list-kategori").then((e)=>{
+            console.log("kategori",e);
+            if(e.status == "SUCCESS"){
+                setCategoryItem(["All",...e.data]);
+            }
+            setLoding(false);
+        })
     }, [])
-    const getBarang = (key, n, cat,add: boolean = false) => {
+    const getBarang = (key, n, cat,sort,add: boolean = false) => {
         console.log(cat);
-        api(`/api/barang?search=${key}&page=${n}&category=${cat?cat:''}`).then((e) => {
+        setEmpty(false);
+        api(`/api/barang?search=${key}&page=${n}&category=${cat ? cat : ''}&sortby=${sort}`).then((e) => {
             console.log(e);
             if (add) {
                 setBarangs(barangs.concat(e.data))
             } else {
                 setBarangs(e.data)
             }
+            if (e.data.length < 10) {
+                setCanShowMore(false)
+            } else {
+                setCanShowMore(true)
+            }
+
+            if (e.data.length > 0) {
+                setEmpty(false);
+            } else {
+                setEmpty(true);
+            }
+        }).catch((e) => {
+            console.log(e);
         })
     }
 
     const onSearch = (e) => {
         if (e.code == 'Enter') {
-            getBarang(keyword, 0,category);
+            getBarang(keyword, 0,category,sortByItem[sortBy].qry);
         }
     }
     const endScroll = (e) => {
@@ -41,7 +70,7 @@ export default (props) => {
             e.target.scrollHeight - e.target.scrollTop ===
             e.target.clientHeight;
         if (bottom) {
-            getBarang(keyword, pageN+1,category,true);
+            getBarang(keyword, pageN+1,category,sortByItem[sortBy].qry,true);
             setPageN(pageN + 1);
 
         }
@@ -93,7 +122,9 @@ export default (props) => {
                 </div>
             </div>
 
-            <Filter show={()=>{getBarang(keyword, 0,category)}} onCategorySwitch={(e)=>{setCategory(e)}} />
+            {/* <Filter show={()=>{getBarang(keyword, 0,category)}} onCategorySwitch={(e)=>{setCategory(e)}} />
+             */}
+             <Filter sortByItem = {sortByItem} sortBy={sortBy}  categoryItem={categoryItem} category={category} show={() => { getBarang(keyword, 0, category,sortByItem[sortBy].qry) }} onSortSwitch={(e) => { setSortBy(e)}} onCategorySwitch={(e) => { setCategory(e) }} />
         </Page>
     )
 }

@@ -87,7 +87,7 @@
         <div class="flex flex-1 flex-col space-y-10 items-start justify-start">
           <div class="flex self-stretch flex-col space-y-4 items-start justify-start px-9 pb-10 relative overflow-y-auto">
             <div class="flex self-stretch space-x-4 items-center justify-start">
-              <div class="text-3xl font-bold text-coolGray-900">Add User</div>
+              <div class="text-3xl font-bold text-coolGray-900">Add Admin</div>
             </div>
             <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
               <div class="text-base font-medium leading-relaxed text-coolGray-500">
@@ -201,15 +201,16 @@
               <div class="text-base font-medium leading-relaxed text-coolGray-500">
                 New Password
               </div>
-              <div class="flex items-center justify-start px-4 py-2 border rounded border-blue-700">
-                <button class="text-base leading-relaxed text-center text-blue-700">
-                  Generate Password
-                </button>
-              </div>
+              {/*<div class="flex items-center justify-start px-4 py-2 border rounded border-blue-700">*/}
+              {/*<button class="text-base leading-relaxed text-center text-blue-700">*/}
+              {/*Generate Password*/}
+              {/*</button>*/}
+              {/*</div>*/}
               <div class="flex self-stretch items-start justify-start">
                 <input
                   value={meta.password}
                   name="password"
+                  type="password"
                   onChange={(e) => meta.action.inpChange(e)}
                   placeholder="Password"
                   class={
@@ -220,9 +221,14 @@
             </div>
             <div class="flex space-x-4 items-start justify-end w-full">
               <div class="flex items-center justify-start px-4 py-2 border rounded border-blue-700">
-                <div class="text-base leading-relaxed text-center text-blue-700">
+                <button
+                  class="text-base leading-relaxed text-center text-blue-700"
+                  onClick={() => {
+                    history.back();
+                  }}
+                >
                   Discard
-                </div>
+                </button>
               </div>
               <div class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
                 <button

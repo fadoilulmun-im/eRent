@@ -6,20 +6,23 @@ import { motion } from "framer-motion";
 
 export default (props) => {
     const [filterOn, setFilterOn] = useState(false);
-    const [sortByState, setSortByState] = useState(0);
-    const [categoryState, setCategoryState] = useState(0);
-    const sortby = ["New Product", "Most Expensive", "Cheapest", "A-Z"];
-    const [category,setCategory] = useState(["All","Monitor", "Laptop", "Keyboard","Mouse","Projector","Camera"]);
+    // const [sortByState, setSortByState] = useState(0);
+    // const [categoryState, setCategoryState] = useState(0);
+    //, 
+    // const sortby = [{name:"A-Z", qry:"nama_barang ASC"},{name:"New Product",qry:"nama_barang ASC"}, {name:"Most Expensive",qry:"nama_barang ASC"}, {name:"Cheapest",qry:"nama_barang ASC"}];
+    // const [category,setCategory] = useState(["All","Monitor", "Laptop", "Keyboard","Mouse","Projector","Camera"]);
 
     useEffect(()=>{
         eventBus.on('filter', (e) => {
             setFilterOn(true);
           });
     })
-    useEffect(()=>{
-        setCategory(props.category);
-        setCategoryState(props.categoryState);
-    },[props.category,props.categoryState])
+    // useEffect(()=>{
+    //     setCategory(props.category);
+    //     setCategoryState(props.categoryState);
+    // },[props.category,props.categoryState])
+
+    
     return (
         <Sheet
             swipeToClose
@@ -36,37 +39,37 @@ export default (props) => {
                     <div className=" flex flex-col space-y-2">
                         <span className="text-base font-medium text-coolGray-900">Sort by</span>
                         <div className="w-full flex flex-wrap">
-                            {sortby.map((x, i) => (
+                            {props.sortByItem.map((x, i) => (
                                 <span className="m-1" key={i}>
                                     <motion.button
                                     whileTap={{ scale: 0.9 }}
                                         onClick={() => {
-                                            setSortByState(i);
+                                            // setSortByState(i);
                                             props.onSortSwitch(i);
                                         }}
                                         className={
                                             " rounded-full text-sm text-coolGray-900 text-center inline px-5 py-2 bg-white shadow border transition-all " +
-                                            (i == sortByState ? "border-blue-700" : "border-gray-300")
+                                            (i == props.sortBy ? "border-blue-700" : "border-gray-300")
                                         }
                                     >
-                                        {x}
+                                        {x.name}
                                     </motion.button>
                                 </span>
                             ))}
                         </div>
                         <span className="text-base font-medium text-coolGray-900">Category</span>
                         <div className="w-full flex flex-wrap">
-                            {category.map((x, i) => (
+                            {props.categoryItem.map((x, i) => (
                                 <span className="m-1" key={i}>
                                     <motion.button
                                     whileTap={{ scale: 0.9 }}
                                         onClick={() => {
-                                            setCategoryState(i);
+                                            // setCategoryState(i);
                                             props.onCategorySwitch(i);
                                         }}
                                         className={
                                             " rounded-full text-sm text-coolGray-900 text-center inline px-5 py-2 bg-white shadow border transition-all " +
-                                            (i == categoryState ? "border-blue-700" : "border-gray-300")
+                                            (i == props.category ? "border-blue-700" : "border-gray-300")
                                         }
                                     >
                                         {x}

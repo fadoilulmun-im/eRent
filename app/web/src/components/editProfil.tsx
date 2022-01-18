@@ -47,10 +47,17 @@ export default () => {
         }
     }
     const handleFile = (e) => {
+
         if (e.target.files.length) {
-            console.log(e.target.files[0])
-            let y = { raw: URL.createObjectURL(e.target.files[0]), view: e.target.files[0] }
-            setImage(y);
+            console.log(e.target.files[0].size)
+            if((e.target.files[0].size / 1024 / 1024) < 2){
+                //kurang dari 2mb
+                let y = { raw: URL.createObjectURL(e.target.files[0]), view: e.target.files[0] }
+                setImage(y);
+            }else{
+                eventBus.dispatch('notif',{message:'Image size too big'});
+            }
+
         }
     }
     const Save = () => {
@@ -66,6 +73,8 @@ export default () => {
                         uu.foto = e.path;
                         localStorage.setItem('user',JSON.stringify(uu));
                     }
+                }else{
+                    eventBus.dispatch('notif',{message:'Update profile picture failed'});
                 }
                 
             });
@@ -86,9 +95,14 @@ export default () => {
         }
         api(`/api/customer/${user.id}/update`, { email: user.email, no_hp: user.phoneNumber, nama_perusahaan: user.companyName, nama_customer: user.name }).then((e) => {
             console.log(e);
-            localStorage.setItem('user',JSON.stringify(e.data))
-            setStx(false);
-            eventBus.dispatch('notif',{message:'Profile Updated'})
+            if(e.status == 'SUCCESS'){
+                localStorage.setItem('user',JSON.stringify(e.data));
+                setStx(false);
+                eventBus.dispatch('notif',{message:'Profile Updated'});
+            }else{
+                eventBus.dispatch('notif',{message:'Update profile failed'});
+            }
+
         })
     }
     return (
