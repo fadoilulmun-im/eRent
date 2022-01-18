@@ -14,7 +14,7 @@ export default () => {
     const [formErr, setFormErr] = useState({ email: false, password: false, re_password: false, nama_customer: false, nama_perusahaan: false });
 
     const file = useRef<HTMLInputElement>(null);
-    const [fileName, setFileName] = useState("Choose File")
+    const [fileName, setFileName] = useState("Choose File (Format .pdf)")
     const [fileData, setFileData] = useState(null)
 
 
