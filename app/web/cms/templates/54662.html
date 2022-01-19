@@ -14,6 +14,7 @@
 
       gambar_barang: null,
       nama_gambar_barang: "",
+      gambar_barang_url: "",
 
       validation() {
         let msg =
@@ -38,12 +39,6 @@
         return msg;
       },
 
-      // async onChange(key, e) {
-      //   let value = e.target.value;
-      //   runInAction(() => (this[key] = value));
-      //   console.log(key + " : " + value);
-      // },
-
       async onChange(key, e) {
         let value = "";
 
@@ -60,6 +55,7 @@
       async onInpGambar(e) {
         console.log(e.target.files[0]);
         this.gambar_barang = e.target.files[0];
+        this.gambar_barang_url = URL.createObjectURL(e.target.files[0]);
         this.nama_gambar_barang = e.target.files[0].name;
       },
 
@@ -70,8 +66,19 @@
         if (error) {
           alert(error);
         } else {
+          if (this.kategori_barang.__isNew__) {
+            await api("/api/kategori-test", {
+              kategori: this.kategori_barang.value,
+              e: "Create",
+            }).then(async (res) => {
+              if (res.res !== "Failure" || res === null) {
+                // let category = await res.kategori;
+                this.kategori_barang.value = await res.kategori.id;
+              }
+            });
+          }
           let brg = {
-            id_kategori: parseInt(this.kategori_barang),
+            id_kategori: parseInt(this.kategori_barang.value),
             nama_barang: this.nama_barang,
             merk_barang: this.merk_barang,
             detail_barang: this.detail_barang,
@@ -88,6 +95,8 @@
                 console.log(ee);
                 navigate("/barang-list");
               });
+            } else {
+              console.log(e.message);
             }
           });
         }
@@ -108,10 +117,16 @@
         e: "ReadAll",
       }).then((res) => {
         if (res.res !== "Failure" || res === null) {
-          meta.kategori = res.kategori;
+          let kategori = res.kategori;
+          meta.kategori = kategori.map((item) => {
+            return {
+              value: item.id,
+              label: item.nama,
+            };
+          });
         }
       });
-      console.log(meta.kategoris);
+      // console.log(meta.kategori);
 
       // if (user.role !== "super") {
       //   navigate("/w-login");
@@ -168,30 +183,38 @@
                 Category Product
               </div>
               <div class="flex self-stretch items-start justify-start">
-                <select
-                  class="flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
-                  defaultValue="Pilih Kategori"
-                  value={meta.kategori_barang}
-                  name="kategori_barang"
-                  onChange={(e) => {
-                    meta.onChange("kategori_barang", e);
+                <globalVar.CreatableSelect
+                  isClearable
+                  class="items-center justify-start bg-white border rounded border-gray-100 w-full"
+                  options={meta.kategori}
+                  onChange={(newValue: any) => {
+                    meta.kategori_barang = newValue;
                   }}
-                >
-                  {meta.kategori
-                    ? meta.kategori.map((numList, i) => {
-                        return (
-                          <option
-                            value={numList.id}
-                            class={`flex self-stretch flex-col items-start justify-start`}
-                            style="color: black"
-                          >
-                            {numList.nama}
-                          </option>
-                        );
-                      })
-                    : ""}
-                  {"Pilih Kategori"}
-                </select>
+                />
+                {/*<select*/}
+                {/*class="flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"*/}
+                {/*defaultValue="Pilih Kategori"*/}
+                {/*value={meta.kategori_barang}*/}
+                {/*name="kategori_barang"*/}
+                {/*onChange={(e) => {*/}
+                {/*meta.onChange("kategori_barang", e);*/}
+                {/*}}*/}
+                {/*>*/}
+                {/*{meta.kategori*/}
+                {/*? meta.kategori.map((numList, i) => {*/}
+                {/*return (*/}
+                {/*<option*/}
+                {/*value={numList.id}*/}
+                {/*class={`flex self-stretch flex-col items-start justify-start`}*/}
+                {/*style="color: black"*/}
+                {/*>*/}
+                {/*{numList.nama}*/}
+                {/*</option>*/}
+                {/*);*/}
+                {/*})*/}
+                {/*: ""}*/}
+                {/*{"Pilih Kategori"}*/}
+                {/*</select>*/}
               </div>
             </div>
             <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
@@ -216,20 +239,51 @@
                 />
               </div>
             </div>
+
             <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
               <div class="text-base font-medium leading-relaxed text-coolGray-500">
                 Product Image
               </div>
 
-              <div class="flex self-stretch items-start justify-start">
+              <div class="flex self-stretch items-start justify-start space-x-5">
+                <div
+                  style={"width:7rem;height:7rem"}
+                  class="rounded overflow-hidden flex items-center justify-center bg-gray-200"
+                >
+                  <image src={meta.gambar_barang_url} />
+                </div>
+                <button
+                  onClick={() => {
+                    document.getElementById("img_inp").click();
+                    console.log();
+                  }}
+                  style={"height:7rem;width:7rem"}
+                  class="flex justify-center items-center"
+                >
+                  <svg
+                    width={"4rem"}
+                    height={"4rem"}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="#D1D5DB"
+                      d="M19,10a1,1,0,0,0-1,1v3.38L16.52,12.9a2.79,2.79,0,0,0-3.93,0l-.7.71L9.41,11.12a2.79,2.79,0,0,0-3.93,0L4,12.61V7A1,1,0,0,1,5,6h8a1,1,0,0,0,0-2H5A3,3,0,0,0,2,7V19.22A2.79,2.79,0,0,0,4.78,22H17.22a2.88,2.88,0,0,0,.8-.12h0a2.74,2.74,0,0,0,2-2.65V11A1,1,0,0,0,19,10ZM5,20a1,1,0,0,1-1-1V15.43l2.89-2.89a.78.78,0,0,1,1.1,0L15.46,20Zm13-1a1,1,0,0,1-.18.54L13.3,15l.71-.7a.77.77,0,0,1,1.1,0L18,17.21ZM21,4H20V3a1,1,0,0,0-2,0V4H17a1,1,0,0,0,0,2h1V7a1,1,0,0,0,2,0V6h1a1,1,0,0,0,0-2Z"
+                    />
+                  </svg>
+                </button>
                 <input
+                  hidden
+                  id="img_inp"
                   type="file"
                   name="gambar_barang"
                   onChange={meta.onInpGambar}
                   data-height="300"
+                  accept="image/png, image/gif, image/jpeg"
                 />
               </div>
             </div>
+
             <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
               <div class="text-base font-medium leading-relaxed text-coolGray-500">
                 Price
@@ -283,9 +337,14 @@
             </div>
             <div class="flex space-x-4 items-start justify-end w-full">
               <div class="flex items-center justify-start px-4 py-2 border rounded border-blue-700">
-                <div class="text-base leading-relaxed text-center text-blue-700">
+                <button
+                  class="text-base leading-relaxed text-center text-blue-700"
+                  onClick={() => {
+                    history.back();
+                  }}
+                >
                   Discard
-                </div>
+                </button>
               </div>
               <div class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
                 <button

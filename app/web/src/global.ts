@@ -1,7 +1,13 @@
 import { format as formatFNS, parseISO } from 'date-fns'
 import * as locales from 'date-fns/locale';
-
-export const globalVar = {}
+import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
+import AsyncCreatableSelect from 'react-select/async-creatable';
+export const globalVar = {
+  Select,
+  CreatableSelect,
+  AsyncCreatableSelect
+}
 
 export const formatSeparatorDec = (value: any, decimal?: number) => {
   if (decimal || decimal === 0) value = Number(value).toFixed(decimal)
