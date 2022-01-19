@@ -12,28 +12,30 @@ export default () => {
     const [pageN, setPageN] = useState(0);
     // const [loding, setLoding] = useState(true);
     const [keyword, setKeyword] = useState('');
-    const [category, setCategory] = useState(0);
+    const sortByItem = [{name:"A-Z", qry:"nama_barang ASC"},{name:"New Product",qry:"created_at DESC"}, {name:"Most Expensive",qry:"harga_barang DESC"}, {name:"Cheapest",qry:"harga_barang ASC"}];
+    const [sortBy, setSortBy] = useState(0);
+    
 
     const [empty, setEmpty] = useState(true);
     // const [statusSwitch, setStatusSwitch] = useState(0);
     const [canShowMore, setCanShowMore] = useState(false);
-
-    const [status,setStatus] = useState(["All", "Monitor", "Laptop", "Keyboard", "Mouse", "Projector", "Camera"]);
+    const [categoryItem,setCategoryItem] = useState(["All", "Monitor", "Laptop", "Keyboard", "Mouse", "Projector", "Camera"]);
+    const [category, setCategory] = useState(0);
 
     useEffect(() => {
-        getBarang(keyword, 0, null);
+        getBarang(keyword, 0, null,sortByItem[sortBy].qry);
         api("/api/list-kategori").then((e)=>{
             console.log("kategori",e);
             if(e.status == "SUCCESS"){
-                setStatus(["All",...e.data]);
+                setCategoryItem(["All",...e.data]);
             }
         })
     }, [])
 
-    const getBarang = (key, n, cat, add: boolean = false) => {
+    const getBarang = (key, n, cat,sort,add: boolean = false) => {
         console.log(cat);
         setEmpty(false);
-        api(`/api/barang?search=${key}&page=${n}&category=${cat ? cat : ''}`).then((e) => {
+        api(`/api/barang?search=${key}&page=${n}&category=${cat ? cat : ''}&sortby=${sort}`).then((e) => {
             console.log(e);
             if (add) {
                 setBarangs(barangs.concat(e.data))
@@ -59,11 +61,11 @@ export default () => {
     const onSearch = (e) => {
         // alert(e.code);
         if (e.code == 'Enter' || e.code == '') {
-            getBarang(keyword, 0, category);
+            getBarang(keyword, 0, category,sortByItem[sortBy].qry);
         }
     }
     const showMore = () => {
-        getBarang(keyword, pageN + 1, category, true);
+        getBarang(keyword, pageN + 1, category,sortByItem[sortBy].qry, true);
         setPageN(pageN + 1);
 
 
@@ -104,8 +106,8 @@ export default () => {
 
                 <div className="w-full flex justify-start overflow-x-auto py-2" style={{ height: '4.5rem' }}>
                     <div className="px-6 flex space-x-3" style={{ paddingBottom: '1rem' }}>
-                        {status.map((x, i) => (
-                            <StatusPill key={i} onClick={() => { setCategory(i); getBarang(keyword, 0, i); }} active={category == i} title={x} />
+                        {categoryItem.map((x, i) => (
+                            <StatusPill key={i} onClick={() => { setCategory(i); getBarang(keyword, 0, i,sortByItem[sortBy].qry); }} active={category == i} title={x} />
                         ))}
 
                     </div>
@@ -138,7 +140,7 @@ export default () => {
                 </div>
 
             </div>
-            <Filter category={status} categoryState={category} show={() => { getBarang(keyword, 0, category) }} onSortSwitch={(e) => { }} onCategorySwitch={(e) => { setCategory(e) }} />
+            <Filter sortByItem = {sortByItem} sortBy={sortBy}  categoryItem={categoryItem} category={category} show={() => { getBarang(keyword, 0, category,sortByItem[sortBy].qry) }} onSortSwitch={(e) => { setSortBy(e)}} onCategorySwitch={(e) => { setCategory(e) }} />
         </div>
     )
 }

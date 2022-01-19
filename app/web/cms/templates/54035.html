@@ -235,19 +235,19 @@
               </div>
             </div>
           </div>
-          <button
-            class={`flex space-x-1 items-start justify-start px-4 py-2 bg-blue-700 shadow rounded`}
-            style={`style={'margin-left: 10px;'}`}
-            onClick={() => {
-              // navigate("/w-master-genre/add");
-            }}
-          >
-            <div class={`flex self-stretch items-start justify-start`}>
-              <div class={`text-base font-bold leading-normal text-white`}>
-                Add New User
-              </div>
-            </div>
-          </button>
+          {/*<button*/}
+          {/*class={`flex space-x-1 items-start justify-start px-4 py-2 bg-blue-700 shadow rounded`}*/}
+          {/*style={`style={'margin-left: 10px;'}`}*/}
+          {/*onClick={() => {*/}
+          {/*// navigate("/w-master-genre/add");*/}
+          {/*}}*/}
+          {/*>*/}
+          {/*<div class={`flex self-stretch items-start justify-start`}>*/}
+          {/*<div class={`text-base font-bold leading-normal text-white`}>*/}
+          {/*Add New User*/}
+          {/*</div>*/}
+          {/*</div>*/}
+          {/*</button>*/}
         </div>
 
         <div class="flex self-stretch flex-col space-y-6 items-start justify-start">
@@ -340,6 +340,7 @@
                                 : "/fimgs/No-Image-Placeholder.x1.png"
                             }
                             alt="Product"
+                            style="width: 100px"
                             // onError={(e) => {
                             //   e.target.onerror = null;
                             //   e.target.src = "/fimgs/3201_185125.x1.png";
@@ -384,26 +385,27 @@
                         class={`flex self-stretch space-x-6 items-center justify-start`}
                         style={""}
                       >
-                        {/*<div*/}
-                        {/*class={`flex self-stretch items-center justify-center rounded`}*/}
-                        {/*style={`cursor: pointer`}*/}
-                        {/*onClick={() => {*/}
-                        {/*meta.editCustomer(numList.id);*/}
-                        {/*}}*/}
-                        {/*>*/}
-                        {/*<img*/}
-                        {/*src="/fimgs/fi_edit.x1.svg"*/}
-                        {/*style="width: 24px; min-width: 24px; max-width: 24px; height: 24px; min-height: 24px; max-height: 24px;"*/}
-                        {/*/>*/}
-                        {/*</div>*/}
-                        <img
-                          src="/fimgs/2232_368913.x1.svg"
+                        <div
                           class={`flex self-stretch items-center justify-center rounded`}
-                          style={`cursor: pointer ; margin-left: 10px !important;`}
+                          style={`cursor: pointer`}
+                          onClick={() => {
+                            meta.editCustomer(numList.id);
+                          }}
+                        >
+                          <img
+                            src="/fimgs/fi_edit.x1.svg"
+                            style="width: 24px; min-width: 24px; max-width: 24px; height: 24px; min-height: 24px; max-height: 24px;"
+                          />
+                        </div>
+                        <div
+                          class={`flex self-stretch items-center justify-center rounded`}
+                          style={`cursor: pointer; margin-left: 12px !important`}
                           onClick={() => {
                             meta.deleteCustomer(numList.id);
                           }}
-                        />
+                        >
+                          <img src="/fimgs/2232_368913.x1.svg" />
+                        </div>
                       </td>
                     </tr>
                   );

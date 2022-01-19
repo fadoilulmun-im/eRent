@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
-import { Page, Swiper, SwiperSlide,} from 'framework7-react';
+import { Page, Swiper, SwiperSlide, } from 'framework7-react';
 import { useState, useEffect } from "react";
 import Tab from "./Tab";
 import Home from "./home";
@@ -75,7 +75,7 @@ const Nav = (props) => {
   </div>)
 }
 
-export default ({ children, content }) => {
+export default (props) => {
   //const _component = useComponent("btn","/app/web/src/components/test",{});
   const [state, setState] = useState(0);
   const [swiper, setSwiper] = useState({ slideTo: (e) => { } });
@@ -83,7 +83,18 @@ export default ({ children, content }) => {
 
   useEffect(() => {
     setLoding(false);
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if (!loding) {
+      var url = new URL(location.href);
+      if(url.searchParams.get("lg") == 'login'){
+        setState(2);
+        swiper.slideTo(2);
+      }
+      
+    }
+  }, [loding])
 
   useEffect(() => {
     eventBus.on('notLogin', () => {
@@ -91,12 +102,12 @@ export default ({ children, content }) => {
       swiper.slideTo(2);
     })
   });
-  const handleScroll = (e) => {
-    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-    if (bottom) {
-      eventBus.dispatch('bottom', {});
-    }
-  }
+  // const handleScroll = (e) => {
+  //   const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+  //   if (bottom) {
+  //     eventBus.dispatch('bottom', {});
+  //   }
+  // }
   const blur = () => {
     if ("activeElement" in document) {
 
@@ -122,7 +133,7 @@ export default ({ children, content }) => {
             <SwiperSlide style={{ height: '100%' }}>
               <Product />
             </SwiperSlide>
-            <SwiperSlide style={{ height: '100%',overflowY:'scroll' }}>
+            <SwiperSlide style={{ height: '100%', overflowY: 'scroll' }}>
 
               {localStorage.getItem('user') ? <Profile /> : <Login />}
 

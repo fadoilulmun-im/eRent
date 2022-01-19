@@ -33,8 +33,8 @@ const Inp = (props) => {
     return (
         <div className="space-y-1">
             <label className="text-base font-medium leading-relaxed text-coolGray-500">{props.title}</label>
-            <div className="bg-gray-100 py-2 px-4 rounded">
-                <input name={props.name} value={props.value} type={props.type ? props.type : 'text'} onChange={(e) => { props.onChange(e) }} />
+            <div className={"bg-gray-100 py-2 px-4 rounded "+(props.error&&"ring-1 ring-red-500")}>
+                <input className='w-full' name={props.name} value={props.value} type={props.type ? props.type : 'text'} onChange={props.onChange} />
             </div>
         </div>
     )
@@ -46,13 +46,13 @@ export default (props) => {
 
     const [user, setUser] = useState({ id: null });
 
-    const [address, setAddress] = useState({ addressTitle: '', name: '', phoneNumber: '', roadName: '', province: '', city: '', subDistrict: '', postNumber: '', additional: '' })
+    const [address, setAddress] = useState({ addressTitle: '', name: '', phoneNumber: '', roadName: '', province: '', city: '', subDistrict: '', postNumber: '', additional: '' });
+    const [addressError,setaddressError] = useState({ addressTitle: false, name: false, phoneNumber: false, roadName: false, postNumber: false, additional: false });
+    const [addidx, setAddIdx] = useState({ province: 0, city: 0, subDistrict: 0 });
 
-    const [addidx, setAddIdx] = useState({ province: 0, city: 0, subDistrict: 0 })
-
-    const [province, setProvince] = useState([])
-    const [city, setCity] = useState([])
-    const [subDistrict, setSubDistrict] = useState([])
+    const [province, setProvince] = useState([]);
+    const [city, setCity] = useState([]);
+    const [subDistrict, setSubDistrict] = useState([]);
 
     const [loding, setLoding] = useState(true);
     const [stx, setStx] = useState(false);
@@ -123,6 +123,11 @@ export default (props) => {
     const inpChange = (e) => {
         let t = {}
         t[e.target.name] = e.target.value
+
+        let y = {}
+        y[e.target.name] = false;
+
+        setaddressError({...addressError,...y});
         setAddress({ ...address, ...t });
     }
 
@@ -166,61 +171,85 @@ export default (props) => {
 
 
     const Save = () => {
-        console.log(address);
+        // console.log(address);
 
         setStx(true);
         let dt = {
             kategori_alamat: address.addressTitle, nama: address.name,
-            no_hp: address.phoneNumber, provinsi: address.province, kota: address.city,
-            kecamatan: address.subDistrict, alamat_pengiriman: address.roadName,
-            kode_post: address.phoneNumber, informasi_tambahan: address.additional
+            no_hp: address.phoneNumber, provinsi: address.province != ''?address.province:province[addidx.province]['name'], kota: address.city != ''?address.city:city[addidx.city]['name'],
+            kecamatan: address.subDistrict != ''? address.subDistrict : subDistrict[addidx.subDistrict]['name'], alamat_pengiriman: address.roadName,
+            kode_post: address.postNumber, informasi_tambahan: address.additional
         };
-        if (props.addr) {
-            //update addr
-            api(`/api/customer/update-alamat/${props.addr.id}`, dt).then((e) => {
-                console.log(e);
-                if (e.status == 'SUCCESS') {
-                    eventBus.dispatch('notif', { message: e.message });
-                    props.onSave();
-                    //history.back();
-                }
-                setStx(false);
-            }).catch((e) => {
-                console.log("add yang error");
-                
-            })
-        } else {
 
-            api(`/api/customer/${user.id}/add-alamat`, dt).then((e) => {
-                console.log(e);
-                if (e.status == 'SUCCESS') {
-                    eventBus.dispatch('notif', { message: e.message });
-                    props.onSave();
-                    //history.back();
+        let error = {};
+        let isError = false;
+        const except  = ['province','city','subDistrict','additional'];
+        for(let i in address){
+            if(except.indexOf(i) == -1){
+                if(address[i] === ''){
+                    error[i] = true;
+                    isError = true;
                 }
-                setStx(false);
-            }).catch((e) => {
-                console.log("add yang error");
-            })
+            }
         }
+        // console.log();
+        setaddressError({...addressError,...error});
+
+        if(isError){
+            setStx(false);
+            eventBus.dispatch('notif',{message:'Please fill all required fields'})
+        }else{
+            if (props.addr) {
+                //update addr
+                api(`/api/customer/update-alamat/${props.addr.id}`, dt).then((e) => {
+                    console.log(e);
+                    if (e.status == 'SUCCESS') {
+                        eventBus.dispatch('notif', { message: e.message });
+                        props.onSave();
+                        //history.back();
+                    }
+                    setStx(false);
+                }).catch((e) => {
+                    console.log("add yang error");
+                    
+                })
+            } else {
+    
+                api(`/api/customer/${user.id}/add-alamat`, dt).then((e) => {
+                    console.log(e);
+                    if (e.status == 'SUCCESS') {
+                        eventBus.dispatch('notif', { message: e.message });
+                        props.onSave();
+                        //history.back();
+                    }
+                    setStx(false);
+                }).catch((e) => {
+                    console.log("add yang error");
+                })
+            }
+        }
+
+
     }
+
+
     return (
 
         <div className="flex flex-col space-y-7 items-start justify-start h-full overflow-y-auto">
             {/* <Tab mode={2} /> */}
             <div className="flex flex-col w-full px-6 space-y-4 overflow-y-auto pb-10">
                 <div className="text-2xl font-bold text-coolGray-900">New Address</div>
-                <Inp name="addressTitle" value={address.addressTitle} title="Address Tittle (ex:office,warehouse)" onChange={inpChange} />
-                <Inp name="name" value={address.name} title="Name" onChange={inpChange} />
-                <Inp name="phoneNumber" value={address.phoneNumber} title="Phone Number" onChange={inpChange} />
-                <Inp name="roadName" value={address.roadName} title="Road Name - House Number" onChange={inpChange} />
+                <Inp error={addressError.addressTitle} name="addressTitle" value={address.addressTitle} title="Address Tittle (ex:office,warehouse)" onChange={inpChange} />
+                <Inp error={addressError.name} name="name" value={address.name} title="Name" onChange={inpChange} />
+                <Inp error={addressError.phoneNumber} name="phoneNumber" value={address.phoneNumber} title="Phone Number" onChange={inpChange} />
+                <Inp error={addressError.roadName} name="roadName" value={address.roadName} title="Road Name - House Number" onChange={inpChange} />
 
                 <InpSe name="province" onChange={inpChange2} value={addidx.province} title="Province" items={province} />
                 <InpSe name="city" onChange={inpChange2} value={addidx.city} title="City" items={city} />
                 <InpSe name="subDistrict" onChange={inpChange2} value={addidx.subDistrict} title="Subdistrict" items={subDistrict} />
 
-                <Inp name="postNumber" value={address.postNumber} type={'number'} title="Post Code" onChange={inpChange} />
-                <Inp name="additional" value={address.additional} title="Additional Details" onChange={inpChange} />
+                <Inp error={addressError.postNumber} name="postNumber" value={address.postNumber} type={'number'} title="Post Code" onChange={inpChange} />
+                <Inp error={addressError.additional} name="additional" value={address.additional} title="Additional Details" onChange={inpChange} />
             </div>
             <SaveCancel onCancel={() => { props.onCancel() }} onSave={() => { stx ? '' : Save() }} title={stx ? 'Loading..' : 'Save'} />
         </div>

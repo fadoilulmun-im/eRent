@@ -14,7 +14,7 @@ export default () => {
     const [formErr, setFormErr] = useState({ email: false, password: false, re_password: false, nama_customer: false, nama_perusahaan: false });
 
     const file = useRef<HTMLInputElement>(null);
-    const [fileName, setFileName] = useState("Choose File")
+    const [fileName, setFileName] = useState("Choose File (Format .pdf)")
     const [fileData, setFileData] = useState(null)
 
 
@@ -98,7 +98,7 @@ export default () => {
     return (
         <>
             <Loding state={loding} />
-            <input ref={file} type="file" onChange={getFileName} hidden />
+            <input ref={file} type="file" onChange={getFileName} hidden accept="application/pdf"/>
             <div className={(loding ? "hidden" : "flex") + " flex-col h-full"}>
                 <Tab mode={2} />
                 <div className="h-full overflow-y-auto space-y-4 pb-4">
@@ -233,7 +233,7 @@ export default () => {
                     <div className={`flex self-stretch items-center justify-center px-6`}>
                         <div className="[class]">
                             Already have account?{" "}
-                            <a href="" className="text-blue-500">
+                            <a onClick={()=>{location.href="/m/?lg=login"}} className="text-blue-500">
                                 Sign In
                             </a>
                         </div>
