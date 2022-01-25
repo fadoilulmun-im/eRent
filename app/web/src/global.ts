@@ -1,7 +1,7 @@
 import { format as formatFNS, parseISO } from 'date-fns'
 import * as locales from 'date-fns/locale';
 
-export const globalVar = {}
+export const globalVar = { locales}
 
 export const formatSeparatorDec = (value: any, decimal?: number) => {
   if (decimal || decimal === 0) value = Number(value).toFixed(decimal)
@@ -72,5 +72,9 @@ export const getDayName = (id)=>{
 }
 export const getMonthName = (id)=>{
   const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return monthNames[id];
+}
+export const getMonthNameFull = (id)=>{
+  const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
   return monthNames[id];
 }   
