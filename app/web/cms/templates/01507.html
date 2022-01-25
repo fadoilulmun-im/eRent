@@ -16,6 +16,8 @@
       page: 1,
       sum_page: 0,
       page_array: [],
+      categories: [],
+      category: "",
 
       async onChange(key, e) {
         let value = e.target.value;
@@ -53,6 +55,47 @@
               });
             });
           });
+        }
+
+        if (key === "category") {
+          if (value == "") {
+            runInAction(async () => {
+              await api("/api/barang-test", {
+                barang: " ",
+                e: "ReadAllData",
+              }).then((res) => {
+                this.barang = res.barang;
+                this.first_entries = 0;
+                this.page = 1;
+                this.last_entries = parseInt(this.entries);
+                this.sum_page = Math.ceil(this.barang.length / this.entries);
+                this.page_array = Array.apply(null, {
+                  length: this.sum_page,
+                }).map(Number.call, Number);
+              });
+            });
+          } else {
+            runInAction(async () => {
+              this[key] = value;
+              await api("/api/barang-test", {
+                barang: {
+                  id: Number(value),
+                },
+                e: "category",
+              }).then((res) => {
+                runInAction(() => {
+                  this.barang = res.barang;
+                  this.first_entries = 0;
+                  this.page = 1;
+                  this.last_entries = parseInt(this.entries);
+                  this.sum_page = Math.ceil(this.barang.length / this.entries);
+                  this.page_array = Array.apply(null, {
+                    length: this.sum_page,
+                  }).map(Number.call, Number);
+                });
+              });
+            });
+          }
         }
 
         console.log(key + " : " + this[key]); // console.log("page : " + this.page);
@@ -141,14 +184,11 @@
         barang = res.barang;
       });
 
-      runInAction(() => {
-        console.log("berubah");
+      runInAction(async () => {
         meta.barang = barang;
-        // meta.nama_kategori = barang.kategori.nama;
         let namaKategoriBarang = "";
         barang.map((item, idx) => {
           namaKategoriBarang = item.kategori ? item.kategori.nama : "";
-          // console.log(namaKategoriBarang);
         });
 
         meta.sum_page = Math.ceil(meta.barang.length / meta.entries); // meta.page_array = new Array(meta.sum_page);
@@ -156,6 +196,10 @@
         meta.page_array = Array.apply(null, {
           length: meta.sum_page,
         }).map(Number.call, Number);
+
+        await api("/api/list-kategori", {}).then((res) => {
+          meta.categories = res.ilul;
+        });
       }); // console.log(meta.page_array);
 
       // console.log(meta.barang);
@@ -242,6 +286,29 @@
               </div>
             </div>
           </div>
+
+          {/*ilul*/}
+          <div class="flex flex-1 self-stretch space-x-4 items-center justify-start">
+            <div class="flex items-start justify-start">
+              <div class="text-base leading-normal">Category</div>
+            </div>
+            <div class="flex space-x-2 items-center justify-start">
+              <select
+                class={`flex flex-col space-y-2.5 items-center justify-start pr-3 pl-1 py-1 bg-white border rounded border-gray-500`}
+                // style={`width: 95.87px; min-width: 95.87px; max-width: 95.87px;`}
+                value={meta.category}
+                onChange={(e) => {
+                  meta.onChange("category", e);
+                }}
+              >
+                <option value="">All</option>
+                {meta.categories.map((item, i) => {
+                  return <option value={item.id}>{item.nama}</option>;
+                })}
+              </select>
+            </div>
+          </div>
+          {/*endilul*/}
           <button
             class={`flex space-x-1 items-start justify-start px-4 py-2 bg-blue-700 shadow rounded`}
             style={`style={'margin-left: 10px;'}`}
@@ -291,7 +358,9 @@
                     Stock
                   </div>
                 </th>
-                <th class={`flex flex-1 self-stretch items-center justify-end`}>
+                <th
+                  class={`flex flex-1 self-stretch items-center justify-center`}
+                >
                   <div class="text-base font-bold leading-normal text-white px-3">
                     Price
                   </div>
