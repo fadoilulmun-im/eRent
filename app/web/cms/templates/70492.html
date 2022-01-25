@@ -9,10 +9,14 @@
       top_items: [],
       dari: new URL(window.location.href).searchParams.get("dari")
         ? new URL(window.location.href).searchParams.get("dari")
-        : undefined,
+        : new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+            .toISOString()
+            .split("T")[0],
       ke: new URL(window.location.href).searchParams.get("ke")
         ? new URL(window.location.href).searchParams.get("ke")
-        : undefined,
+        : new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)
+            .toISOString()
+            .split("T")[0],
     }}
     run={async () => {
       meta.action = {
@@ -29,8 +33,8 @@
       };
 
       runInAction(async () => {
-        let dari = meta.dari ? meta.dari : "1000-12-12";
-        let to = meta.ke ? meta.ke : new Date();
+        let dari = meta.dari ? new Date(meta.dari) : "1000-12-12";
+        let to = meta.ke ? new Date(meta.ke) : new Date();
         to = new Date(to).setHours(23, 59);
 
         let orders = await db.transaksi.findMany({
