@@ -9,6 +9,7 @@
           return null;
         }
       },
+      role: user.role,
     }}
     run={async () => {
       meta.action = {
@@ -22,6 +23,11 @@
           });
         },
       };
+      runInAction(() => {
+        if (meta.role == "guest" || meta.role == "customer") {
+          navigate("/w-login");
+        }
+      });
     }}
   />
   <div class="flex flex-1 self-stretch flex-col items-start justify-start bg-coolGray-100">
@@ -107,20 +113,25 @@
                   User
                 </div>
               </a>
-              <a
-                href="/admin-list"
-                class={`${meta.isActive(
-                  "/admin"
-                )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
-              >
-                <img
-                  src="/fimgs/u_user-check.x1.svg"
-                  style="width: 20px; min-width: 20px; max-width: 20px; height: 20.01px; min-height: 20.01px; max-height: 20.01px;"
-                />
-                <div class="text-base font-medium leading-relaxed text-coolGray-100">
-                  Admin
-                </div>
-              </a>
+              {meta.role == "super" ? (
+                <a
+                  href="/admin-list"
+                  class={`${meta.isActive(
+                    "/admin"
+                  )} flex space-x-4 items-start justify-start px-3 py-2 rounded `}
+                >
+                  <img
+                    src="/fimgs/u_user-check.x1.svg"
+                    style="width: 20px; min-width: 20px; max-width: 20px; height: 20.01px; min-height: 20.01px; max-height: 20.01px;"
+                  />
+                  <div class="text-base font-medium leading-relaxed text-coolGray-100">
+                    Admin
+                  </div>
+                </a>
+              ) : (
+                ""
+              )}
+
               <a
                 href="/action-required-list"
                 class={`${meta.isActive(

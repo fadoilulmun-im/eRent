@@ -8,6 +8,7 @@
       role: "",
       phone: "",
       password: "",
+      roleLogin: user.role,
 
       validation() {
         let msg =
@@ -56,7 +57,7 @@
             email: this.email,
             nama: this.name,
             no_hp: this.phone,
-            password: this.password,
+            // password: this.password,
             role: this.role,
           };
 
@@ -87,6 +88,12 @@
           });
         },
       };
+
+      runInAction(() => {
+        if (user.role != "super") {
+          history.back();
+        }
+      });
 
       api("/api/admin-test", {
         admin: {
@@ -175,49 +182,54 @@
                 />
               </div>
             </div>
-            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
-              <div class="text-base font-medium leading-relaxed text-coolGray-500">
-                Role
-              </div>
-              <div class="flex self-stretch items-start justify-start">
-                <div class="flex space-x-2 items-center justify-start">
-                  <div class="flex items-start justify-start">
-                    <input
-                      class={`bg-white border rounded-full border-coolGray-400`}
-                      type="radio"
-                      name="role"
-                      checked={meta.role == 0 ? true : false}
-                      onChange={(e) => {
-                        meta.onChange("role", 0);
-                      }}
-                    />
+            {meta.roleLogin == "super" ? (
+              <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+                <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                  Role
+                </div>
+                <div class="flex self-stretch items-start justify-start">
+                  <div class="flex space-x-2 items-center justify-start">
+                    <div class="flex items-start justify-start">
+                      <input
+                        class={`bg-white border rounded-full border-coolGray-400`}
+                        type="radio"
+                        name="role"
+                        checked={meta.role == 0 ? true : false}
+                        onChange={(e) => {
+                          meta.onChange("role", 0);
+                        }}
+                      />
+                    </div>
+                    <div class="flex items-start justify-start">
+                      <div class="text-base font-medium leading-normal text-gray-600">
+                        Super Admin
+                      </div>
+                    </div>
                   </div>
-                  <div class="flex items-start justify-start">
-                    <div class="text-base font-medium leading-normal text-gray-600">
-                      Super Admin
+                  <div class="flex flex-1 space-x-2 items-center justify-start ml-3">
+                    <div class="flex items-start justify-start">
+                      <input
+                        class={`bg-white border rounded-full border-coolGray-400`}
+                        type="radio"
+                        name="role"
+                        checked={meta.role == 1 ? true : false}
+                        onChange={(e) => {
+                          meta.onChange("role", 1);
+                        }}
+                      />
+                    </div>
+                    <div class="flex flex-1 items-start justify-start">
+                      <div class="text-base font-medium leading-normal text-gray-600">
+                        Admin
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex flex-1 space-x-2 items-center justify-start ml-3">
-                  <div class="flex items-start justify-start">
-                    <input
-                      class={`bg-white border rounded-full border-coolGray-400`}
-                      type="radio"
-                      name="role"
-                      checked={meta.role == 1 ? true : false}
-                      onChange={(e) => {
-                        meta.onChange("role", 1);
-                      }}
-                    />
-                  </div>
-                  <div class="flex flex-1 items-start justify-start">
-                    <div class="text-base font-medium leading-normal text-gray-600">
-                      Admin
-                    </div>
-                  </div>
-                </div>
               </div>
-            </div>
+            ) : (
+              ""
+            )}
+
             <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
               <div class="text-base font-medium leading-relaxed text-coolGray-500">
                 Phone Number
@@ -235,29 +247,24 @@
                 />
               </div>
             </div>
-            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
-              <div class="text-base font-medium leading-relaxed text-coolGray-500">
-                Password
-              </div>
-              {/*<div class="flex items-center justify-start px-4 py-2 border rounded border-blue-700">*/}
-              {/*<button class="text-base leading-relaxed text-center text-blue-700">*/}
-              {/*Set New Password*/}
-              {/*</button>*/}
-              {/*</div>*/}
-              <div class="flex self-stretch items-start justify-start">
-                <input
-                  value={meta.password}
-                  name="password"
-                  type="password"
-                  readOnly
-                  onChange={(e) => meta.action.inpChange(e)}
-                  placeholder="Password"
-                  class={
-                    "flex items-center justify-start py-2 px-4 bg-gray-50 border rounded border-gray-100 w-full"
-                  }
-                />
-              </div>
-            </div>
+            {/*<div class="flex self-stretch flex-col space-y-2 items-start justify-start">*/}
+            {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
+            {/*Password*/}
+            {/*</div>*/}
+            {/*<div class="flex self-stretch items-start justify-start">*/}
+            {/*<input*/}
+            {/*value={meta.password}*/}
+            {/*name="password"*/}
+            {/*type="password"*/}
+            {/*readOnly*/}
+            {/*onChange={(e) => meta.action.inpChange(e)}*/}
+            {/*placeholder="Password"*/}
+            {/*class={*/}
+            {/*"flex items-center justify-start py-2 px-4 bg-gray-50 border rounded border-gray-100 w-full"*/}
+            {/*}*/}
+            {/*/>*/}
+            {/*</div>*/}
+            {/*</div>*/}
             <div class="flex space-x-4 items-start justify-end w-full">
               <div class="flex items-center justify-start px-4 py-2 border rounded border-blue-700">
                 <button

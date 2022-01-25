@@ -6,9 +6,9 @@
       notif_msg: "",
     }}
     run={async () => {
-      console.log(user);
-      if (user.role == "super") {
-        location.href = "/admin-list";
+      // console.log(user, "ajshaj");
+      if (user.role != "guest") {
+        location.href = "/dashboard-web";
       }
       meta.action = {
         emailChange: (e) => {

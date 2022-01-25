@@ -15,6 +15,7 @@
       page: 1,
       sum_page: 0,
       page_array: [],
+      userID: user.admin.id,
 
       async onChange(key, e) {
         let value = e.target.value;
@@ -143,6 +144,10 @@
         admin = res.admin;
       });
       runInAction(() => {
+        if (user.role != "super") {
+          history.back();
+        }
+
         meta.admin = admin;
         meta.sum_page = Math.ceil(meta.admin.length / meta.entries); // meta.page_array = new Array(meta.sum_page);
 
@@ -302,8 +307,15 @@
             <tbody class="flex self-stretch flex-col items-start justify-start">
               {meta.admin
                 .slice(meta.first_entries, meta.last_entries)
+                .filter((item) => {
+                  if (meta.userID == item.id) {
+                    return false;
+                  }
+                  return true;
+                })
                 .map((numList, i) => {
                   var odd = (i + 1) % 2;
+
                   return (
                     <tr
                       class={`w-full flex self-stretch items-center justify-start px-4 py-3 bg-white rounded ${

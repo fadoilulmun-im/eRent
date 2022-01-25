@@ -73,6 +73,12 @@
         },
       };
 
+      runInAction(() => {
+        if (user.role != "super") {
+          history.back();
+        }
+      });
+
       // if (user.role !== "super") {
       //   navigate("/w-login");
       // }
