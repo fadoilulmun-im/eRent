@@ -186,11 +186,10 @@
                       class={`bg-white border rounded-full border-coolGray-400`}
                       type="radio"
                       name="role"
-                      style={"input :checked {background-color:#feca57;}"}
+                      checked={meta.role == 0 ? true : false}
                       onChange={(e) => {
-                        meta.onChange("role", true);
+                        meta.onChange("role", 0);
                       }}
-                      checked={meta.role !== null ? meta.role : null}
                     />
                   </div>
                   <div class="flex items-start justify-start">
@@ -205,10 +204,10 @@
                       class={`bg-white border rounded-full border-coolGray-400`}
                       type="radio"
                       name="role"
+                      checked={meta.role == 1 ? true : false}
                       onChange={(e) => {
-                        meta.onChange("role", false);
+                        meta.onChange("role", 1);
                       }}
-                      checked={meta.role !== null ? !meta.role : null}
                     />
                   </div>
                   <div class="flex flex-1 items-start justify-start">
@@ -267,7 +266,7 @@
                     history.back();
                   }}
                 >
-                  Discard
+                  Cancel
                 </button>
               </div>
               <div class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
@@ -275,7 +274,7 @@
                   class="text-base leading-relaxed text-center text-white"
                   onClick={meta.submit}
                 >
-                  Edit User
+                  Edit Admin
                 </button>
               </div>
             </div>

@@ -151,7 +151,7 @@
                       name="role"
                       style={"input :checked {background-color:#feca57;}"}
                       onChange={(e) => {
-                        meta.onChange("role", true);
+                        meta.onChange("role", 0);
                       }}
                     />
                   </div>
@@ -168,7 +168,7 @@
                       type="radio"
                       name="role"
                       onChange={(e) => {
-                        meta.onChange("role", false);
+                        meta.onChange("role", 1);
                       }}
                     />
                   </div>
@@ -227,7 +227,7 @@
                     history.back();
                   }}
                 >
-                  Discard
+                  Cancel
                 </button>
               </div>
               <div class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
@@ -235,7 +235,7 @@
                   class="text-base leading-relaxed text-center text-white"
                   onClick={meta.submit}
                 >
-                  Add User
+                  Add Admin
                 </button>
               </div>
             </div>

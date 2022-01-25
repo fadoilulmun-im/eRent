@@ -2,21 +2,34 @@
   <effect
     meta={{
       id: "",
+      notif_msg: "",
+      oldPassword: "",
       password: "",
-      ulangPassword: "",
+      async submit() {
+        await api(`/api/admin/${params.id}/change-password`, {
+          oldPassword: this.oldPassword,
+          password: this.password,
+        }).then((e) => {
+          if (e.status === "SUCCESS") {
+            navigate("/dashboard-web");
+          } else {
+            this.notif_msg = e.message;
+          }
+        });
+      },
     }}
     run={async () => {
       meta.action = {
+        oldPasswordChange: (e) => {
+          runInAction(() => {
+            meta.oldPassword = e.target.value;
+            console.log(meta.oldPassword); //check password di sini
+          });
+        },
         passwordChange: (e) => {
           runInAction(() => {
             meta.password = e.target.value;
-            console.log(meta.password); //check password di sini
-          });
-        },
-        ulangPasswordChange: (e) => {
-          runInAction(() => {
-            meta.ulangPassword = e.target.value;
-            console.log(meta.ulangPassword); //check retype password di sini
+            console.log(meta.password); //check retype password di sini
           });
         },
       };
@@ -32,13 +45,13 @@
         <div class="flex self-stretch flex-col space-y-5 items-start justify-start p-12 bg-white shadow rounded">
           <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
             <div class="text-base font-medium leading-relaxed text-coolGray-500">
-              New Password
+              Old Password
             </div>
             <div class="flex self-stretch items-start justify-start">
               <input
-                value={meta.password}
-                onChange={(e) => meta.action.passwordChange(e)}
-                placeholder="Your new password"
+                value={meta.oldPassword}
+                onChange={(e) => meta.action.oldPasswordChange(e)}
+                placeholder="Type your old password here"
                 type="password"
                 class={
                   "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
@@ -52,14 +65,14 @@
           </div>
           <div class="flex self-stretch flex-col space-y-4 items-start justify-start">
             <div class="text-base font-medium leading-relaxed text-coolGray-500">
-              Retype Password
+              New Password
             </div>
             <div class="flex self-stretch items-start justify-start">
               <input
-                value={meta.ulangPassword}
-                onChange={(e) => meta.action.ulangPasswordChange(e)}
+                value={meta.password}
+                onChange={(e) => meta.action.passwordChange(e)}
                 type="password"
-                placeholder="Retype new password"
+                placeholder="Type your new password here"
                 class={
                   "flex items-center justify-start py-2 px-4 bg-gray-100 border rounded border-gray-100 w-full"
                 }
@@ -78,7 +91,7 @@
                   history.back();
                 }}
               >
-                Discard
+                Cancel
               </button>
             </div>
             <div class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">

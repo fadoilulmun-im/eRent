@@ -265,7 +265,9 @@
                       </div>
                       <div class="flex space-x-2 items-start justify-start">
                         <div class="text-base font-medium leading-relaxed">
-                          {meta.action.formatRupiah(meta.net_sales)}
+                          {meta.net_sales
+                            ? meta.action.formatRupiah(meta.net_sales)
+                            : 0}
                         </div>
                         <div class="text-base leading-relaxed text-coolGray-500">
                           net sales this month
