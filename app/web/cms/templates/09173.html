@@ -1,5 +1,22 @@
 <>
-  <effect meta={{}} run={async () => {}} />
+  <effect
+    meta={{
+      order: {},
+    }}
+    run={async () => {
+      runInAction(() => {
+        console.log("run in action");
+        api(`/api/order-detail/${params.id}`).then((e) => {
+          if (e.status == "SUCCESS") {
+            e.data.tanggal_peminjaman = new Date(e.data.tanggal_peminjaman);
+            e.data.tanggal_pengembalian = new Date(e.data.tanggal_pengembalian);
+            meta.order = e.data;
+            console.log(e.data);
+          }
+        });
+      });
+    }}
+  />
   <>
     <div
       class="flex flex-1 self-stretch flex-col items-start justify-start bg-coolGray-100 overflow-y-auto"
@@ -21,7 +38,7 @@
                 <div class="flex self-stretch flex-col space-y-4 items-start justify-start p-6 bg-coolGray-50 shadow border border-coolGray-300">
                   <div class="flex self-stretch flex-col space-y-5 items-start justify-start">
                     <div class="text-base font-bold leading-relaxed text-coolGray-900">
-                      Order #1425 details
+                      Order #{meta.order.id} details
                     </div>
                     <div class="flex self-stretch items-end justify-start">
                       <div class="flex flex-1 flex-col items-start justify-start">
@@ -58,7 +75,15 @@
                             <div class="flex self-stretch items-start justify-start">
                               <div class="flex flex-1 items-start justify-start px-3 py-2.5 bg-white border rounded border-gray-100">
                                 <div class="text-base leading-relaxed text-coolGray-900">
-                                  2 December 2021
+                                  {meta.order.tanggal_peminjaman
+                                    ? meta.order.tanggal_peminjaman.getDate() +
+                                      " " +
+                                      getMonthNameFull(
+                                        meta.order.tanggal_peminjaman.getMonth()
+                                      ) +
+                                      " " +
+                                      meta.order.tanggal_peminjaman.getFullYear()
+                                    : " Unknow Date"}
                                 </div>
                               </div>
                             </div>
@@ -76,7 +101,15 @@
                             <div class="flex self-stretch items-start justify-start">
                               <div class="flex flex-1 items-start justify-start px-3 py-2.5 bg-white border rounded border-gray-100">
                                 <div class="text-base leading-relaxed text-coolGray-900">
-                                  5 December 2021
+                                  {meta.order.tanggal_pengembalian
+                                    ? meta.order.tanggal_pengembalian.getDate() +
+                                      " " +
+                                      getMonthNameFull(
+                                        meta.order.tanggal_pengembalian.getMonth()
+                                      ) +
+                                      " " +
+                                      meta.order.tanggal_pengembalian.getFullYear()
+                                    : " Unknow Date"}
                                 </div>
                               </div>
                             </div>
@@ -118,7 +151,10 @@
                           <div class="flex self-stretch items-start justify-start">
                             <div class="flex flex-1 space-x-2 items-start justify-start px-3 py-2.5 bg-white border rounded border-gray-100">
                               <div class="text-base leading-relaxed text-coolGray-900">
-                                RNTU-1025: Santo Wijaya
+                                {/*RNTU-1025: Santo Wijaya*/}
+                                {meta.order.customer
+                                  ? meta.order.customer.nama_customer
+                                  : "Unknow Id"}
                               </div>
                               <div />
                             </div>
