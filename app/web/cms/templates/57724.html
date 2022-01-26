@@ -129,7 +129,7 @@
           // console.log("item customer", item.customer);
           namaCustomer = item.customer.nama_customer;
 
-          statusTransaksi = item.status.nama;
+          statusTransaksi = item.status?.nama;
 
           // console.log(statusTransaksi);
         });
@@ -349,7 +349,7 @@
                         class={`flex flex-1 self-stretch items-center justify-end`}
                       >
                         <div class={`text-base leading-normal px-6`}>
-                          Rp {numberWithCommas(numList.total_harga) || "-"}
+                          Rp {numberWithCommas(numList.total_harga || 0) || "-"}
                         </div>
                       </td>
                       <td

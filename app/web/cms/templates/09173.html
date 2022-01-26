@@ -2,6 +2,12 @@
   <effect
     meta={{
       order: {},
+      selected_statuses: null,
+      statuses: [],
+      async statusChange(e) {
+        this.selected_statuses = e.target.value;
+        console.log(e.target.value);
+      },
     }}
     run={async () => {
       runInAction(() => {
@@ -10,8 +16,17 @@
           if (e.status == "SUCCESS") {
             e.data.tanggal_peminjaman = new Date(e.data.tanggal_peminjaman);
             e.data.tanggal_pengembalian = new Date(e.data.tanggal_pengembalian);
+            e.data.tanggal_pemesanan = new Date(
+              e.data.tanggal_pemesanan.split(".")[0]
+            );
+            meta.selected_statuses = e.data.status?.id;
             meta.order = e.data;
             console.log(e.data);
+
+            db.status.findMany().then((e) => {
+              meta.statuses = e;
+            });
+            // console.log(sta);
           }
         });
       });
@@ -51,12 +66,37 @@
                           <div class="flex self-stretch space-x-2 items-start justify-start">
                             <div class="flex flex-1 items-start justify-start px-3 py-2.5 bg-white border rounded border-gray-100">
                               <div class="text-base leading-relaxed text-coolGray-900">
-                                30 November 2021
+                                {meta.order.tanggal_pemesanan
+                                  ? meta.order.tanggal_pemesanan.getDate() +
+                                    " " +
+                                    getMonthNameFull(
+                                      meta.order.tanggal_pemesanan.getMonth()
+                                    ) +
+                                    " " +
+                                    meta.order.tanggal_pemesanan.getFullYear()
+                                  : "Unknow Date"}
+                                {/*30 November 2021*/}
                               </div>
                             </div>
                             <div class="flex flex-1 items-start justify-start px-3 py-2.5 bg-white border rounded border-gray-100">
                               <div class="text-base leading-relaxed text-coolGray-900">
-                                12:24 PM
+                                {meta.order.tanggal_pemesanan
+                                  ? padLeadingZeros(
+                                      meta.order.tanggal_pemesanan.getHours() %
+                                        12 || 12,
+                                      2
+                                    ) +
+                                    ":" +
+                                    padLeadingZeros(
+                                      meta.order.tanggal_pemesanan.getMinutes(),
+                                      2
+                                    ) +
+                                    (meta.order.tanggal_pemesanan.getHours() >=
+                                    12
+                                      ? " PM"
+                                      : " AM")
+                                  : "Unknow Hour"}
+                                {/*12:24 PM*/}
                               </div>
                             </div>
                           </div>
@@ -129,8 +169,18 @@
                           </div>
                           <div class="flex self-stretch items-start justify-start">
                             <div class="flex flex-1 space-x-2 items-start justify-start px-3 py-2.5 bg-white border rounded border-gray-100">
-                              <div class="text-base leading-relaxed text-coolGray-900">
-                                On the way
+                              <div class="text-base leading-relaxed text-coolGray-900 w-full">
+                                {/*On the way*/}
+                                <select
+                                  onChange={meta.statusChange}
+                                  value={meta.selected_statuses || 0}
+                                  class="w-full"
+                                >
+                                  {meta.statuses.length > 0 &&
+                                    meta.statuses.map((e) => (
+                                      <option value={e.id}>{e.nama}</option>
+                                    ))}
+                                </select>
                               </div>
                               <div />
                             </div>
@@ -172,11 +222,24 @@
                               Shipping Address
                             </div>
                             <div class="text-sm leading-snug text-coolGray-900">
-                              John Doe - (+62) 876 1244 1222
-                              <br />
-                              Jl. Payung no 26D
-                              <br />
-                              Kota Pekanbaru - Payung Sekaki, Riau
+                              {meta.order.alamat
+                                ? meta.order.alamat.nama +
+                                  " - " +
+                                  meta.order.alamat.no_hp +
+                                  ", " +
+                                  meta.order.alamat.alamat_pengiriman +
+                                  ", " +
+                                  meta.order.alamat.kecamatan +
+                                  " - " +
+                                  meta.order.alamat.kota +
+                                  " - " +
+                                  meta.order.alamat.provinsi
+                                : "unknow address"}
+                              {/*John Doe - (+62) 876 1244 1222*/}
+                              {/*<br />*/}
+                              {/*Jl. Payung no 26D*/}
+                              {/*<br />*/}
+                              {/*Kota Pekanbaru - Payung Sekaki, Riau*/}
                             </div>
                           </div>
                         </div>
@@ -204,8 +267,9 @@
                             </div>
                           </div>
                         </div>
-                        <div class="flex self-stretch items-start justify-start px-2">
-                          <div class="flex flex-1 space-x-4 items-center justify-between">
+                        <div class="flex self-stretch items-start justify-start px-2 flex-col">
+                          {""}
+                          <div class="flex flex-1 space-x-4 items-center justify-between w-full pt-4">
                             <div
                               class="text-base leading-relaxed text-coolGray-900"
                               style="width: 70px;"
