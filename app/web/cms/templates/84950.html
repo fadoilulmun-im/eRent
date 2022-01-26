@@ -1,0 +1,417 @@
+<>
+  <effect
+    meta={{
+      nama_customer: "",
+      nama_perusahaan: "",
+      email: "",
+      password: "",
+      status: "",
+      no_hp: "",
+
+      created_at: "",
+      berat_barang: "",
+
+      gambar_barang: null,
+      nama_gambar_barang: "",
+      gambar_barang_url: "",
+
+      validation() {
+        let msg =
+          this.nama_customer === "" || this.nama_customer === null
+            ? "Customer Name cant be empty!"
+            : this.nama_perusahaan === "" || this.nama_perusahaan === null
+            ? "Company Name cant be empty!"
+            : this.email === "" || this.email === null
+            ? "Email cant be empty!"
+            : // : this.gambar_barang === "" || this.gambar_barang === null
+            // ? "Product image cant be empty!"
+            // : this.kategori_barang === "" || this.kategori_barang === null
+            // ? "Category cant be empty!"
+            this.password === "" || this.password === null
+            ? "Password cant be empty!"
+            : this.status === "" || this.status === null
+            ? "status cant be empty!"
+            : this.no_hp === "" || this.no_hp === null
+            ? "Phone Number cant be empty!"
+            : false; // console.log(msg);
+
+        return msg;
+      },
+
+      async onChange(key, e) {
+        let value = "";
+
+        if (key === "status") {
+          value = e;
+        } else {
+          value = e.target.value;
+        }
+
+        runInAction(() => (this[key] = value));
+        console.log(key + " : " + value);
+      },
+      async onInpGambar(e) {
+        console.log(e.target.files[0]);
+        this.gambar_barang = e.target.files[0];
+        this.gambar_barang_url = URL.createObjectURL(e.target.files[0]);
+        this.nama_gambar_barang = e.target.files[0].name;
+      },
+
+      async upload() {
+        console.log(this.gambar_barang);
+        let error = this.validation();
+        if (error) {
+          alert(error);
+        } else {
+          let usr = {
+            nama_customer: this.nama_customer,
+            nama_perusahaan: this.nama_perusahaan,
+            no_hp: this.no_hp,
+            status: this.status,
+            email: this.email,
+          };
+          console.log(usr);
+          await api(`/api/user/${params.id}/update`, usr).then((e) => {
+            if (e.status === "SUCCESS") {
+              console.log(e);
+              if (this.gambar_barang) {
+                fileUpload(
+                  this.gambar_barang,
+                  `/api/user/${e.data.id}/upload-foto`
+                ).then((ee) => {
+                  console.log(ee);
+                });
+              }
+              navigate("/barang-list");
+            }
+          });
+        }
+      },
+    }}
+    run={async () => {
+      meta.action = {
+        inpChange: (e) => {
+          runInAction(() => {
+            meta[e.target.name] = e.target.value;
+            console.log(e.target.name); //check email di sini
+          });
+        },
+      };
+
+      //get customer
+      if (params.id) {
+        await api(`/api/user/show/${params.id}`).then((e) => {
+          if (e.status == "SUCCESS") {
+            meta.nama_perusahaan = e.data.nama_perusahaan;
+            meta.nama_customer = e.data.nama_customer;
+            meta.no_hp = e.data.no_hp;
+            meta.email = e.data.email;
+            meta.password = e.data.password;
+            meta.status = e.data.status;
+
+            meta.gambar_barang_url = e.data.foto;
+          }
+        });
+      }
+    }}
+  />
+  <>
+    <div
+      class="flex flex-1 self-stretch flex-col items-start justify-start bg-coolGray-100 overflow-y-auto"
+      id="content"
+    >
+      <div class="flex self-stretch items-start justify-start">
+        <div class="flex flex-1 flex-col space-y-10 items-start justify-start">
+          <div class="flex self-stretch flex-col space-y-4 items-start justify-start px-9 pb-10 relative overflow-y-auto">
+            <div class="flex self-stretch space-x-4 items-center justify-start">
+              <div class="text-3xl font-bold text-coolGray-900">
+                Edit Customer
+              </div>
+            </div>
+
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Customer Image
+              </div>
+
+              <div class="flex self-stretch items-start justify-start space-x-5">
+                <div
+                  style={"width:7rem;height:7rem"}
+                  class="rounded overflow-hidden flex items-center justify-center bg-gray-200"
+                >
+                  <image src={meta.gambar_barang_url} />
+                </div>
+                <button
+                  onClick={() => {
+                    document.getElementById("img_inp").click();
+                    console.log();
+                  }}
+                  style={"height:7rem;width:7rem"}
+                  class="flex justify-center items-center"
+                >
+                  <svg
+                    width={"4rem"}
+                    height={"4rem"}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="#D1D5DB"
+                      d="M19,10a1,1,0,0,0-1,1v3.38L16.52,12.9a2.79,2.79,0,0,0-3.93,0l-.7.71L9.41,11.12a2.79,2.79,0,0,0-3.93,0L4,12.61V7A1,1,0,0,1,5,6h8a1,1,0,0,0,0-2H5A3,3,0,0,0,2,7V19.22A2.79,2.79,0,0,0,4.78,22H17.22a2.88,2.88,0,0,0,.8-.12h0a2.74,2.74,0,0,0,2-2.65V11A1,1,0,0,0,19,10ZM5,20a1,1,0,0,1-1-1V15.43l2.89-2.89a.78.78,0,0,1,1.1,0L15.46,20Zm13-1a1,1,0,0,1-.18.54L13.3,15l.71-.7a.77.77,0,0,1,1.1,0L18,17.21ZM21,4H20V3a1,1,0,0,0-2,0V4H17a1,1,0,0,0,0,2h1V7a1,1,0,0,0,2,0V6h1a1,1,0,0,0,0-2Z"
+                    />
+                  </svg>
+                </button>
+                <input
+                  hidden
+                  id="img_inp"
+                  type="file"
+                  name="gambar_barang"
+                  onChange={meta.onInpGambar}
+                  data-height="300"
+                  accept="image/png, image/gif, image/jpeg"
+                />
+              </div>
+            </div>
+
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Customer Name
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.nama_customer}
+                  name="nama_customer"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="Andrew"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Customer Company
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.nama_perusahaan}
+                  name="nama_perusahaan"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="PT Andromedia"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Status
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <div class="flex space-x-2 items-center justify-start">
+                  <div class="flex items-start justify-start">
+                    <input
+                      class={`bg-white border rounded-full border-coolGray-400`}
+                      type="radio"
+                      name="status"
+                      checked={meta.status == 1 ? true : false}
+                      onChange={(e) => {
+                        meta.onChange("status", 0);
+                      }}
+                    />
+                  </div>
+                  <div class="flex items-start justify-start">
+                    <div class="text-base font-medium leading-normal text-gray-600">
+                      Verified
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-1 space-x-2 items-center justify-start ml-3">
+                  <div class="flex items-start justify-start">
+                    <input
+                      class={`bg-white border rounded-full border-coolGray-400`}
+                      type="radio"
+                      name="status"
+                      checked={meta.status == 0 ? true : false}
+                      onChange={(e) => {
+                        meta.onChange("status", 1);
+                      }}
+                    />
+                  </div>
+                  <div class="flex flex-1 items-start justify-start">
+                    <div class="text-base font-medium leading-normal text-gray-600">
+                      Not Verified
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/*<div class="flex self-stretch flex-col space-y-2 items-start justify-start">*/}
+            {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
+            {/*Description*/}
+            {/*</div>*/}
+            {/*<div class="flex self-stretch items-start justify-start">*/}
+            {/*<textarea*/}
+            {/*rows="5"*/}
+            {/*class={*/}
+            {/*"flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"*/}
+            {/*}*/}
+            {/*name="detail_barang"*/}
+            {/*type="text"*/}
+            {/*placeholder="Masukkan Detail Barang"*/}
+            {/*style={`color: black;*/}
+            {/*outline: none;`}*/}
+            {/*value={meta.detail_barang}*/}
+            {/*onChange={(e) => {*/}
+            {/*meta.onChange("detail_barang", e);*/}
+            {/*}}*/}
+            {/*/>*/}
+            {/*</div>*/}
+            {/*</div>*/}
+
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Phone Number
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.no_hp}
+                  name="no_hp"
+                  type="number"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="08x-xxx-xxx-xxx"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Email
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.email}
+                  name="email"
+                  type="email"
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="Andro@gmail.com"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+
+            <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+              <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                Password
+              </div>
+              <div class="flex self-stretch items-start justify-start">
+                <input
+                  value={meta.password}
+                  name="password"
+                  type="password"
+                  readOnly
+                  onChange={(e) => meta.action.inpChange(e)}
+                  placeholder="Password"
+                  class={
+                    "flex items-center justify-start py-2 px-4 bg-gray-50 border rounded border-gray-100 w-full"
+                  }
+                />
+              </div>
+            </div>
+
+            {/*<div class="flex self-stretch flex-col space-y-2 items-start justify-start">*/}
+            {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
+            {/*Product Image*/}
+            {/*</div>*/}
+            {/**/}
+            {/*<div class="flex self-stretch items-start justify-start space-x-5">*/}
+            {/*<div*/}
+            {/*style={"width:7rem;height:7rem"}*/}
+            {/*class="rounded overflow-hidden flex items-center justify-center bg-gray-200"*/}
+            {/*>*/}
+            {/*<image src={meta.gambar_barang_url} />*/}
+            {/*</div>*/}
+            {/*<button*/}
+            {/*onClick={() => {*/}
+            {/*document.getElementById("img_inp").click();*/}
+            {/*console.log();*/}
+            {/*}}*/}
+            {/*style={"height:7rem;width:7rem"}*/}
+            {/*class="flex justify-center items-center"*/}
+            {/*>*/}
+            {/*<svg*/}
+            {/*width={"4rem"}*/}
+            {/*height={"4rem"}*/}
+            {/*xmlns="http://www.w3.org/2000/svg"*/}
+            {/*viewBox="0 0 24 24"*/}
+            {/*>*/}
+            {/*<path*/}
+            {/*fill="#D1D5DB"*/}
+            {/*d="M19,10a1,1,0,0,0-1,1v3.38L16.52,12.9a2.79,2.79,0,0,0-3.93,0l-.7.71L9.41,11.12a2.79,2.79,0,0,0-3.93,0L4,12.61V7A1,1,0,0,1,5,6h8a1,1,0,0,0,0-2H5A3,3,0,0,0,2,7V19.22A2.79,2.79,0,0,0,4.78,22H17.22a2.88,2.88,0,0,0,.8-.12h0a2.74,2.74,0,0,0,2-2.65V11A1,1,0,0,0,19,10ZM5,20a1,1,0,0,1-1-1V15.43l2.89-2.89a.78.78,0,0,1,1.1,0L15.46,20Zm13-1a1,1,0,0,1-.18.54L13.3,15l.71-.7a.77.77,0,0,1,1.1,0L18,17.21ZM21,4H20V3a1,1,0,0,0-2,0V4H17a1,1,0,0,0,0,2h1V7a1,1,0,0,0,2,0V6h1a1,1,0,0,0,0-2Z"*/}
+            {/*/>*/}
+            {/*</svg>*/}
+            {/*</button>*/}
+            {/*<input*/}
+            {/*hidden*/}
+            {/*id="img_inp"*/}
+            {/*type="file"*/}
+            {/*name="gambar_barang"*/}
+            {/*onChange={meta.onInpGambar}*/}
+            {/*data-height="300"*/}
+            {/*accept="image/png, image/gif, image/jpeg"*/}
+            {/*/>*/}
+            {/*</div>*/}
+            {/*</div>*/}
+            {/**/}
+            {/*<div class="flex self-stretch flex-col space-y-2 items-start justify-start">*/}
+            {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
+            {/*Stock*/}
+            {/*</div>*/}
+            {/*<div class="flex self-stretch items-start justify-start">*/}
+            {/*<input*/}
+            {/*value={meta.stok_barang}*/}
+            {/*name="stok_barang"*/}
+            {/*type="number"*/}
+            {/*onChange={(e) => meta.action.inpChange(e)}*/}
+            {/*placeholder="10"*/}
+            {/*class={*/}
+            {/*"flex items-center justify-start py-2 px-4 bg-white border rounded border-gray-100 w-full"*/}
+            {/*}*/}
+            {/*/>*/}
+            {/*</div>*/}
+            {/*</div>*/}
+
+            <div class="flex space-x-4 items-start justify-end w-full">
+              <div class="flex items-center justify-start px-4 py-2 border rounded border-blue-700">
+                <button
+                  class="text-base leading-relaxed text-center text-blue-700"
+                  onClick={() => {
+                    history.back();
+                  }}
+                >
+                  Discard
+                </button>
+              </div>
+              <div class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
+                <button
+                  class="text-base leading-relaxed text-center text-white"
+                  onClick={meta.upload}
+                >
+                  Edit Customer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </>
+</>
