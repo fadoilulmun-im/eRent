@@ -58,8 +58,9 @@
         }
 
         if (key === "category") {
-          if (value == "") {
+          if (value == "0") {
             runInAction(async () => {
+              this[key] = value;
               await api("/api/barang-test", {
                 barang: " ",
                 e: "ReadAllData",
@@ -301,7 +302,7 @@
                   meta.onChange("category", e);
                 }}
               >
-                <option value="">All</option>
+                <option value="0">All</option>
                 {meta.categories.map((item, i) => {
                   return <option value={item.id}>{item.nama}</option>;
                 })}

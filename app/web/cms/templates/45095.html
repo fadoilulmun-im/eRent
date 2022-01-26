@@ -89,12 +89,6 @@
         },
       };
 
-      runInAction(() => {
-        if (user.role != "super") {
-          history.back();
-        }
-      });
-
       api("/api/admin-test", {
         admin: {
           id: parseInt(params.id),
