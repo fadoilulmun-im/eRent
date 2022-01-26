@@ -4,9 +4,49 @@
       order: {},
       selected_statuses: null,
       statuses: [],
+      notifs: [],
+      isLoding: false,
       async statusChange(e) {
         this.selected_statuses = e.target.value;
         console.log(e.target.value);
+      },
+      async save() {
+        if (this.selected_statuses) {
+          this.isLoding = true;
+          api(`/api/transaksi/${params.id}/update-tracking`, {
+            id_track_template: this.selected_statuses - 1,
+          }).then((e) => {
+            console.log(e);
+            this.getNotifs();
+          });
+        }
+      },
+      getTotal() {
+        let t = 0;
+        this.order?.detail_transaksi?.forEach((e) => {
+          t += e.total_harga;
+        });
+        return t;
+      },
+
+      getNotifs() {
+        runInAction(() => {
+          api(`/api/transaksi/${params.id}/track-order`).then((e) => {
+            if (e.status == "SUCCESS") {
+              let t = e.data.map((e) => {
+                return {
+                  created_at: new Date(e.created_at.split(".")[0]),
+                  order_id: e.id_transaksi,
+                  desc: e.track_template.desc,
+                  title: e.track_template.title,
+                };
+              });
+              this.notifs = t;
+              this.isLoding = false;
+              console.log("aaa", this.notifs);
+            }
+          });
+        });
       },
     }}
     run={async () => {
@@ -22,6 +62,8 @@
             meta.selected_statuses = e.data.status?.id;
             meta.order = e.data;
             console.log(e.data);
+
+            meta.getNotifs();
 
             db.status.findMany().then((e) => {
               meta.statuses = e;
@@ -42,11 +84,15 @@
           <div class="flex flex-1 self-stretch flex-col space-y-6 items-start justify-start px-9 pb-10 relative overflow-y-auto">
             <div class="flex self-stretch space-x-4 items-start justify-between">
               <div class="text-3xl font-bold text-coolGray-900">Edit Order</div>
-              <div class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded">
+              <button
+                disabled={meta.isLoding}
+                onClick={meta.save}
+                class="flex items-center justify-start px-4 py-2 bg-blue-700 rounded"
+              >
                 <div class="text-base leading-relaxed text-center text-white">
-                  Update Order
+                  {meta.isLoding ? "Loding.." : "Update Order"}
                 </div>
-              </div>
+              </button>
             </div>
             <div class="flex self-stretch space-x-8 items-start justify-start">
               <div class="flex flex-1 flex-col space-y-9 items-start justify-start">
@@ -268,24 +314,45 @@
                           </div>
                         </div>
                         <div class="flex self-stretch items-start justify-start px-2 flex-col">
-                          {""}
-                          <div class="flex flex-1 space-x-4 items-center justify-between w-full pt-4">
-                            <div
-                              class="text-base leading-relaxed text-coolGray-900"
-                              style="width: 70px;"
-                            >
-                              Macbook Air 2020
-                            </div>
-                            <div class="text-base leading-relaxed text-coolGray-900">
-                              Rp710.000
-                            </div>
-                            <div class="text-base leading-relaxed text-coolGray-900">
-                              1
-                            </div>
-                            <div class="text-base leading-relaxed text-coolGray-900">
-                              Rp710.000
-                            </div>
-                          </div>
+                          {meta.order?.detail_transaksi?.map((e) => {
+                            return (
+                              <div class="flex flex-1 space-x-4 items-center justify-between w-full pt-4">
+                                <div
+                                  class="text-base leading-relaxed text-coolGray-900"
+                                  style="width: 70px;"
+                                >
+                                  {e.barang.nama_barang}
+                                </div>
+                                <div class="text-base leading-relaxed text-coolGray-900">
+                                  Rp{numberWithCommas(e.barang.harga_barang)}
+                                </div>
+                                <div class="text-base leading-relaxed text-coolGray-900">
+                                  {e.quantity}
+                                </div>
+                                <div class="text-base leading-relaxed text-coolGray-900">
+                                  Rp
+                                  {numberWithCommas(e.total_harga)}
+                                </div>
+                              </div>
+                            );
+                          })}
+                          {/*<div class="flex flex-1 space-x-4 items-center justify-between w-full pt-4">*/}
+                          {/*<div*/}
+                          {/*class="text-base leading-relaxed text-coolGray-900"*/}
+                          {/*style="width: 70px;"*/}
+                          {/*>*/}
+                          {/*Macbook Air 2020*/}
+                          {/*</div>*/}
+                          {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
+                          {/*Rp710.000*/}
+                          {/*</div>*/}
+                          {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
+                          {/*1*/}
+                          {/*</div>*/}
+                          {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
+                          {/*Rp710.000*/}
+                          {/*</div>*/}
+                          {/*</div>*/}
                         </div>
                       </div>
                     </div>
@@ -295,7 +362,8 @@
                           Total Cost
                         </div>
                         <div class="text-sm leading-snug text-right text-coolGray-500">
-                          Rp710.000
+                          Rp
+                          {numberWithCommas(meta.getTotal() || 0)}
                         </div>
                       </div>
                       <div class="flex self-stretch space-x-4 items-start justify-between">
@@ -303,7 +371,7 @@
                           Shipping Total
                         </div>
                         <div class="text-sm leading-snug text-right text-coolGray-500">
-                          Rp0
+                          Rp{numberWithCommas(meta.order?.is_kirim && 1000)}
                         </div>
                       </div>
                       <div class="flex self-stretch space-x-4 items-start justify-between">
@@ -319,7 +387,7 @@
                           Unique Code
                         </div>
                         <div class="text-sm leading-snug text-right text-coolGray-500">
-                          Rp125
+                          Rp{meta.order.kode_unik}
                         </div>
                       </div>
                       <div class="flex self-stretch space-x-4 items-start justify-between">
@@ -327,7 +395,10 @@
                           Total
                         </div>
                         <div class="text-sm font-bold leading-snug text-right text-coolGray-500">
-                          Rp710.000
+                          Rp
+                          {numberWithCommas(
+                            meta.order.total_harga + meta.order.kode_unik
+                          )}
                         </div>
                       </div>
                     </div>
@@ -342,14 +413,15 @@
                     </div>
                   </div>
                   <div class="flex flex-col items-start justify-start">
-                    <img
-                      src="/fimgs/535_987.x1.png"
-                      class="flex flex-col items-start justify-start"
-                      style="
-    width: 250px !important;
-    height: 250px !important;
-"
-                    />
+                    <image src={meta.order.bukti_pembayaran} />
+                    {/*<img*/}
+                    {/*src="/fimgs/535_987.x1.png"*/}
+                    {/*class="flex flex-col items-start justify-start"*/}
+                    {/*style="*/}
+                    {/*width: 250px !important;*/}
+                    {/*height: 250px !important;*/}
+                    {/*"*/}
+                    {/*/>*/}
                   </div>
                 </div>
               </div>
@@ -365,48 +437,73 @@
                       </div>
                     </div>
                   </div>
-                  <div class="flex self-stretch flex-col items-start justify-start px-6">
-                    <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
-                      <div class="text-base font-medium leading-relaxed text-coolGray-500">
-                        11 Okt 2021 19:23 by Admin
-                      </div>
-                      <div class="text-base leading-relaxed text-coolGray-900">
-                        Orders #1425 move from Processing to On the way
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex self-stretch flex-col items-start justify-start px-6">
-                    <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
-                      <div class="text-base font-medium leading-relaxed text-coolGray-500">
-                        09 Okt 2021 19:23 by Admin
-                      </div>
-                      <div class="text-base leading-relaxed text-coolGray-900">
-                        Orders #1425 move from Payment verified to Processing
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex self-stretch flex-col items-start justify-start px-6">
-                    <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
-                      <div class="text-base font-medium leading-relaxed text-coolGray-500">
-                        08 Okt 2021 19:23 by Admin
-                      </div>
-                      <div class="text-base leading-relaxed text-coolGray-900">
-                        Orders #1425 move from Waiting for confirmation to
-                        Payment Verified
+
+                  {""}
+                  {meta.notifs.map((e, idx) => (
+                    <div
+                      key={idx}
+                      class="flex self-stretch flex-col items-start justify-start px-6"
+                    >
+                      <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
+                        <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                          {e.created_at.getDate() +
+                            " " +
+                            getMonthName(e.created_at.getMonth()) +
+                            " " +
+                            e.created_at.getFullYear()}{" "}
+                          by Admin
+                          {/*11 Okt 2021 19:23 by Admin*/}
+                        </div>
+                        <div class="text-base leading-relaxed text-coolGray-900">
+                          Orders #{e.order_id} {e.title}. {e.desc}
+                          way
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="flex self-stretch flex-col items-start justify-start px-6">
-                    <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
-                      <div class="text-base font-medium leading-relaxed text-coolGray-500">
-                        08 Okt 2021 16:23 by Justin
-                      </div>
-                      <div class="text-base leading-relaxed text-coolGray-900">
-                        Orders #1425 move from Pending to Waiting for
-                        Confirmation
-                      </div>
-                    </div>
-                  </div>
+                  ))}
+                  {/*<div class="flex self-stretch flex-col items-start justify-start px-6">*/}
+                  {/*<div class="flex self-stretch flex-col space-y-2 items-start justify-start">*/}
+                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
+                  {/*11 Okt 2021 19:23 by Admin*/}
+                  {/*</div>*/}
+                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
+                  {/*Orders #1425 move from Processing to On the way*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {/*<div class="flex self-stretch flex-col items-start justify-start px-6">*/}
+                  {/*<div class="flex self-stretch flex-col space-y-2 items-start justify-start">*/}
+                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
+                  {/*09 Okt 2021 19:23 by Admin*/}
+                  {/*</div>*/}
+                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
+                  {/*Orders #1425 move from Payment verified to Processing*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {/*<div class="flex self-stretch flex-col items-start justify-start px-6">*/}
+                  {/*<div class="flex self-stretch flex-col space-y-2 items-start justify-start">*/}
+                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
+                  {/*08 Okt 2021 19:23 by Admin*/}
+                  {/*</div>*/}
+                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
+                  {/*Orders #1425 move from Waiting for confirmation to*/}
+                  {/*Payment Verified*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {/*<div class="flex self-stretch flex-col items-start justify-start px-6">*/}
+                  {/*<div class="flex self-stretch flex-col space-y-2 items-start justify-start">*/}
+                  {/*<div class="text-base font-medium leading-relaxed text-coolGray-500">*/}
+                  {/*08 Okt 2021 16:23 by Justin*/}
+                  {/*</div>*/}
+                  {/*<div class="text-base leading-relaxed text-coolGray-900">*/}
+                  {/*Orders #1425 move from Pending to Waiting for*/}
+                  {/*Confirmation*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {/*</div>*/}
+                  {""}
                 </div>
               </div>
             </div>
