@@ -71,7 +71,7 @@
             email: this.email,
           };
           console.log(usr);
-          await api(`/api/user/${params.id}/update`, usr).then((e) => {
+          await api(`/api/customer/${params.id}/update`, usr).then((e) => {
             if (e.status === "SUCCESS") {
               console.log(e);
               if (this.gambar_barang) {
@@ -82,7 +82,7 @@
                   console.log(ee);
                 });
               }
-              navigate("/barang-list");
+              navigate("/user-list");
             }
           });
         }
