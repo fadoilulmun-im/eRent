@@ -14,7 +14,7 @@
         if (this.selected_statuses) {
           this.isLoding = true;
           api(`/api/transaksi/${params.id}/update-tracking`, {
-            id_track_template: this.selected_statuses - 1,
+            id_track_template: this.selected_statuses,
           }).then((e) => {
             console.log(e);
             this.getNotifs();
@@ -39,6 +39,7 @@
                   order_id: e.id_transaksi,
                   desc: e.track_template.desc,
                   title: e.track_template.title,
+                  admin: e.admin != null ? e.admin.username : "Admin",
                 };
               });
               this.notifs = t;
@@ -439,24 +440,38 @@
                   </div>
 
                   {""}
-                  {meta.notifs.map((e, idx) => (
+                  {meta.notifs.map((e, idx, arr) => (
                     <div
                       key={idx}
                       class="flex self-stretch flex-col items-start justify-start px-6"
                     >
                       <div class="flex self-stretch flex-col space-y-2 items-start justify-start">
-                        <div class="text-base font-medium leading-relaxed text-coolGray-500">
+                        <div class="text-base font-medium text-coolGray-400">
                           {e.created_at.getDate() +
                             " " +
                             getMonthName(e.created_at.getMonth()) +
                             " " +
-                            e.created_at.getFullYear()}{" "}
-                          by Admin
+                            e.created_at.getFullYear() +
+                            " " +
+                            e.created_at.getHours() +
+                            ":" +
+                            e.created_at.getMinutes() +
+                            " "}
+                          by {e.admin}
                           {/*11 Okt 2021 19:23 by Admin*/}
                         </div>
                         <div class="text-base leading-relaxed text-coolGray-900">
-                          Orders #{e.order_id} {e.title}. {e.desc}
-                          way
+                          Orders <span class="font-medium">#{e.order_id}</span>{" "}
+                          move from{" "}
+                          <span class="font-medium">
+                            {arr[idx + 1] != null
+                              ? arr[idx + 1].title
+                              : "Pending"}
+                          </span>{" "}
+                          to
+                          <span class="font-medium"> {e.title}</span>
+                          {/*{e.title}.<br />*/}
+                          {/*{e.desc}*/}
                         </div>
                       </div>
                     </div>

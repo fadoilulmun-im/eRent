@@ -16,10 +16,12 @@
       page: 1,
       sum_page: 0,
       page_array: [],
+      status: "",
+      statuss: [],
 
       async onChange(key, e) {
         let value = e.target.value;
-
+        this[key] = value;
         if (key === "entries") {
           runInAction(() => {
             this[key] = value;
@@ -32,27 +34,90 @@
             }).map(Number.call, Number);
           });
         } else if (key === "searching") {
-          runInAction(() => {
+          runInAction(async () => {
             this[key] = value;
-            api("/api/transaksi-test", {
-              transaksi: {
-                id: value,
-              },
-              e: "Searching",
-            }).then((res) => {
-              runInAction(() => {
+            if (value == "") {
+              await api("/api/transaksi-test", {
+                transaksi: " ",
+                e: "ReadAll",
+              }).then((res) => {
                 this.transaksi = res.transaksi;
                 this.first_entries = 0;
                 this.page = 1;
                 this.last_entries = parseInt(this.entries);
-                this.sum_page = Math.ceil(this.transaksi.length / this.entries); // meta.page_array = new Array(meta.sum_page);
-
+                this.sum_page = Math.ceil(this.transaksi.length / this.entries);
                 this.page_array = Array.apply(null, {
                   length: this.sum_page,
                 }).map(Number.call, Number);
               });
-            });
+            } else {
+              api("/api/transaksi-test", {
+                transaksi: {
+                  id: value,
+                },
+                e: "Searching",
+              }).then((res) => {
+                runInAction(() => {
+                  this.transaksi = res.transaksi;
+                  this.first_entries = 0;
+                  this.page = 1;
+                  this.last_entries = parseInt(this.entries);
+                  this.sum_page = Math.ceil(
+                    this.transaksi.length / this.entries
+                  );
+                  this.page_array = Array.apply(null, {
+                    length: this.sum_page,
+                  }).map(Number.call, Number);
+                });
+              });
+            }
           });
+        }
+
+        if (key === "status") {
+          if (value == "0") {
+            runInAction(async () => {
+              await api("/api/transaksi-test", {
+                transaksi: "",
+                e: "ReadAll",
+              }).then((res) => {
+                runInAction(() => {
+                  this.transaksi = res.transaksi;
+                  this.first_entries = 0;
+                  this.page = 1;
+                  this.last_entries = parseInt(this.entries);
+                  this.sum_page = Math.ceil(
+                    this.transaksi.length / this.entries
+                  );
+                  this.page_array = Array.apply(null, {
+                    length: this.sum_page,
+                  }).map(Number.call, Number);
+                });
+              });
+            });
+          } else {
+            runInAction(async () => {
+              await api("/api/transaksi-test", {
+                transaksi: {
+                  id_status: value,
+                },
+                e: "ReadByStatus",
+              }).then((res) => {
+                runInAction(() => {
+                  this.transaksi = res.transaksi;
+                  this.first_entries = 0;
+                  this.page = 1;
+                  this.last_entries = parseInt(this.entries);
+                  this.sum_page = Math.ceil(
+                    this.transaksi.length / this.entries
+                  );
+                  this.page_array = Array.apply(null, {
+                    length: this.sum_page,
+                  }).map(Number.call, Number);
+                });
+              });
+            });
+          }
         }
 
         console.log(key + " : " + this[key]); // console.log("page : " + this.page);
@@ -125,7 +190,7 @@
         meta.transaksi = transaksi;
         let namaCustomer = "";
         let statusTransaksi = "";
-        transaksi.map((item, idx) => {
+        meta.transaksi.map((item, idx) => {
           // console.log("item customer", item.customer);
           namaCustomer = item.customer.nama_customer;
 
@@ -144,7 +209,11 @@
         }).map(Number.call, Number);
       }); // console.log(meta.page_array);
 
-      console.log(meta.transaksi);
+      // console.log(meta.transaksi);
+
+      await api("/api/list-status", {}).then((res) => {
+        meta.statuss = res.data;
+      });
     }}
   />
 
@@ -169,7 +238,7 @@
             />
             <input
               class={"w-full"}
-              type="text"
+              type="number"
               placeholder="Search ID Transaksi"
               style={`color: black;
                         background:transparent; 
@@ -226,6 +295,30 @@
               </div>
             </div>
           </div>
+
+          {/*ilul*/}
+          <div class="flex self-stretch space-x-4 items-center justify-start">
+            <div class="flex items-start justify-start">
+              <div class="text-base leading-normal">Status</div>
+            </div>
+            <div class="flex space-x-2 items-center justify-start">
+              <select
+                class={`flex flex-col space-y-2.5 items-center justify-start pr-3 pl-1 py-1 bg-white border rounded border-gray-500`}
+                // style={`width: 95.87px; min-width: 95.87px; max-width: 95.87px;`}
+                value={meta.status}
+                onChange={(e) => {
+                  meta.onChange("status", e);
+                }}
+              >
+                <option value="0">All</option>
+                {meta.statuss.map((item) => {
+                  return <option value={item.id}>{item.nama}</option>;
+                })}
+              </select>
+            </div>
+          </div>
+          {/*endilul*/}
+
           {/*<button*/}
           {/*class={`flex space-x-1 items-start justify-start px-4 py-2 bg-blue-700 shadow rounded`}*/}
           {/*style={`style={'margin-left: 10px;'}`}*/}

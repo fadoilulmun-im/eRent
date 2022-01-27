@@ -89,14 +89,14 @@
         const confirmAcc = confirm("Confirm accept?");
 
         if (confirmAcc) {
-          await api("/api/user-test", {
+          await api(`/api/customer/${id}/approve`, {
             customer: {
               id: id,
             },
             e: "Accept",
           }).then((res) => {
-            if (res.res === "Failure") {
-              alert("Can't Accept customer");
+            if (res.status === "Error") {
+              alert(res.message);
             } else {
               navigate("/action-required-list");
             }

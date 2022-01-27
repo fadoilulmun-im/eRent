@@ -10,14 +10,15 @@ datasource db {
 }
 
 model admin {
-  id        Int         @id @default(autoincrement())
-  username  String      @db.VarChar(50)
-  password  String?     @db.VarChar(150)
-  nama      String?     @db.VarChar(150)
-  no_hp     String?     @db.VarChar(50)
-  email     String      @db.VarChar(200)
-  role      Int         @default(1) @db.SmallInt
-  transaksi transaksi[]
+  id          Int           @id @default(autoincrement())
+  username    String        @db.VarChar(50)
+  password    String?       @db.VarChar(150)
+  nama        String?       @db.VarChar(150)
+  no_hp       String?       @db.VarChar(50)
+  email       String        @db.VarChar(200)
+  role        Int           @default(1) @db.SmallInt
+  track_order track_order[]
+  transaksi   transaksi[]
 
   @@unique([username, email], name: "admin_username_email_key")
 }
@@ -155,6 +156,8 @@ model track_order {
   created_at        DateTime       @default(now()) @db.Timestamp(6)
   id_transaksi      Int
   id_track_template Int
+  id_admin          Int?
+  admin             admin?         @relation(fields: [id_admin], references: [id])
   track_template    track_template @relation(fields: [id_track_template], references: [id])
   transaksi         transaksi      @relation(fields: [id_transaksi], references: [id])
 }
